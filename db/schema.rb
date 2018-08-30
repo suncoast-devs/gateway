@@ -10,10 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_30_201018) do
+ActiveRecord::Schema.define(version: 2018_08_30_203948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "notes", force: :cascade do |t|
+    t.string "notable_type"
+    t.bigint "notable_id"
+    t.bigint "user_id"
+    t.text "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notable_type", "notable_id"], name: "index_notes_on_notable_type_and_notable_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "program_applications", force: :cascade do |t|
+    t.string "full_name"
+    t.string "email_address"
+    t.string "phone_number"
+    t.string "crm_identifier"
+    t.boolean "academic_signoff"
+    t.boolean "administrative_signoff"
+    t.json "question_responses"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "uid"
@@ -23,4 +46,5 @@ ActiveRecord::Schema.define(version: 2018_08_30_201018) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "notes", "users"
 end

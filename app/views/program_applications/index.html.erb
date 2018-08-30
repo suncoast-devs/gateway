@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>
+      <td>Name</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @program_applications.each do |program_application| %>
+    <tr>
+      <td>
+        <%= link_to program_application.full_name, program_application %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

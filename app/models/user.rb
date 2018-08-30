@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :notes
 
   def self.from_auth_hash(auth)
     return unless auth.info.email.match(/@suncoast.io$/)

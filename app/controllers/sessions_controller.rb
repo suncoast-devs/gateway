@@ -3,8 +3,12 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.from_auth_hash(request.env["omniauth.auth"])
-    session[:user_id] = @user.id if @user
-    redirect_to :root
+    if @user
+      session[:user_id] = @user.id
+      redirect_to :program_applications
+    else
+      redirect_to :root
+    end
   end
 
   def destroy

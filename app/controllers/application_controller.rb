@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-  def authenticate
+  def authenticate!
     redirect_to :sign_in unless signed_in?
   end
 
