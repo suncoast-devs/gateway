@@ -1,0 +1,11 @@
+.contact-information {
+  .panel-block {
+    display: block;
+  }
+}
+
+.sign-offs {
+  .card + .card {
+    margin-top: 1.5em;
+  }
+}

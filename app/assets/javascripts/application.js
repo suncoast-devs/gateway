@@ -14,3 +14,14 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+
+document.addEventListener('turbolinks:load', () => {
+  FontAwesome.dom.i2svg()
+
+  const burg = document.querySelector('.navbar-burger')
+  const menu = document.querySelector('.navbar-menu')
+  burg.addEventListener('click', () => {
+    burg.classList.toggle('is-active')
+    menu.classList.toggle('is-active')
+  })
+})

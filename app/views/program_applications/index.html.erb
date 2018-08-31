@@ -1,16 +1,66 @@
-<table>
-  <thead>
-    <tr>
-      <td>Name</td>
-    </tr>
-  </thead>
-  <tbody>
-    <% @program_applications.each do |program_application| %>
-    <tr>
-      <td>
-        <%= link_to program_application.full_name, program_application %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
+<section class="section">
+  <div class="container">
+    <h1 class="title">Program Applications</h1>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <table class="table is-bordered is-striped is-fullwidth">
+      <thead>
+        <tr>
+          <th>Applicant Name</th>
+          <th class="has-text-centered">Academics</th>
+          <th class="has-text-centered">Administration</th>
+          <th class="has-text-centered">
+            <span class="icon">
+              <i class="fas fa-stopwatch"></i>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @program_applications.each do |program_application| %>
+        <tr>
+          <td>
+            <%= link_to program_application.full_name, program_application %>
+          </td>
+          <td class="has-text-centered">
+            <% if program_application.academic_signoff.nil? %>
+              <span class="icon has-text-light">
+                <i class="fas fa-question-circle"></i>
+              </span>
+            <% elsif program_application.academic_signoff %>
+              <span class="icon has-text-success">
+                <i class="fas fa-check-circle"></i>
+              </span>
+            <% else %>
+              <span class="icon has-text-danger">
+                <i class="fas fa-ban"></i>
+              </span>
+            <% end %>
+          </td>
+          <td class="has-text-centered">
+            <% if program_application.administrative_signoff.nil? %>
+              <span class="icon has-text-light">
+                <i class="fas fa-question-circle"></i>
+              </span>
+            <% elsif program_application.administrative_signoff %>
+              <span class="icon has-text-success">
+                <i class="fas fa-check-circle"></i>
+              </span>
+            <% else %>
+              <span class="icon has-text-danger">
+                <i class="fas fa-ban"></i>
+              </span>
+            <% end %>
+          </td>
+          <td class="has-text-centered">
+            <%= time_tag(program_application.created_at) { time_ago_in_words(program_application.created_at) } %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+  </div>
+</section>
