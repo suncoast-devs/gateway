@@ -1,5 +1,7 @@
-class ApplicationController < ActionController::Base
+# frozen_string_literal: true
 
+# :nodoc:
+class ApplicationController < ActionController::Base
   def authenticate!
     redirect_to :sign_in unless signed_in?
   end
@@ -10,7 +12,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def signed_in?
-    !!current_user
+    current_user.nil?
   end
   helper_method :signed_in?
 end
