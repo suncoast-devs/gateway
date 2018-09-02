@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
+# Provides Notes, for commenting on application
 class NotesController < ApplicationController
   before_action :authenticate!
   before_action :find_program_application
-  before_action :find_note, only: [:update, :destroy]
+  before_action :find_note, only: %i[update destroy]
 
   def create
     @program_application.notes.create(note_params) do |note|
