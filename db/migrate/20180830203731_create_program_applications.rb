@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 class CreateProgramApplications < ActiveRecord::Migration[5.2]
   def change
-    create_table :program_applications do |t|
+    enable_extension 'pgcrypto'
+
+    create_table :program_applications, id: :uuid do |t|
       t.string :full_name
       t.string :email_address
       t.string :phone_number
