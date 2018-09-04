@@ -12,7 +12,7 @@ class ProgramApplicationsController < ApplicationController
   def show; end
 
   def update
-    @program_application.update_attributes(program_application_params)
+    @program_application.update program_application_params
     redirect_to @program_application
   end
 
