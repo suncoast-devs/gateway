@@ -2,12 +2,11 @@
 
 require 'nutshell-crm-api'
 
+CREDENTIALS = Rails.application.credentials[Rails.env.to_sym][:nutshell]
+
 # Nutshell API wrapper
 module Nutshell
   def self.client
-    NutshellCrmAPI::Client.new(
-      Rails.application.credentials.nutshell[:email],
-      Rails.application.credentials.nutshell[:token]
-    )
+    NutshellCrmAPI::Client.new(CREDENTIALS[:email], CREDENTIALS[:token])
   end
 end
