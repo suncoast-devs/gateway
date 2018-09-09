@@ -11,13 +11,14 @@ class ApplyController < ApplicationController
   #   "phone_number": "(727) 555-1234"
   # }
   def create
-    service = NewApplicationService.new(params)
-    respond json: { id: service.perform.id }
+    @program_application = ProgramApplication.create! params
+    LocateCRMIdentifierJob.perform_async(@program_application.id)
+    respond json: { id: @program_application.id }
   end
 
   # PATCH /apply/:idea
   # {
-  #   "qa": [
+  #   "question_responses": [
   #     {
   #       "q": "What color is the sky?",
   #       "a": "!"
@@ -25,7 +26,19 @@ class ApplyController < ApplicationController
   #   ]
   # }
   def update
-    SubmitApplication.new(params).perform
+    @program_application = ProgramApplication.find @params[:id]
+    @program_application.update update_params
+    SubmitApplicationJob.perform_async(@program_application.id)
     respond json: { ok: true }
+  end
+
+  private
+
+  def create_params
+    params.permit(:full_name, :email_address, :phone_number)
+  end
+
+  def update_params
+    params.permit(:question_responses)
   end
 end
