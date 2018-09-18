@@ -11,7 +11,7 @@ class CreateProgramApplications < ActiveRecord::Migration[5.2]
       t.string :crm_identifier
       t.boolean :academic_signoff
       t.boolean :administrative_signoff
-      t.json :question_responses
+      t.json :question_responses, default: {}
 
       t.timestamps
     end

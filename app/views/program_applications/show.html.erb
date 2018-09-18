@@ -47,12 +47,12 @@
 </section>
 <section class="section">
   <div class="container">
-    <% @program_application.question_responses.each do |qr| %>
+    <% @program_application.question_responses.each do |question, answer| %>
     <article class="media">
       <div class="media-content">
         <div class="content">
-          <h4 class="title is-4"><%= qr["q"] %></h4>
-          <%= simple_format qr["a"] %>
+          <h4 class="title is-4"><%= question %></h4>
+          <%= simple_format answer %>
         </div>
       </div>
     </article>

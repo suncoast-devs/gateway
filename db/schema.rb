@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2018_08_30_203948) do
     t.string "crm_identifier"
     t.boolean "academic_signoff"
     t.boolean "administrative_signoff"
-    t.json "question_responses"
+    t.json "question_responses", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -5,6 +5,6 @@ class UpdateSignoffJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    UpdateSignoff.call(*args)
+    UpdateSignoff.call(*args) if Rails.env.production?
   end
 end

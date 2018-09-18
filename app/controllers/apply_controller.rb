@@ -2,7 +2,7 @@
 
 # Provides public API for program applications
 class ApplyController < ApplicationController
-  respond_to :json
+  skip_before_action :verify_authenticity_token
 
   # POST /apply
   # {
@@ -11,34 +11,32 @@ class ApplyController < ApplicationController
   #   "phone_number": "(727) 555-1234"
   # }
   def create
-    @program_application = ProgramApplication.create! params
-    LocateCRMIdentifierJob.perform_async(@program_application.id)
-    respond json: { id: @program_application.id }
+    @program_application = ProgramApplication.create! create_params
+    LocateCRMIdentifierJob.perform_later(@program_application.id)
+    render json: { id: @program_application.id }
   end
 
   # PATCH /apply/:idea
   # {
-  #   "question_responses": [
-  #     {
-  #       "q": "What color is the sky?",
-  #       "a": "!"
-  #     }
-  #   ]
+  #   "question_responses": {
+  #     "What color is the sky?": "Blue!"
+  #   }
   # }
   def update
-    @program_application = ProgramApplication.find @params[:id]
+    @program_application = ProgramApplication.find params[:id]
+    puts(update_params)
     @program_application.update update_params
-    SubmitApplicationJob.perform_async(@program_application.id)
-    respond json: { ok: true }
+    SubmitApplicationJob.perform_later(@program_application.id)
+    render json: { ok: true }
   end
 
   private
 
   def create_params
-    params.permit(:full_name, :email_address, :phone_number)
+    params.slice(:full_name, :email_address, :phone_number).permit!
   end
 
   def update_params
-    params.permit(:question_responses)
+    params.slice(:question_responses).permit!
   end
 end
