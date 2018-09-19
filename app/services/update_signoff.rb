@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Provides a service for updating academic and administrative signoff
-class
+class UpdateSignoff
   include Callable
 
   def initialize(program_application_id, signoff_type)
