@@ -22,7 +22,7 @@ class UpdateSignoff
   end
 
   def crm_field
-    @signoff_type.match?(/^academic/) ? 'Academic Sign-off ' : 'Administrative Sign-off'
+    @signoff_type.match?(/^academic/) ? 'Academic Sign-off' : 'Administrative Sign-off'
   end
 
   def crm_value
