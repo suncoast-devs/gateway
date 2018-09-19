@@ -5,6 +5,6 @@ class LocateCRMIdentifierJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    LocateCrmIdentifier.call(*args) if Rails.env.production?
+    LocateCRMIdentifier.call(*args) if Rails.env.production?
   end
 end
