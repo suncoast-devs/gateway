@@ -26,6 +26,6 @@ class UpdateSignoff
   end
 
   def crm_value
-    @program_application.send[signoff_type] ? 'Accept' : 'Reject'
+    @program_application.send[@signoff_type] ? 'Accept' : 'Reject'
   end
 end
