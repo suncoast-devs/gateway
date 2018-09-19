@@ -41,6 +41,15 @@
             </nav>
           </div>
         </nav>
+        <% if @program_application.crm_identifier %>
+        <div class="level box">
+          <div class="level-item">
+            <p>
+              <a href="https://app.nutshell.com/lead/<%= @program_application.crm_identifier %>">Open Lead in Nutshell</a>
+            </p>
+          </div>
+        </div>
+        <% end %>
       </div>
     </div>
   </div>
