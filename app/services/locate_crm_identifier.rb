@@ -29,7 +29,7 @@ class LocateCRMIdentifier
     @lead_id ||= begin
       lead = @nutshell.get_contact(contact_id)['leads'].last ||
              @nutshell.new_lead(contacts: [{ id: contact_id }],
-                                products: [{ id: 1 }],
+                                products: [{ id: 4 }],
                                 note: ['Created via program application form.'])
       lead['id']
     end
