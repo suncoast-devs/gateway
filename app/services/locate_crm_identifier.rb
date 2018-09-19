@@ -30,7 +30,7 @@ class LocateCRMIdentifier
 
   def find_lead
     lead_stub = @nutshell.get_contact(contact['id'])['leads'].last
-    @nutshell.get_lead(lead_stub['id'])
+    lead_stub ? @nutshell.get_lead(lead_stub['id']) : nil
   end
 
   def create_lead
