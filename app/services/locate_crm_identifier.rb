@@ -10,28 +10,32 @@ class LocateCRMIdentifier
   end
 
   def call
-    @program_application.update! crm_identifier: lead_id
+    @program_application.update! crm_identifier: lead['id'], crm_url: lead['htmlUrl']
   end
 
   private
 
-  def contact_id
-    @contact_id ||= begin
-      contact = @nutshell.search_by_email(@program_application.email_address)['contacts'].first ||
-                @nutshell.new_contact(name: @program_application.full_name,
-                                      email: [@program_application.email_address],
-                                      phone: [@program_application.phone_number])
-      contact['id']
+  def contact
+    @contact ||= begin
+      @nutshell.search_by_email(@program_application.email_address)['contacts'].first ||
+        @nutshell.new_contact(name: @program_application.full_name,
+                              email: [@program_application.email_address],
+                              phone: [@program_application.phone_number])
     end
   end
 
-  def lead_id
-    @lead_id ||= begin
-      lead = @nutshell.get_contact(contact_id)['leads'].last ||
-             @nutshell.new_lead(contacts: [{ id: contact_id }],
-                                products: [{ id: 4 }],
-                                note: ['Created via program application form.'])
-      lead['id']
-    end
+  def lead
+    @lead ||= find_lead || create_lead
+  end
+
+  def find_lead
+    lead_stub = @nutshell.get_contact(contact['id'])['leads'].last
+    @nutshell.get_lead(lead_stub['id'])
+  end
+
+  def create_lead
+    @nutshell.new_lead(contacts: [{ id: contact['id'] }],
+                       products: [{ id: 4 }],
+                       note: ['Created via program application form.'])
   end
 end
