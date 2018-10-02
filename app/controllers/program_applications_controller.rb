@@ -6,7 +6,9 @@ class ProgramApplicationsController < ApplicationController
   before_action :find_program_application, only: %i[show update]
 
   def index
-    @program_applications = ProgramApplication.order(created_at: :desc)
+    @program_applications = ProgramApplication
+                            .order(created_at: :desc)
+                            .where('question_responses::text <> \'{}\'::text')
   end
 
   def show; end
