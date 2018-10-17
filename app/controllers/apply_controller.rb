@@ -13,6 +13,7 @@ class ApplyController < ApplicationController
   def create
     @program_application = ProgramApplication.create! create_params
     LocateCRMIdentifierJob.perform_later(@program_application.id)
+    SubmitApplicationJob.perform_later(@program_application.id) unless @program_application.question_responses.empty?
     render json: { id: @program_application.id }
   end
 
@@ -33,7 +34,7 @@ class ApplyController < ApplicationController
   private
 
   def create_params
-    params.slice(:full_name, :email_address, :phone_number).permit!
+    params.slice(:full_name, :email_address, :phone_number, :program, :question_responses).permit!
   end
 
   def update_params

@@ -2,13 +2,16 @@
 
 # Provides program application for review
 class ProgramApplicationsController < ApplicationController
+  include Pagy::Backend
+
   before_action :authenticate!
   before_action :find_program_application, only: %i[show update]
 
   def index
-    @program_applications = ProgramApplication
-                            .order(created_at: :desc)
-                            .where('question_responses::text <> \'{}\'::text')
+    @pagy, @program_applications = pagy(
+      ProgramApplication.order(created_at: :desc)
+                        .where('question_responses::text <> \'{}\'::text')
+    )
   end
 
   def show; end

@@ -19,6 +19,7 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 
 gem 'nutshell-crm-api'
+gem 'pagy'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

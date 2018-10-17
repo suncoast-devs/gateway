@@ -9,6 +9,7 @@
       <thead>
         <tr>
           <th>Applicant Name</th>
+          <th>Program</th>
           <th class="has-text-centered">Academics</th>
           <th class="has-text-centered">Administration</th>
           <th class="has-text-centered">
@@ -23,6 +24,9 @@
         <tr>
           <td>
             <%= link_to program_application.full_name, program_application %>
+          </td>
+          <td>
+            <%= program_application.program.titleize %>
           </td>
           <td class="has-text-centered">
             <% if program_application.academic_signoff.nil? %>
@@ -61,6 +65,6 @@
         <% end %>
       </tbody>
     </table>
-
+    <%== pagy_nav_bulma(@pagy) %>
   </div>
 </section>
