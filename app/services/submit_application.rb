@@ -17,10 +17,11 @@ class SubmitApplication
 
   def update_crm_status
     lead = @nutshell.get_lead(@program_application.crm_identifier)
+    note = link_note
     @nutshell.edit_lead(
       @program_application.crm_identifier,
       lead['rev'],
-      note: "Application: #{program_application_url}",
+      note: note,
       customFields: {
         'Application': 'Complete'
       }
@@ -29,5 +30,13 @@ class SubmitApplication
 
   def program_application_url
     "https://gateway.suncoast.io/apps/#{@program_application.id}"
+  end
+
+  def link_note
+    <<~NOTE
+      Recieved an application for the #{@program_application.program.titlelize} Program.
+
+      #{program_application_url}
+    NOTE
   end
 end
