@@ -34,7 +34,7 @@ class SubmitApplication
 
   def link_note
     <<~NOTE
-      Recieved an application for the #{@program_application.program.titlelize} Program.
+      Recieved an application for the #{@program_application.program.titleize} Program.
 
       #{program_application_url}
     NOTE
