@@ -8,9 +8,13 @@ class ProgramApplicationsController < ApplicationController
   before_action :find_program_application, only: %i[show update]
 
   def index
+    @search_name = params[:search_name]
+
+    all = ProgramApplication.order(created_at: :desc)
+                            .where('question_responses::text <> \'{}\'::text')
+
     @pagy, @program_applications = pagy(
-      ProgramApplication.order(created_at: :desc)
-                        .where('question_responses::text <> \'{}\'::text')
+      @search_name.present? ? all.where('full_name ilike ?', "%#{@search_name}%") : all
     )
   end
 

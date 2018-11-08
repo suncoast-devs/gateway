@@ -5,10 +5,15 @@
 </section>
 <section class="section">
   <div class="container">
-    <table class="table is-bordered is-striped is-fullwidth">
+    <table class="program-applications table is-bordered is-striped is-fullwidth">
       <thead>
         <tr>
-          <th>Applicant Name</th>
+          <th>
+            Applicant Name
+            <%= form_tag url: program_applications_path do %>
+              <%= text_field_tag :search_name, @search_name, placeholder: "Search" %>
+            <% end %>
+          </th>
           <th>Program</th>
           <th class="has-text-centered">Academics</th>
           <th class="has-text-centered">Administration</th>
