@@ -2,6 +2,10 @@
 
 Rails.application.routes.draw do
   resources :program_applications, only: %i[index show update], path: 'apps' do
+    collection do
+      post :index
+    end
+
     resources :notes, only: %i[create update destroy]
   end
 
