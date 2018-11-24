@@ -36,6 +36,6 @@ class LocateCRMIdentifier
   def create_lead
     @nutshell.new_lead(contacts: [{ id: contact['id'] }],
                        products: [{ id: 4 }],
-                       note: ['Created via program application form.'])
+                       note: ["Created via #{@program_application.program.titleize} Program application form."])
   end
 end
