@@ -24,12 +24,10 @@ class CreateLead
     find_lead || create_lead
     if @source == "mailing_list"
       mailchimp = Mailchimp::API.new(Rails.application.credentials.mailchimp_api_key)
-      mailchimp.lists.subscribe("ee85c9fa69", { email: @email }, 'html',
-        {
-          FNAME: @given_name,
-          LNAME: @family_name
-        }
-      )
+      mailchimp.lists.subscribe("ee85c9fa69",
+                                { email: @email },
+                                { FNAME: @given_name, LNAME: @family_name },
+                                'html')
     end
   end
 
