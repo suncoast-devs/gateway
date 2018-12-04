@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   defaults format: :json do
     post 'apply', to: 'apply#create'
     patch 'apply/:id', to: 'apply#update'
-    post 'lead' to: 'hooks#lead'
+    post 'lead', to: 'hooks#lead'
   end
 
   root to: 'home#index'
