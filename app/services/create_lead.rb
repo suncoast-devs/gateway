@@ -11,7 +11,7 @@ class CreateLead
     "demo_day": 220,
   }
 
-  def initialize(email, given_name, family_name, source)
+  def initialize(email, given_name, family_name, source, note)
     @nutshell = Nutshell.client
     @email = email
     @given_name = given_name

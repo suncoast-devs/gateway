@@ -2,6 +2,7 @@
 
 # Provides public API for program applications
 class ApplyController < ApplicationController
+  before_action :honey_pot
   skip_before_action :verify_authenticity_token
 
   # POST /apply

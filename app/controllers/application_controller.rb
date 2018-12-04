@@ -17,4 +17,8 @@ class ApplicationController < ActionController::Base
     !current_user.nil?
   end
   helper_method :signed_in?
+
+  def honey_pot
+    head :ok if params["contactMeOnlyByCarrierPigeon"]
+  end
 end
