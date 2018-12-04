@@ -17,6 +17,7 @@ class CreateLead
     @given_name = given_name
     @given_name = family_name
     @source = source
+    @note = note
   end
 
   def call
@@ -54,6 +55,6 @@ class CreateLead
     sources = SOURCES[@source] ? [{id: SOURCES[@source]}] : []
     @nutshell.new_lead(contacts: [{id: contact["id"]}],
                        sources: sources,
-                       note: ["Created via lead capture hook."])
+                       note: ["Created via lead capture hook.", @note].compact)
   end
 end

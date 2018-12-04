@@ -14,9 +14,11 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   match 'auth/:provider/callback', to: 'sessions#create', via: %i[get post]
 
+
   defaults format: :json do
     post 'apply', to: 'apply#create'
     patch 'apply/:id', to: 'apply#update'
+    post 'lead' to: 'hooks#lead'
   end
 
   root to: 'home#index'
