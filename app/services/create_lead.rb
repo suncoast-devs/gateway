@@ -15,7 +15,7 @@ class CreateLead
     @nutshell = Nutshell.client
     @email = email
     @given_name = given_name
-    @given_name = family_name
+    @family_name = family_name
     @source = source
     @note = note
   end
