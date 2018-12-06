@@ -16,14 +16,14 @@ class CreateLead
     @email = email
     @given_name = given_name
     @family_name = family_name
-    @source = source
+    @source = source.to_s
     @phone = phone
     @note = note
   end
 
   def call
     find_lead || create_lead
-    if @source == "mailing_list"
+    if @source == :mailing_list
       mailchimp = Mailchimp::API.new(Rails.application.credentials.mailchimp_api_key)
       mailchimp.lists.subscribe("ee85c9fa69",
                                 { email: @email },
@@ -58,7 +58,7 @@ class CreateLead
       sources: sources,
       note: ["Created via lead capture hook.", @note].compact
     }
-    options[:products] = [{ id: 4 }] if ["catalog", "tour_rsvp"].include? @source
+    options[:products] = [{ id: 4 }] if [:catalog, :tour_rsvp].include? @source
     @nutshell.new_lead(options)
   end
 end
