@@ -11,12 +11,13 @@ class CreateLead
     "demo_day": 220,
   }
 
-  def initialize(email, given_name, family_name, source, note)
+  def initialize(email, given_name, family_name, source, phone, note)
     @nutshell = Nutshell.client
     @email = email
     @given_name = given_name
     @family_name = family_name
     @source = source
+    @phone = phone
     @note = note
   end
 
@@ -40,6 +41,7 @@ class CreateLead
                                 givenName: @given_name,
                                 familyName: @family_name,
                               },
+                              phone: @phone
                               email: @email)
     end
   end
@@ -51,8 +53,12 @@ class CreateLead
 
   def create_lead
     sources = SOURCES[@source] ? [{id: SOURCES[@source]}] : []
-    @nutshell.new_lead(contacts: [{id: contact["id"]}],
-                       sources: sources,
-                       note: ["Created via lead capture hook.", @note].compact)
+    options = {
+      contacts: [{id: contact["id"]}],
+      sources: sources,
+      note: ["Created via lead capture hook.", @note].compact
+    }
+    options[:products] = [{ id: 4 }] if ["catalog", "tour_rsvp"].include? @source
+    @nutshell.new_lead(options)
   end
 end
