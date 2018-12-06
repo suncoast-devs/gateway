@@ -41,7 +41,7 @@ class CreateLead
                                 givenName: @given_name,
                                 familyName: @family_name,
                               },
-                              phone: @phone
+                              phone: @phone,
                               email: @email)
     end
   end
