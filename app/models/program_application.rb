@@ -5,7 +5,8 @@
 class ProgramApplication < ApplicationRecord
   has_many :notes, as: :notable
 
-  scope :visible, -> { where.not(is_hidden: true) }
+  scope :visible, -> { where(is_hidden: false) }
+  scope :hidden, -> { where(is_hidden: true) }
 
   enum application_status: [:incomplete, :complete], _prefix: 'application'
   enum interview_status: [:pending, :scheduled, :skipped], _prefix: 'interview'

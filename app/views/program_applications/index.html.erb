@@ -5,6 +5,18 @@
 </section>
 <section class="section">
   <div class="container">
+    <nav class="level">
+      <div class="level-left"></div>
+      <div class="level-right">
+        <small class="level-item">
+          <% if params[:hidden].nil? %>
+            <%= link_to "Show Hidden", program_applications_path(hidden: "✓") %>
+          <% else %>
+            <%= link_to "Show All", program_applications_path %>
+          <% end %>
+        </small>
+      </div>
+    </nav>
     <table class="program-applications table is-bordered is-striped is-fullwidth">
       <thead>
         <tr>

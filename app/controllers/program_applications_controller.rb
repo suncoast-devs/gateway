@@ -11,8 +11,13 @@ class ProgramApplicationsController < ApplicationController
     @query = params[:q]
 
     scope = ProgramApplication.order(created_at: :desc)
-    scope = scope.visible unless params[:hidden] || @query
-    scope = scope.where('full_name ILIKE ?', "%#{@query}%") if @query.present?
+
+    if @query.present?
+      scope = scope.where('full_name ILIKE ?', "%#{@query}%")
+    else
+      # Only use this scope if search query isn't present (i.e., allow searching hidden applications)
+      scope = params[:hidden] ? scope.hidden : scope.visible
+    end
 
     @pagy, @program_applications = pagy(scope)
   end
