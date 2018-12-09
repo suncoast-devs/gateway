@@ -10,6 +10,7 @@ class SubmitApplication
   end
 
   def call
+    @program_application.update(application_status: :complete)
     update_crm_status
   end
 

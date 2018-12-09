@@ -5,20 +5,21 @@ class ProgramApplicationsController < ApplicationController
   include Pagy::Backend
 
   before_action :authenticate!
-  before_action :find_program_application, only: %i[show update]
+  before_action :find_program_application, only: %i[show edit update]
 
   def index
-    @search_name = params[:search_name]
+    @query = params[:q]
 
-    all = ProgramApplication.order(created_at: :desc)
-                            .where('question_responses::text <> \'{}\'::text')
+    scope = ProgramApplication.order(created_at: :desc)
+    scope = scope.visible unless params[:hidden] || @query
+    scope = scope.where('full_name ILIKE ?', "%#{@query}%") if @query.present?
 
-    @pagy, @program_applications = pagy(
-      @search_name.present? ? all.where('full_name ilike ?', "%#{@search_name}%") : all
-    )
+    @pagy, @program_applications = pagy(scope)
   end
 
   def show; end
+
+  def edit; end
 
   def update
     @program_application.update program_application_params
@@ -39,6 +40,6 @@ class ProgramApplicationsController < ApplicationController
   end
 
   def program_application_params
-    params.require(:program_application).permit(:academic_signoff, :administrative_signoff)
+    params.require(:program_application).permit(:full_name, :email_address, :phone_number, :application_status, :interview_status, :acceptance_status, :academic_signoff, :administrative_signoff, :is_hidden)
   end
 end

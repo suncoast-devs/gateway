@@ -9,14 +9,19 @@
       <thead>
         <tr>
           <th>
-            Applicant Name
-            <%= form_tag url: program_applications_path do %>
-              <%= text_field_tag :search_name, @search_name, placeholder: "Search" %>
-            <% end %>
+            <nav class="level">
+              <span>Applicant</span>
+              <%= form_tag(program_applications_path, method: :get) do %>
+                <%= text_field_tag :q, @query, placeholder: "Search", class: "input is-small" %>
+              <% end %>
+            </nav>
           </th>
           <th>Program</th>
-          <th class="has-text-centered">Academics</th>
-          <th class="has-text-centered">Administration</th>
+          <th class="has-text-centered"><abbr title="Application Complete?">App</abbr></th>
+          <th class="has-text-centered"><abbr title="Interview(s) Scheduled?">Int</abbr></th>
+          <th class="has-text-centered"><abbr title="Administrative Sign-off?">Ad SO</abbr></th>
+          <th class="has-text-centered"><abbr title="Academic Sign-off?">Ac SO</abbr></th>
+          <th class="has-text-centered"><abbr title="Acceptance Sent?">Acc</abbr></th>
           <th class="has-text-centered">
             <span class="icon">
               <i class="fas fa-stopwatch"></i>
@@ -32,6 +37,30 @@
           </td>
           <td>
             <%= program_application.program.titleize %>
+          </td>
+          <td class="has-text-centered">
+            <% case program_application.application_status %>
+            <% when "incomplete" %>
+              <span class="icon has-text-light">
+                <i class="fas fa-question-circle"></i>
+              </span>
+            <% when "complete" %>
+              <span class="icon has-text-success">
+                <i class="fas fa-check-circle"></i>
+              </span>
+            <% end %>
+          </td>
+          <td class="has-text-centered">
+            <% case program_application.application_status %>
+            <% when "incomplete" %>
+              <span class="icon has-text-light">
+                <i class="fas fa-question-circle"></i>
+              </span>
+            <% when "complete" %>
+              <span class="icon has-text-success">
+                <i class="fas fa-check-circle"></i>
+              </span>
+            <% end %>
           </td>
           <td class="has-text-centered">
             <% if program_application.academic_signoff.nil? %>
@@ -63,6 +92,23 @@
               </span>
             <% end %>
           </td>
+          <td class="has-text-centered">
+            <% case program_application.acceptance_status %>
+            <% when "unspent" %>
+              <span class="icon has-text-light">
+                <i class="fas fa-question-circle"></i>
+              </span>
+            <% when "send" %>
+              <span class="icon has-text-success">
+                <i class="fas fa-check-circle"></i>
+              </span>
+            <% when "rejected" %>
+              <span class="icon has-text-danger">
+                <i class="fas fa-check-ban"></i>
+              </span>
+            <% end %>
+          </td>
+
           <td class="has-text-centered">
             <%= time_tag(program_application.created_at) { time_ago_in_words(program_application.created_at) } %>
           </td>

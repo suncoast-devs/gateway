@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :program_applications, only: %i[index show update], path: 'apps' do
+  resources :program_applications, only: %i[index show edit update], path: 'apps' do
     collection do
       post :index
     end

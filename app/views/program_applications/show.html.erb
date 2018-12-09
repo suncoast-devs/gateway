@@ -50,6 +50,17 @@
           </div>
         </div>
         <% end %>
+        <div class="level box">
+          <div class="level-item">
+            <p>
+              <%= link_to [:edit, @program_application] do %>
+                <span class="icon">
+                  <i class="fas fa-edit"></i>
+                </span>
+              <% end %>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -122,42 +133,46 @@
         <div class="card">
           <header class="card-header">
             <p class="card-header-title">
-              Academic Sign-off
+              Application Completed
             </p>
           </header>
           <footer class="card-footer">
-            <% if @program_application.academic_signoff.nil? %>
             <div class="card-footer-item">
-              <%= form_for @program_application do |f| %>
-                <%= f.hidden_field :academic_signoff, value: true %>
-                <%= f.button type: "submit", class: "button is-success" do %>
-                  <span class="icon"><i class="fas fa-check-circle"></i></span>
-                  <span>Accept</span>
-                <% end %>
+              <% if @program_application.application_complete? %>
+                <span class="icon has-text-success is-medium">
+                  <i class="fas fa-check-circle fa-2x"></i>
+                </span>
+              <% else %>
+                <span class="icon has-text-light is-medium">
+                  <i class="fas fa-question-circle fa-2x"></i>
+                </span>
               <% end %>
             </div>
+          </footer>
+        </div>
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              Interviews Scheduled
+            </p>
+          </header>
+          <footer class="card-footer">
             <div class="card-footer-item">
-              <%= form_for @program_application do |f| %>
-                <%= f.hidden_field :academic_signoff, value: false %>
-                <%= f.button type: "submit", class: "button is-danger" do %>
-                  <span class="icon"><i class="fas fa-ban"></i></span>
-                  <span>Reject</span>
-                <% end %>
+              <% case @program_application.interview_status %>
+              <% when "scheduled" %>
+                <span class="icon has-text-success is-medium">
+                  <i class="fas fa-check-circle fa-2x"></i>
+                </span>
+              <% when "skipped" %>
+                <span class="icon has-text-grey-light is-medium">
+                  <i class="fas fa-check-circle fa-2x"></i>
+                </span>
+              <% else %>
+                <span class="icon has-text-light is-medium">
+                  <i class="fas fa-question-circle fa-2x"></i>
+                </span>
               <% end %>
             </div>
-            <% else %>
-              <div class="card-footer-item">
-                <% if @program_application.academic_signoff %>
-                  <span class="icon has-text-success is-medium">
-                    <i class="fas fa-check-circle fa-2x"></i>
-                  </span>
-                <% else %>
-                  <span class="icon has-text-danger is-medium">
-                    <i class="fas fa-ban fa-2x"></i>
-                  </span>
-                <% end %>
-              </div>
-            <% end %>
           </footer>
         </div>
         <div class="card">
@@ -199,6 +214,72 @@
               <% end %>
             </div>
             <% end %>
+          </footer>
+        </div>
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              Academic Sign-off
+            </p>
+          </header>
+          <footer class="card-footer">
+            <% if @program_application.academic_signoff.nil? %>
+            <div class="card-footer-item">
+              <%= form_for @program_application do |f| %>
+                <%= f.hidden_field :academic_signoff, value: true %>
+                <%= f.button type: "submit", class: "button is-success" do %>
+                  <span class="icon"><i class="fas fa-check-circle"></i></span>
+                  <span>Accept</span>
+                <% end %>
+              <% end %>
+            </div>
+            <div class="card-footer-item">
+              <%= form_for @program_application do |f| %>
+                <%= f.hidden_field :academic_signoff, value: false %>
+                <%= f.button type: "submit", class: "button is-danger" do %>
+                  <span class="icon"><i class="fas fa-ban"></i></span>
+                  <span>Reject</span>
+                <% end %>
+              <% end %>
+            </div>
+            <% else %>
+              <div class="card-footer-item">
+                <% if @program_application.academic_signoff %>
+                  <span class="icon has-text-success is-medium">
+                    <i class="fas fa-check-circle fa-2x"></i>
+                  </span>
+                <% else %>
+                  <span class="icon has-text-danger is-medium">
+                    <i class="fas fa-ban fa-2x"></i>
+                  </span>
+                <% end %>
+              </div>
+            <% end %>
+          </footer>
+        </div>
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              Acceptance Sent
+            </p>
+          </header>
+          <footer class="card-footer">
+            <div class="card-footer-item">
+              <% case @program_application.acceptance_status %>
+              <% when "unsent" %>
+                <span class="icon has-text-light is-medium">
+                  <i class="fas fa-question-circle fa-2x"></i>
+                </span>
+              <% when "sent" %>
+                <span class="icon has-text-success is-medium">
+                  <i class="fas fa-check-circle fa-2x"></i>
+                </span>
+              <% when "rejected" %>
+                <span class="icon has-text-danger is-medium">
+                  <i class="fas fa-ban fa-2x"></i>
+                </span>
+              <% end %>
+            </div>
           </footer>
         </div>
       </div>
