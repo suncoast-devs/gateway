@@ -56,7 +56,7 @@ class CreateLead
     options = {
       contacts: [{id: contact["id"]}],
       sources: sources,
-      note: ["Created via lead capture hook.", @note].compact
+      note: ["Created via #{@source.to_s.humanize.downcase} lead capture.", @note].compact
     }
     options[:products] = [{ id: 4 }] if [:catalog, :tour_rsvp].include? @source
     @nutshell.new_lead(options)
