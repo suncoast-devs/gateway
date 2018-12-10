@@ -16,7 +16,7 @@ class CreateLead
     @email = email
     @given_name = given_name
     @family_name = family_name
-    @source = source.to_s
+    @source = source.to_sym
     @phone = phone
     @note = note
   end
