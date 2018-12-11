@@ -3,7 +3,7 @@
     <div class="columns">
       <div class="column is-three-quarters">
         <div class="question-responses">
-          <h1 class="title"><%= @program_application.full_name %></h1>
+          <h1 class="title"><%= @program_application.person.full_name %></h1>
           <h2 class="subtitle">
             <%= @program_application.program.titleize %> Application
           </h2>
@@ -21,7 +21,7 @@
               </div>
               <div class="level-right">
                 <div class="level-item">
-                  <%= mail_to @program_application.email_address %>
+                  <%= mail_to @program_application.person.email_address %>
                 </div>
               </div>
             </nav>
@@ -35,17 +35,17 @@
               </div>
               <div class="level-right">
                 <div class="level-item">
-                  <%= link_to @program_application.phone_number, "tel:#{@program_application.phone_number}" %>
+                  <%= link_to @program_application.person.phone_number, "tel:#{@program_application.person.phone_number}" %>
                 </div>
               </div>
             </nav>
           </div>
         </nav>
-        <% if @program_application.crm_url %>
+        <% if @program_application.person.crm_url %>
         <div class="level box">
           <div class="level-item">
             <p>
-              <a href="<%= @program_application.crm_url %>">Open Lead in Nutshell</a>
+              <a href="<%= @program_application.person.crm_url %>">Open Lead in Nutshell</a>
             </p>
           </div>
         </div>

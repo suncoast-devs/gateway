@@ -1,0 +1,23 @@
+section.section
+  .container
+    h1.title People
+
+section.section
+  .container
+    table.table.is-bordered.is-striped.is-fullwidth
+      thead
+        tr
+          th Name
+          th Email
+          th Phone Number
+          th CRM
+      tbody
+        - @people.each do |person|
+          tr
+            td = link_to person.full_name, person
+            td = person.email_address
+            td = person.phone_number
+            td
+              - if person.crm_url.present?
+                = link_to person.crm_identifier, person.crm_url
+    == pagy_nav_bulma(@pagy)

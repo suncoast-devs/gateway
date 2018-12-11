@@ -20,4 +20,8 @@ module ApplicationHelper
       simple_format answer.to_s
     end
   end
+
+  def current_controller?(test_name)
+    'is-active' if controller.controller_name == test_name
+  end
 end

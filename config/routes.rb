@@ -2,12 +2,10 @@
 
 Rails.application.routes.draw do
   resources :program_applications, only: %i[index show edit update], path: 'apps' do
-    collection do
-      post :index
-    end
-
     resources :notes, only: %i[create update destroy]
   end
+
+  resources :people
 
   get 'sign_in', to: redirect("/auth/#{Rails.env.production? ? :google_oauth2 : :developer}")
   get 'sign_out', to: 'sessions#destroy'

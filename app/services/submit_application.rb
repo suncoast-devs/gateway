@@ -17,10 +17,10 @@ class SubmitApplication
   private
 
   def update_crm_status
-    lead = @nutshell.get_lead(@program_application.crm_identifier)
+    lead = @nutshell.get_lead(@program_application.person.crm_identifier)
     note = link_note
     @nutshell.edit_lead(
-      @program_application.crm_identifier,
+      @program_application.person.crm_identifier,
       lead['rev'],
       note: note,
       customFields: {

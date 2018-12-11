@@ -10,10 +10,10 @@ class ProgramApplicationsController < ApplicationController
   def index
     @query = params[:q]
 
-    scope = ProgramApplication.order(created_at: :desc)
+    scope = ProgramApplication.joins(:person).order(created_at: :desc)
 
     if @query.present?
-      scope = scope.where('full_name ILIKE ?', "%#{@query}%")
+      scope = scope.where('people.full_name ILIKE ?', "%#{@query}%")
     else
       # Only use this scope if search query isn't present (i.e., allow searching hidden applications)
       scope = params[:hidden] ? scope.hidden : scope.visible

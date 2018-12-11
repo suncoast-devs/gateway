@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_09_195107) do
+ActiveRecord::Schema.define(version: 2018_12_11_151228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -26,22 +26,30 @@ ActiveRecord::Schema.define(version: 2018_12_09_195107) do
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
-  create_table "program_applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "people", force: :cascade do |t|
     t.string "full_name"
     t.string "email_address"
     t.string "phone_number"
     t.string "crm_identifier"
+    t.string "source"
+    t.string "crm_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "program_applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.boolean "academic_signoff"
     t.boolean "administrative_signoff"
     t.json "question_responses", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "crm_url"
     t.string "program"
     t.integer "application_status", default: 0
     t.integer "interview_status", default: 0
     t.integer "acceptance_status", default: 0
     t.boolean "is_hidden", default: false
+    t.bigint "person_id"
+    t.index ["person_id"], name: "index_program_applications_on_person_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -53,4 +61,5 @@ ActiveRecord::Schema.define(version: 2018_12_09_195107) do
   end
 
   add_foreign_key "notes", "users"
+  add_foreign_key "program_applications", "people"
 end

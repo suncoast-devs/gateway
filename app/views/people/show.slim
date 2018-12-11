@@ -1,0 +1,41 @@
+section.section
+  .container
+    .columns
+      .column.is-three-quarters
+        h1.title= @person.full_name
+      .column
+        nav.panel.contact-information
+          p.panel-heading Contact Information
+          .panel-block
+            nav.level
+              .level-left
+                .level-item
+                  span.icon
+                    i.fas.fa-envelope
+              .level-right
+                .level-item
+                  = mail_to @person.email_address
+          .panel-block
+            nav.level
+              .level-left
+                .level-item
+                  span.icon
+                    i.fas.fa-mobile-alt
+              .level-right
+                .level-item
+                  = link_to @person.phone_number, "tel:#{@person.phone_number}"
+
+        - if @person.crm_url
+          .level.box
+            .level-item
+              p
+                = link_to "Open Lead in Nutshell", @person.crm_url
+
+        .level.box
+          .level-item
+            p = link_to [:edit, @person] do
+              span.icon
+                i.fas.fa-edit
+
+    h4.title.is-4 Program Applications
+    = render partial: 'program_applications/list', locals: { program_applications: @person.program_applications }

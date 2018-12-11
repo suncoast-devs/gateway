@@ -5,10 +5,10 @@ class CreateLead
   include Callable
 
   SOURCES = {
-    "mailing_list": 208,
-    "catalog": 212,
-    "tour_rsvp": 216,
-    "demo_day": 220,
+    "mailing-list" => 208,
+    "catalog" => 212,
+    "tour-rsvp" => 216,
+    "demo-day" => 220,
   }
 
   def initialize(email, given_name, family_name, source, phone, note)
@@ -16,14 +16,22 @@ class CreateLead
     @email = email
     @given_name = given_name
     @family_name = family_name
-    @source = source.to_sym
+    @source = source
     @phone = phone
     @note = note
+
+    Person.where(email_address: email).first_or_initialize do |person|
+      person.full_name ||= [given_name, family_name].join(' ')
+      person.phone_number ||= phone
+      person.source ||= source.parameterize
+      person.crm_identifier ||= lead['id']
+      person.crm_url ||= lead['htmlUrl']
+      person.save!
+    end
   end
 
   def call
-    find_lead || create_lead
-    if @source == :mailing_list
+    if @source == "mailing-list"
       mailchimp = Mailchimp::API.new(Rails.application.credentials.mailchimp_api_key)
       mailchimp.lists.subscribe("ee85c9fa69",
                                 { email: @email },
@@ -33,6 +41,10 @@ class CreateLead
   end
 
   private
+
+  def lead
+    @lead ||= find_lead || create_lead
+  end
 
   def contact
     @contact ||= begin
@@ -58,7 +70,7 @@ class CreateLead
       sources: sources,
       note: ["Created via #{@source.to_s.humanize.downcase} lead capture.", @note].compact
     }
-    options[:products] = [{ id: 4 }] if [:catalog, :tour_rsvp].include? @source
+    options[:products] = [{ id: 4 }] if ["catalog", "tour-rsvp"].include? @source
     @nutshell.new_lead(options)
   end
 end

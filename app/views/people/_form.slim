@@ -1,0 +1,44 @@
+section.section
+  .container
+    = form_with(model: person, local: true) do |form|
+      - if person.errors.any?
+        .message
+          .message-header
+            p #{pluralize(person.errors.count, "error")} prohibited this person from being saved:
+          .message-body
+            ul
+              - person.errors.full_messages.each do |message|
+               li = message
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :full_name, class: "label"
+        .field-body
+          .field
+            .control
+              = form.text_field :full_name, class: "input"
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :email_address, class: "label"
+        .field-body
+          .field
+            .control
+              = form.email_field :email_address, class: "input"
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :phone_number, class: "label"
+        .field-body
+          .field
+            .control
+              = form.phone_field :phone_number, class: "input"
+
+      .field.is-horizontal
+        .field-label
+        .field-body
+          .field.is-grouped
+            .control
+              = form.submit class: "button is-primary"
+            .control
+              = link_to "Cancel", @person, class: "button is-text"

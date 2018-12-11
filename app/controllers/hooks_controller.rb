@@ -10,7 +10,7 @@ class HooksController < ApplicationController
   #    familyName: "Herzog",
   #    email: "werner.herzog@example.com",
   #    note: "Met a cool guy",
-  #    source: "mailing_list"
+  #    source: "mailing-list"
   # }
   def lead
     CreateLeadJob.perform_later(params[:email], params[:givenName], params[:familyName], params[:source], params[:phone], params[:note])

@@ -17,8 +17,8 @@ class UpdateSignoff
   private
 
   def update_crm_status
-    lead = @nutshell.get_lead(@program_application.crm_identifier)
-    @nutshell.edit_lead(@program_application.crm_identifier, lead['rev'], customFields: { crm_field => crm_value })
+    lead = @nutshell.get_lead(@program_application.person.crm_identifier)
+    @nutshell.edit_lead(@program_application.person.crm_identifier, lead['rev'], customFields: { crm_field => crm_value })
   end
 
   def crm_field

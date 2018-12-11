@@ -12,8 +12,14 @@ class ApplyController < ApplicationController
   #   "phone_number": "(727) 555-1234"
   # }
   def create
-    @program_application = ProgramApplication.create! create_params
-    LocateCRMIdentifierJob.perform_later(@program_application.id)
+    @person = Person.find_or_create_by(email_address: params[:email_address]) do |person|
+      person.phone_number = params[:phone_number]
+      person.full_name = params[:full_name]
+      person.source = "#{params[:program].parameterize}-program-application"
+    end
+    puts @person.errors.full_messages
+    @program_application = @person.program_applications.create! create_params
+    LocateCRMIdentifierJob.perform_later(@person.id, @program_application.id)
     SubmitApplicationJob.perform_later(@program_application.id) unless @program_application.question_responses.empty?
     render json: { id: @program_application.id }
   end
@@ -35,7 +41,7 @@ class ApplyController < ApplicationController
   private
 
   def create_params
-    params.slice(:full_name, :email_address, :phone_number, :program, :question_responses).permit!
+    params.slice(:program, :question_responses).permit!
   end
 
   def update_params

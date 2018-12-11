@@ -8,6 +8,15 @@
     <nav class="level">
       <div class="level-left"></div>
       <div class="level-right">
+        <div class="level-item">
+          <%= form_tag(program_applications_path, method: :get) do %>
+            <div class="field">
+              <div class="control">
+              <%= text_field_tag :q, @query, placeholder: "Search", class: "input is-small" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
         <small class="level-item">
           <% if params[:hidden].nil? %>
             <%= link_to "Show Hidden", program_applications_path(hidden: "✓") %>
@@ -17,121 +26,7 @@
         </small>
       </div>
     </nav>
-    <table class="program-applications table is-bordered is-striped is-fullwidth">
-      <thead>
-        <tr>
-          <th>
-            <nav class="level">
-              <span>Applicant</span>
-              <%= form_tag(program_applications_path, method: :get) do %>
-                <%= text_field_tag :q, @query, placeholder: "Search", class: "input is-small" %>
-              <% end %>
-            </nav>
-          </th>
-          <th>Program</th>
-          <th class="has-text-centered"><abbr title="Application Complete?">App</abbr></th>
-          <th class="has-text-centered"><abbr title="Interview(s) Scheduled?">Int</abbr></th>
-          <th class="has-text-centered"><abbr title="Administrative Sign-off?">Ad SO</abbr></th>
-          <th class="has-text-centered"><abbr title="Academic Sign-off?">Ac SO</abbr></th>
-          <th class="has-text-centered"><abbr title="Acceptance Sent?">Acc</abbr></th>
-          <th class="has-text-centered">
-            <span class="icon">
-              <i class="fas fa-stopwatch"></i>
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @program_applications.each do |program_application| %>
-        <tr>
-          <td>
-            <%= link_to program_application.full_name, program_application %>
-          </td>
-          <td>
-            <%= program_application.program.titleize %>
-          </td>
-          <td class="has-text-centered">
-            <% case program_application.application_status %>
-            <% when "incomplete" %>
-              <span class="icon has-text-light">
-                <i class="fas fa-question-circle"></i>
-              </span>
-            <% when "complete" %>
-              <span class="icon has-text-success">
-                <i class="fas fa-check-circle"></i>
-              </span>
-            <% end %>
-          </td>
-          <td class="has-text-centered">
-            <% case program_application.interview_status %>
-            <% when "pending" %>
-              <span class="icon has-text-light">
-                <i class="fas fa-question-circle"></i>
-              </span>
-            <% when "scheduled" %>
-              <span class="icon has-text-success">
-                <i class="fas fa-check-circle"></i>
-              </span>
-            <% when "skipped" %>
-              <span class="icon has-text-grey-light">
-                <i class="fas fa-check-circle"></i>
-              </span>
-            <% end %>
-          </td>
-          <td class="has-text-centered">
-            <% if program_application.academic_signoff.nil? %>
-              <span class="icon has-text-light">
-                <i class="fas fa-question-circle"></i>
-              </span>
-            <% elsif program_application.academic_signoff %>
-              <span class="icon has-text-success">
-                <i class="fas fa-check-circle"></i>
-              </span>
-            <% else %>
-              <span class="icon has-text-danger">
-                <i class="fas fa-ban"></i>
-              </span>
-            <% end %>
-          </td>
-          <td class="has-text-centered">
-            <% if program_application.administrative_signoff.nil? %>
-              <span class="icon has-text-light">
-                <i class="fas fa-question-circle"></i>
-              </span>
-            <% elsif program_application.administrative_signoff %>
-              <span class="icon has-text-success">
-                <i class="fas fa-check-circle"></i>
-              </span>
-            <% else %>
-              <span class="icon has-text-danger">
-                <i class="fas fa-ban"></i>
-              </span>
-            <% end %>
-          </td>
-          <td class="has-text-centered">
-            <% case program_application.acceptance_status %>
-            <% when "unsent" %>
-              <span class="icon has-text-light">
-                <i class="fas fa-question-circle"></i>
-              </span>
-            <% when "send" %>
-              <span class="icon has-text-success">
-                <i class="fas fa-check-circle"></i>
-              </span>
-            <% when "rejected" %>
-              <span class="icon has-text-danger">
-                <i class="fas fa-check-ban"></i>
-              </span>
-            <% end %>
-          </td>
-
-          <td class="has-text-centered">
-            <%= time_tag(program_application.created_at) { time_ago_in_words(program_application.created_at) } %>
-          </td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <%= render partial: 'list', locals: { program_applications: @program_applications } %>
     <%== pagy_nav_bulma(@pagy) %>
   </div>
 </section>

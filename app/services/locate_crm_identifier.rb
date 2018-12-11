@@ -4,23 +4,24 @@
 class LocateCRMIdentifier
   include Callable
 
-  def initialize(program_application_id)
+  def initialize(person_id, program_application_id)
     @program_application = ProgramApplication.find(program_application_id)
+    @person = Person.find(person_id)
     @nutshell = Nutshell.client
   end
 
   def call
-    @program_application.update! crm_identifier: lead['id'], crm_url: lead['htmlUrl']
+    @person.update! crm_identifier: lead['id'], crm_url: lead['htmlUrl']
   end
 
   private
 
   def contact
     @contact ||= begin
-      @nutshell.search_by_email(@program_application.email_address)['contacts'].first ||
-        @nutshell.new_contact(name: @program_application.full_name,
-                              email: [@program_application.email_address],
-                              phone: [@program_application.phone_number])
+      @nutshell.search_by_email(@person.email_address)['contacts'].first ||
+        @nutshell.new_contact(name: @person.full_name,
+                              email: [@person.email_address],
+                              phone: [@person.phone_number])
     end
   end
 
