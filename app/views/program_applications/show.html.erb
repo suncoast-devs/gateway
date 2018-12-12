@@ -3,7 +3,7 @@
     <div class="columns">
       <div class="column is-three-quarters">
         <div class="question-responses">
-          <h1 class="title"><%= @program_application.person.full_name %></h1>
+          <h1 class="title"><%= link_to @program_application.person.full_name, @program_application.person %></h1>
           <h2 class="subtitle">
             <%= @program_application.program.titleize %> Application
           </h2>

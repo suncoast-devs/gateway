@@ -1,0 +1,35 @@
+section.section
+  .container
+    h1.title New Invoice
+    h2.subtitle
+      em for
+      =< @person.full_name
+
+section.section
+  .container
+    = form_for(@invoice) do |form|
+      = form.hidden_field :person_id
+      - if @invoice.errors.any?
+        .message
+          .message-header
+            p #{pluralize(@invoice.errors.count, "error")} prohibited this invoice from being saved:
+          .message-body
+            ul
+              - @invoice.errors.full_messages.each do |message|
+               li = message
+      .field
+        = form.label :due_on, class: "label"
+        .control.has-icons-left
+          span.icon.is-left
+            i.fas.fa-calendar.fa-sm
+          = form.date_field :due_on, class: "input is-narrow"
+      = form.fields_for :invoice_items do |item_form|
+        .field.is-grouped
+          .control.is-expanded
+            = item_form.text_field :description, placeholder: "Description", class: 'input'
+          .control.has-icons-left.quantity
+            span.icon.is-left
+              i.fas.fa-times.fa-sm
+            = item_form.number_field :quantity, placeholder: "0", class: 'input'
+          .control
+            = item_form.number_field :amount, placeholder: "Amount", class: 'input'

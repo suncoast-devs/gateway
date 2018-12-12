@@ -22,6 +22,7 @@ gem 'mailchimp-api', require: 'mailchimp'
 gem 'nutshell-crm-api'
 gem 'pagy'
 gem 'slim'
+gem 'stripe'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

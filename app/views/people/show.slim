@@ -39,3 +39,11 @@ section.section
 
     h4.title.is-4 Program Applications
     = render partial: 'program_applications/list', locals: { program_applications: @person.program_applications }
+
+    nav.level
+      .level-left
+        .level-item
+          h4.title.is-4 Invoices
+      .level-right
+        .level-item
+          = link_to "New Invoice", new_invoice_path(person_id: @person.id), class: 'button'

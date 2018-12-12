@@ -10,11 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_11_151228) do
+ActiveRecord::Schema.define(version: 2018_12_12_040134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "invoice_items", force: :cascade do |t|
+    t.bigint "invoice_id"
+    t.string "description"
+    t.integer "quantity"
+    t.integer "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.bigint "person_id"
+    t.date "due_on"
+    t.string "stripe_id"
+    t.string "payment_url"
+    t.boolean "is_paid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_invoices_on_person_id"
+  end
 
   create_table "notes", force: :cascade do |t|
     t.string "notable_type"
@@ -31,8 +52,8 @@ ActiveRecord::Schema.define(version: 2018_12_11_151228) do
     t.string "email_address"
     t.string "phone_number"
     t.string "crm_identifier"
-    t.string "source"
     t.string "crm_url"
+    t.string "source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -60,6 +81,8 @@ ActiveRecord::Schema.define(version: 2018_12_11_151228) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoices", "people"
   add_foreign_key "notes", "users"
   add_foreign_key "program_applications", "people"
 end
