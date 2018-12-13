@@ -24,4 +24,8 @@ module ApplicationHelper
   def current_controller?(test_name)
     'is-active' if controller.controller_name == test_name
   end
+
+  def usd(amount)
+    number_to_currency amount, unit: '$'
+  end
 end

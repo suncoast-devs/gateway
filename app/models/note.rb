@@ -3,5 +3,5 @@
 # Polymorphic Note model
 class Note < ApplicationRecord
   belongs_to :notable, polymorphic: true
-  belongs_to :user
+  belongs_to :user, optional: true
 end

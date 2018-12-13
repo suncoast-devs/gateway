@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2018_12_12_040134) do
     t.bigint "invoice_id"
     t.string "description"
     t.integer "quantity"
-    t.integer "amount"
+    t.decimal "amount", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
@@ -52,8 +52,8 @@ ActiveRecord::Schema.define(version: 2018_12_12_040134) do
     t.string "email_address"
     t.string "phone_number"
     t.string "crm_identifier"
-    t.string "crm_url"
     t.string "source"
+    t.string "crm_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

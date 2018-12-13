@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     post 'apply', to: 'apply#create'
     patch 'apply/:id', to: 'apply#update'
     post 'lead', to: 'hooks#lead'
+    post '/hooks/stripe', to: 'hooks#stripe'
   end
 
   root to: 'home#index'

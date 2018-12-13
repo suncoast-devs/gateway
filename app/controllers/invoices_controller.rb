@@ -18,10 +18,8 @@ class InvoicesController < ApplicationController
 
   def new
     @person = Person.find(params[:person_id])
-    @invoice = person.invoices.new
-    @invoice.invoice_items.build
-    @invoice.invoice_items.build
-    # 2.times { @invoice.invoice_items.build }
+    @invoice = @person.invoices.new
+    1.times { @invoice.invoice_items.build }
   end
 
   def create
@@ -55,6 +53,6 @@ class InvoicesController < ApplicationController
   end
 
   def invoice_params
-    params.require(:invoice).permit(:person_id, :due_on)
+    params.require(:invoice).permit(:person_id, :due_on, invoice_items_attributes: [:description, :quantity, :amount])
   end
 end
