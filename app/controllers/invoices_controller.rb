@@ -26,6 +26,7 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = Invoice.new(invoice_params)
+    @person = @invoice.person
 
     if @invoice.save
       redirect_to @invoice, notice: "Invoice created."
