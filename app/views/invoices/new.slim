@@ -17,6 +17,7 @@ section.section
             ul
               - @invoice.errors.full_messages.each do |message|
                li = message
+
       .field.is-horizontal
         .field-label
           = form.label :due_on, class: "label"

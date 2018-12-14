@@ -10,17 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_12_040134) do
+ActiveRecord::Schema.define(version: 2018_12_14_030915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
+  create_table "cohorts", force: :cascade do |t|
+    t.string "name"
+    t.date "begins_on"
+    t.date "ends_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "invoice_items", force: :cascade do |t|
     t.bigint "invoice_id"
     t.string "description"
     t.integer "quantity"
-    t.decimal "amount", precision: 8, scale: 2
+    t.integer "amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
@@ -52,8 +60,8 @@ ActiveRecord::Schema.define(version: 2018_12_12_040134) do
     t.string "email_address"
     t.string "phone_number"
     t.string "crm_identifier"
-    t.string "source"
     t.string "crm_url"
+    t.string "source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
