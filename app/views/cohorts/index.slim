@@ -4,6 +4,7 @@ section.section
 
 section.section
   .container
+
     nav.level
       .level-left
       .level-right
@@ -12,6 +13,7 @@ section.section
             span.icon
               i.fas.fa-plus
             span Cohort
+
     table.table.is-bordered.is-striped.is-fullwidth
       thead
         tr
@@ -25,4 +27,4 @@ section.section
             td = cohort.begins_on
             td = cohort.ends_on
 
-    == pagy_nav_bulma(@pagy)
+    == pagy_bulma_nav(@pagy)

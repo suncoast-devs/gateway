@@ -4,6 +4,26 @@ section.section
 
 section.section
   .container
+
+    nav.level
+      .level-left
+        .level-item
+          = form_tag(people_path, method: :get) do
+            .field.has-addons
+              .control
+                = text_field_tag :q, @query, placeholder: "Search People", class: "input"
+              - if @query
+                .control
+                  = link_to people_path, class: "button is-info" do
+                    span.icon
+                      i.fas.fa-times
+      .level-right
+        .level-item
+          = link_to new_person_path, class: 'button' do
+            span.icon
+              i.fas.fa-plus
+            span Person
+
     table.table.is-bordered.is-striped.is-fullwidth
       thead
         tr
@@ -20,4 +40,4 @@ section.section
             td
               - if person.crm_url.present?
                 = link_to person.crm_identifier, person.crm_url
-    == pagy_nav_bulma(@pagy)
+    == pagy_bulma_nav(@pagy)

@@ -8,7 +8,9 @@ class PeopleController < ApplicationController
   before_action :find_person, only: [:show, :edit, :update, :destroy]
 
   def index
+    @query = params[:q]
     scope = Person.order(created_at: :desc)
+    scope = scope.where('full_name ILIKE ?', "%#{@query}%") if @query.present?
     @pagy, @people = pagy(scope)
   end
 
