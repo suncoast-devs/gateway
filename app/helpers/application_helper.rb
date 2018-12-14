@@ -28,4 +28,8 @@ module ApplicationHelper
   def usd(amount)
     number_to_currency amount, unit: '$'
   end
+
+  def markdown(markdown)
+    CommonMarker.render_html(markdown, :DEFAULT).html_safe
+  end
 end

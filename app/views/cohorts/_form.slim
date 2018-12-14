@@ -39,6 +39,15 @@ section.section
       .field.is-horizontal
         .field-label
         .field-body
+          .field
+            .control
+              = form.check_box :is_enrolling, class: "checkbox"
+              | &nbsp;
+              = form.label :is_enrolling, class: "checkbox"
+
+      .field.is-horizontal
+        .field-label
+        .field-body
           .field.is-grouped
             .control
               = form.submit class: "button is-primary"

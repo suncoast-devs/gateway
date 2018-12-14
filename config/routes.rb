@@ -5,9 +5,16 @@ Rails.application.routes.draw do
     resources :notes, only: %i[create update destroy]
   end
 
-  resources :people
-  resources :invoices
-  resources :cohorts, except: [:show]
+  resources :people do
+    resources :program_acceptances, except: %i[index destroy] do
+      member do
+        patch 'send'
+      end
+    end
+  end
+
+  resources :invoices, only: %i[index show new create]
+  resources :cohorts, except: %i[show]
 
   get "sign_in", to: redirect("/auth/#{Rails.env.production? ? :google_oauth2 : :developer}")
   get "sign_out", to: "sessions#destroy"

@@ -37,7 +37,13 @@ section.section
               span.icon
                 i.fas.fa-edit
 
-    h4.title.is-4 Program Applications
+    nav.level
+      .level-left
+        .level-item
+          h4.title.is-4 Program Applications
+      .level-right
+        .level-item
+          = link_to "Accept into Program", new_person_program_acceptance_path(@person), class: 'button is-primary'
     = render partial: 'program_applications/list', locals: { program_applications: @person.program_applications }
 
     nav.level

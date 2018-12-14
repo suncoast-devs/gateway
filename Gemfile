@@ -18,9 +18,11 @@ gem 'rack-cors'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 
+gem 'commonmarker'
 gem 'mailchimp-api', require: 'mailchimp'
 gem 'nutshell-crm-api'
 gem 'pagy'
+gem 'postmark'
 gem 'slim'
 gem 'stripe'
 

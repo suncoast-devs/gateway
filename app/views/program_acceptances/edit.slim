@@ -1,0 +1,26 @@
+section.section
+  .container
+    h1.title Program Acceptance
+    h2.subtitle
+      em for
+      =< @person.full_name
+
+section.section
+  .container
+    table.table
+      tr
+        th Cohort
+        td = @program_acceptance.cohort.name
+      tr
+        th Tuition Reduction / Scholarship
+        td = usd(@program_acceptance.tuition_reduction)
+
+    = form_for([@person, @program_acceptance]) do |form|
+      .field
+        = form.label :notification_body, "Acceptance Notification", class: "label"
+        .control
+          = form.text_area :notification_body, class: 'textarea', rows: 20
+
+      .field
+        .control
+          = form.submit "Save", class: "button is-primary"

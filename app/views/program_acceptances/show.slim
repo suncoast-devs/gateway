@@ -1,0 +1,28 @@
+section.section
+  .container
+    h1.title Program Acceptance
+    h2.subtitle
+      em for
+      =< @person.full_name
+
+section.section
+  .container
+    table.table
+      tr
+        th Cohort
+        td = @program_acceptance.cohort.name
+      tr
+        th Tuition Reduction / Scholarship
+        td = usd(@program_acceptance.tuition_reduction)
+
+    .box
+      = markdown(@program_acceptance.notification_body)
+
+    nav.level
+      .level-left
+      .level-right
+        .level-item
+          = form_tag([:send, @person, @program_acceptance], method: :patch)
+            .field.has-addons
+              .control
+              button.button.is-primary Deliver Acceptance

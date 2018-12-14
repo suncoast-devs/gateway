@@ -20,11 +20,16 @@ section.section
           th Name
           th Begins
           th Ends
+          th Enrolling
       tbody
         - @cohorts.each do |cohort|
           tr
             td = link_to cohort.name, [:edit, cohort]
             td = cohort.begins_on
             td = cohort.ends_on
+            td
+              - if cohort.is_enrolling?
+                span.icon
+                  i.fas.fa-check-circle
 
     == pagy_bulma_nav(@pagy)

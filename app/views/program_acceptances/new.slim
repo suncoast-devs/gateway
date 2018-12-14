@@ -1,0 +1,40 @@
+section.section
+  .container
+    h1.title Program Acceptance
+    h2.subtitle
+      em for
+      =< @person.full_name
+
+section.section
+  .container
+    = form_for([@person, @program_acceptance]) do |form|
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :cohort_id, class: "label"
+        .field-body
+          .field
+            .control
+              .select
+                = form.collection_select(:cohort_id, Cohort.enrolling, :id, :name)
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :tuition_reduction, "Tuition Reduction", class: "label"
+        .field-body
+          .field.has-addons
+            .control
+              a.button.is-static
+                span.icon.is-left
+                  i.fas.fa-dollar-sign.fa-sm
+            .control
+              = form.number_field :tuition_reduction, class: "input"
+
+      .field.is-horizontal
+        .field-label
+        .field-body
+          .field.is-grouped
+            .control
+              = form.submit "Next", class: "button is-primary"
+            .control
+              = link_to "Cancel", @person, class: "button is-text"
