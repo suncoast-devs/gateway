@@ -14,8 +14,9 @@ class ProgramAcceptancesController < ApplicationController
 
   def create
     @program_acceptance = @person.program_acceptances.new(program_acceptance_params)
-
     if @program_acceptance.save
+      # No job, this needs to be done synchronously before redirect.
+      CreateProgramAcceptance.call @program_acceptance.id
       redirect_to [:edit, @person, @program_acceptance]
     else
       render :new

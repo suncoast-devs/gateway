@@ -16,7 +16,7 @@ section.section
           .field
             .control
               .select
-                = form.collection_select(:cohort_id, Cohort.enrolling, :id, :name)
+                = form.collection_select(:cohort_id, Cohort.enrolling, :id, :display_name)
 
       .field.is-horizontal
         .field-label.is-normal

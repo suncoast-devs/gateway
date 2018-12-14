@@ -10,7 +10,7 @@ section.section
     table.table
       tr
         th Cohort
-        td = @program_acceptance.cohort.name
+        td = @program_acceptance.cohort.display_name
       tr
         th Tuition Reduction / Scholarship
         td = usd(@program_acceptance.tuition_reduction)
