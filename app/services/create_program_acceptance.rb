@@ -11,17 +11,20 @@ class CreateProgramAcceptance
   end
 
   def call
-    # :due_on, invoice_items_attributes: [:description, :quantity, :amount]
+    # Enrollment Agreement
+    CreateEnrollmentAgreement.call(@program_acceptance.id)
+    @program_acceptance.reload
+
+    # Deposit Invoice
     due_date = [@cohort.begins_on - 7.days, 1.day.from_now].max
     @invoice = @person.invoices.create(due_on: due_date,
                                        invoice_items_attributes: [
-                                         { description: 'Tuition Deposit', quantity: 1, amount: 1000 }
+                                         {description: "Tuition Deposit", quantity: 1, amount: 1000},
                                        ])
     CreateInvoice.call(@invoice.id)
     @invoice.reload
     @program_acceptance.update(deposit_invoice: @invoice,
                                notification_body: notification_template)
-
   end
 
   private
@@ -29,6 +32,8 @@ class CreateProgramAcceptance
   def notification_template
     <<~TEMPLATE
       Welcome to Cohort #{@cohort.name}!
+
+      [Sign enrollment agreement](#{@program_acceptance.enrollment_agreement_url})
 
       [Pay your deposit](#{@invoice.payment_url})
     TEMPLATE

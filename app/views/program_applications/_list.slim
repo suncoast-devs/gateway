@@ -1,8 +1,7 @@
 table.program-applications.table.is-bordered.is-striped.is-fullwidth
   thead
     tr
-      - unless controller.controller_name == 'people'
-        th Applicant
+      th Applicant
       th Program
       th.has-text-centered
         abbr title=("Application Complete?")  App
@@ -20,9 +19,8 @@ table.program-applications.table.is-bordered.is-striped.is-fullwidth
   tbody
     - program_applications.each do |program_application|
       tr
-        - unless controller.controller_name == 'people'
-          td
-            = link_to program_application.person.full_name, program_application.person
+        td
+          = link_to program_application.person.full_name, program_application.person
         td
           = link_to program_application.program.titleize, program_application
         td.has-text-centered
@@ -45,20 +43,20 @@ table.program-applications.table.is-bordered.is-striped.is-fullwidth
             span.icon.has-text-grey-light
               i.fas.fa-check-circle
         td.has-text-centered
-          - if program_application.academic_signoff.nil?
+          - if program_application.administrative_signoff.nil?
             span.icon.has-text-light
               i.fas.fa-question-circle
-          - elsif program_application.academic_signoff
+          - elsif program_application.administrative_signoff
             span.icon.has-text-success
               i.fas.fa-check-circle
           - else
             span.icon.has-text-danger
               i.fas.fa-ban
         td.has-text-centered
-          - if program_application.administrative_signoff.nil?
+          - if program_application.academic_signoff.nil?
             span.icon.has-text-light
               i.fas.fa-question-circle
-          - elsif program_application.administrative_signoff
+          - elsif program_application.academic_signoff
             span.icon.has-text-success
               i.fas.fa-check-circle
           - else

@@ -27,7 +27,7 @@ class ProgramAcceptancesController < ApplicationController
     if @program_acceptance.update(program_acceptance_params)
       redirect_to [@person, @program_acceptance]
     else
-      render  [:edit, @person, @program_acceptance]
+      render [:edit, @person, @program_acceptance]
     end
   end
 
@@ -42,6 +42,6 @@ class ProgramAcceptancesController < ApplicationController
   end
 
   def program_acceptance_params
-    params.require(:program_acceptance).permit(:cohort_id, :tuition_reduction, :notification_body)
+    params.require(:program_acceptance).permit(:cohort_id, :program_application_id, :tuition_reduction, :notification_body)
   end
 end

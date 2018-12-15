@@ -4,6 +4,7 @@ This app manages student's admission applications to the Academy at Suncoast Dev
 
 ## TODO List
 
-* [ ] Sync approve/reject for sign-offs to nutshell
-* [ ] Error handling for service objects and jobs
-* [ ] Tests 😬
+- [x] Sync approve/reject for sign-offs to nutshell
+- [ ] Error handling for service objects and jobs
+- [ ] Tests 😬
+- [ ] Automate download of executed agreements to Google Drive

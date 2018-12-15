@@ -37,14 +37,85 @@ section.section
               span.icon
                 i.fas.fa-edit
 
-    nav.level
-      .level-left
-        .level-item
-          h4.title.is-4 Program Applications
-      .level-right
-        .level-item
-          = link_to "Accept into Program", new_person_program_acceptance_path(@person), class: 'button is-primary'
-    = render partial: 'program_applications/list', locals: { program_applications: @person.program_applications }
+    h4.title.is-4 Program Applications
+
+    table.program-applications.table.is-bordered.is-striped.is-fullwidth
+      thead
+        tr
+          th Program
+          th.has-text-centered
+            abbr title=("Application Complete?")  App
+          th.has-text-centered
+            abbr title=("Interview(s) Scheduled?")  Int
+          th.has-text-centered
+            abbr title=("Administrative Sign-off?")  Ad SO
+          th.has-text-centered
+            abbr title=("Academic Sign-off?")  Ac SO
+          th.has-text-centered
+            abbr title=("Acceptance Sent?")  Acc
+          th
+
+      tbody
+        - @person.program_applications.each do |program_application|
+          tr
+            td
+              = link_to program_application.program.titleize, program_application
+            td.has-text-centered
+              - case program_application.application_status
+              - when "incomplete"
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - when "complete"
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+            td.has-text-centered
+              - case program_application.interview_status
+              - when "pending"
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - when "scheduled"
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+              - when "skipped"
+                span.icon.has-text-grey-light
+                  i.fas.fa-check-circle
+            td.has-text-centered
+              - if program_application.administrative_signoff.nil?
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - elsif program_application.administrative_signoff
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+              - else
+                span.icon.has-text-danger
+                  i.fas.fa-ban
+            td.has-text-centered
+              - if program_application.academic_signoff.nil?
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - elsif program_application.academic_signoff
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+              - else
+                span.icon.has-text-danger
+                  i.fas.fa-ban
+            td.has-text-centered
+              - case program_application.acceptance_status
+              - when "unsent"
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - when "send"
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+              - when "rejected"
+                span.icon.has-text-danger
+                  i.fas.fa-check-ban
+            td.has-text-centered
+              - if program_application.program == "web-development"
+                - if program_application.program_acceptance.present?
+                  = link_to "Acceptance", [@person, program_application.program_acceptance]
+                - else
+                  = link_to "Accept", new_person_program_acceptance_path(@person, app: program_application.id), class: 'button is-primary is-small'
 
     nav.level
       .level-left
