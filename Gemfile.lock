@@ -238,6 +238,8 @@ GEM
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
+    sentry-raven (2.7.4)
+      faraday (>= 0.7.6, < 1.0)
     slim (4.0.1)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -308,6 +310,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   selenium-webdriver
+  sentry-raven
   slim
   spring
   spring-watcher-listen (~> 2.0.0)

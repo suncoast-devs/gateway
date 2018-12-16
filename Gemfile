@@ -28,6 +28,8 @@ gem "premailer-rails"
 gem "slim"
 gem "stripe"
 
+gem "sentry-raven"
+
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
 end
