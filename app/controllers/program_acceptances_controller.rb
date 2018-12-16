@@ -6,7 +6,7 @@ class ProgramAcceptancesController < ApplicationController
 
   before_action :authenticate!
   before_action :find_person
-  before_action :find_program_acceptance, only: [:show, :edit, :update, :send]
+  before_action :find_program_acceptance, only: [:show, :edit, :update, :deliver]
 
   def new
     @program_acceptance = @person.program_acceptances.new
@@ -29,6 +29,14 @@ class ProgramAcceptancesController < ApplicationController
     else
       render [:edit, @person, @program_acceptance]
     end
+  end
+
+  def show
+  end
+
+  def deliver
+    DeliverProgramAcceptanceJob.perform_later(@program_acceptance.id)
+    redirect_to @person, notice: "Delivering program acceptance email."
   end
 
   private

@@ -3,7 +3,7 @@ section.section
     h1.title Program Acceptance
     h2.subtitle
       em for
-      =< @person.full_name
+      =< link_to @person.full_name, @person
 
 section.section
   .container
@@ -16,13 +16,15 @@ section.section
         td = usd(@program_acceptance.tuition_reduction)
 
     .box
-      = markdown(@program_acceptance.notification_body)
+      .content
+        = markdown(@program_acceptance.notification_body)
 
-    nav.level
-      .level-left
-      .level-right
-        .level-item
-          = form_tag([:send, @person, @program_acceptance], method: :patch)
-            .field.has-addons
-              .control
-              button.button.is-primary Deliver Acceptance
+    - unless @program_acceptance.sent_at
+      nav.level
+        .level-left
+        .level-right
+          .level-item
+            = form_tag([:deliver, @person, @program_acceptance], method: :patch)
+              .field.has-addons
+                .control
+                button.button.is-primary Deliver Acceptance

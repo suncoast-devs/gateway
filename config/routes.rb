@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :people do
     resources :program_acceptances, except: %i[index destroy] do
       member do
-        patch 'send'
+        patch "deliver"
       end
     end
   end
