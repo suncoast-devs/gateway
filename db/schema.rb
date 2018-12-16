@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_14_041805) do
+ActiveRecord::Schema.define(version: 2018_12_16_233919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2018_12_14_041805) do
     t.bigint "invoice_id"
     t.string "description"
     t.integer "quantity"
-    t.integer "amount"
+    t.decimal "amount", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
@@ -61,8 +61,8 @@ ActiveRecord::Schema.define(version: 2018_12_14_041805) do
     t.string "email_address"
     t.string "phone_number"
     t.string "crm_identifier"
-    t.string "crm_url"
     t.string "source"
+    t.string "crm_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 2018_12_14_041805) do
     t.datetime "sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "message_id"
     t.index ["cohort_id"], name: "index_program_acceptances_on_cohort_id"
     t.index ["deposit_invoice_id"], name: "index_program_acceptances_on_deposit_invoice_id"
     t.index ["person_id"], name: "index_program_acceptances_on_person_id"

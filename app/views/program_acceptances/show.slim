@@ -1,9 +1,19 @@
 section.section
   .container
-    h1.title Program Acceptance
-    h2.subtitle
-      em for
-      =< link_to @person.full_name, @person
+    - unless @program_acceptance.sent_at
+      nav.level
+        .level-left
+          .div
+            h1.title Program Acceptance
+            h2.subtitle
+              em for
+              =< link_to @person.full_name, @person
+        .level-right
+          .level-item
+            = form_tag([:deliver, @person, @program_acceptance], method: :patch)
+              .field.has-addons
+                .control
+                button.button.is-primary Deliver Acceptance
 
 section.section
   .container
@@ -18,13 +28,3 @@ section.section
     .box
       .content
         = markdown(@program_acceptance.notification_body)
-
-    - unless @program_acceptance.sent_at
-      nav.level
-        .level-left
-        .level-right
-          .level-item
-            = form_tag([:deliver, @person, @program_acceptance], method: :patch)
-              .field.has-addons
-                .control
-                button.button.is-primary Deliver Acceptance
