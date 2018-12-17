@@ -146,4 +146,4 @@ section.section
 
     ul.activity-timeline
       - @person.notes.each do |note|
-        = render partial: "notes/#{note.note_type}", locals: { note: note }
+        = render partial: "notes/#{note.note_type.underscore}", locals: { note: note }
