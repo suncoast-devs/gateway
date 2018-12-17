@@ -10,7 +10,7 @@ class PeopleController < ApplicationController
   def index
     @query = params[:q]
     scope = Person.order(created_at: :desc)
-    scope = scope.where('full_name ILIKE ?', "%#{@query}%") if @query.present?
+    scope = scope.where("full_name ILIKE ?", "%#{@query}%") if @query.present?
     @pagy, @people = pagy(scope)
   end
 
@@ -26,7 +26,7 @@ class PeopleController < ApplicationController
     @person = Person.new(person_params)
 
     if @person.save
-      redirect_to @person, notice: "#{@person.name} created."
+      redirect_to @person, notice: "#{@person.full_name} created."
     else
       render :new
     end
@@ -34,7 +34,7 @@ class PeopleController < ApplicationController
 
   def update
     if @person.update(person_params)
-      redirect_to @person, notice: "#{@person.name} updated."
+      redirect_to @person, notice: "#{@person.full_name} updated."
     else
       render :edit
     end
