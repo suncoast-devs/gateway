@@ -143,3 +143,7 @@ section.section
                 span.icon.has-text-warning
                   i.fas.fa-ban
             td = usd(invoice.invoice_items.sum(:amount))
+
+    ul.activity-timeline
+      - @person.notes.each do |note|
+        = render partial: "notes/#{note.note_type}", locals: { note: note }

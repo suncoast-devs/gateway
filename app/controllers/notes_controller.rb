@@ -7,7 +7,8 @@ class NotesController < ApplicationController
   before_action :find_note, only: %i[update destroy]
 
   def create
-    @program_application.notes.create(note_params) do |note|
+    @program_application.person.notes.create(note_params) do |note|
+      note.note_type = 'comment'
       note.user = current_user
     end
     redirect_to @program_application
@@ -26,7 +27,7 @@ class NotesController < ApplicationController
   private
 
   def find_note
-    @note = @program_application.notes.find(params[:id])
+    @note = @program_application.person.notes.find(params[:id])
   end
 
   def find_program_application
