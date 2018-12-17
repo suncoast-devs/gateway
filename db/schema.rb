@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_14_041805) do
+ActiveRecord::Schema.define(version: 2018_12_17_002714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -52,7 +52,9 @@ ActiveRecord::Schema.define(version: 2018_12_14_041805) do
     t.text "message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "notable_id"
+    t.jsonb "data", default: "{}", null: false
+    t.text "note_type"
+    t.bigint "notable_id"
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
@@ -78,6 +80,7 @@ ActiveRecord::Schema.define(version: 2018_12_14_041805) do
     t.datetime "sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "message_id"
     t.index ["cohort_id"], name: "index_program_acceptances_on_cohort_id"
     t.index ["deposit_invoice_id"], name: "index_program_acceptances_on_deposit_invoice_id"
     t.index ["person_id"], name: "index_program_acceptances_on_person_id"
