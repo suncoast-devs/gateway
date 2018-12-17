@@ -85,7 +85,7 @@
     <div class="columns">
       <div class="column is-three-quarters">
         <div class="notes">
-          <% @program_application.person.notes.order(created_at: :asc).each do |note| %>
+          <% @program_application.person.notes.where(note_type: 'comment').order(created_at: :asc).each do |note| %>
             <article class="media">
               <figure class="media-left">
                 <p class="image is-64x64">
