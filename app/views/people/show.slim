@@ -145,5 +145,5 @@ section.section
             td = usd(invoice.invoice_items.sum(:amount))
 
     ul.activity-timeline
-      - @person.notes.each do |note|
+      - @person.notes.order(created_at: :asc).each do |note|
         = render partial: "notes/#{note.note_type.underscore}", locals: { note: note }
