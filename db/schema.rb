@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_17_002714) do
+ActiveRecord::Schema.define(version: 2019_01_02_212345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2018_12_17_002714) do
     t.bigint "invoice_id"
     t.string "description"
     t.integer "quantity"
-    t.integer "amount"
+    t.decimal "amount", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
@@ -63,10 +63,11 @@ ActiveRecord::Schema.define(version: 2018_12_17_002714) do
     t.string "email_address"
     t.string "phone_number"
     t.string "crm_identifier"
-    t.string "crm_url"
     t.string "source"
+    t.string "crm_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ac_contact_identifier"
   end
 
   create_table "program_acceptances", force: :cascade do |t|
@@ -99,6 +100,7 @@ ActiveRecord::Schema.define(version: 2018_12_17_002714) do
     t.integer "acceptance_status", default: 0
     t.boolean "is_hidden", default: false
     t.bigint "person_id"
+    t.string "ac_deal_identifier"
     t.index ["person_id"], name: "index_program_applications_on_person_id"
   end
 

@@ -18,14 +18,16 @@ class SubmitApplication
 
   def update_crm_status
     lead = @nutshell.get_lead(@program_application.person.crm_identifier)
-    note = link_note
+    options = { note: link_note }
+    if @program_application.program == 'web-development'
+      options[:customFields] = { 'Application': 'Complete' }
+      ConnectProgramApplicationToActiveCampaign.call(@program_application.id)
+    end
+
     @nutshell.edit_lead(
       @program_application.person.crm_identifier,
       lead['rev'],
-      note: note,
-      customFields: {
-        'Application': 'Complete'
-      }
+      options
     )
   end
 
