@@ -12,7 +12,7 @@ class ApplyController < ApplicationController
   #   "phone_number": "(727) 555-1234"
   # }
   def create
-    @person = Person.find_or_create_by(email_address: params[:email_address]) do |person|
+    @person = Person.find_or_create_by(email_address: params[:email_address].downcase) do |person|
       person.phone_number = params[:phone_number]
       person.full_name = params[:full_name]
       person.source = "#{params[:program].parameterize}-program-application"

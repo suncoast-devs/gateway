@@ -20,12 +20,12 @@ class CreateLead
     @phone = phone
     @note = note
 
-    Person.where(email_address: email).first_or_initialize do |person|
-      person.full_name ||= [given_name, family_name].join(' ')
+    Person.where(email_address: email.downcase).first_or_initialize do |person|
+      person.full_name ||= [given_name, family_name].join(" ")
       person.phone_number ||= phone
       person.source ||= source.parameterize
-      person.crm_identifier ||= lead['id']
-      person.crm_url ||= lead['htmlUrl']
+      person.crm_identifier ||= lead["id"]
+      person.crm_url ||= lead["htmlUrl"]
       person.save!
     end
   end
@@ -34,9 +34,9 @@ class CreateLead
     if @source == "mailing-list"
       mailchimp = Mailchimp::API.new(Rails.application.credentials.mailchimp_api_key)
       mailchimp.lists.subscribe("ee85c9fa69",
-                                { email: @email },
-                                { FNAME: @given_name, LNAME: @family_name },
-                                'html')
+                                {email: @email},
+                                {FNAME: @given_name, LNAME: @family_name},
+                                "html")
     end
   end
 
@@ -68,9 +68,9 @@ class CreateLead
     options = {
       contacts: [{id: contact["id"]}],
       sources: sources,
-      note: ["Created via #{@source.to_s.humanize.downcase} lead capture.", @note].compact
+      note: ["Created via #{@source.to_s.humanize.downcase} lead capture.", @note].compact,
     }
-    options[:products] = [{ id: 4 }] if ["catalog", "tour-rsvp"].include? @source
+    options[:products] = [{id: 4}] if ["catalog", "tour-rsvp"].include? @source
     @nutshell.new_lead(options)
   end
 end
