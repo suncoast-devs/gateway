@@ -4,6 +4,7 @@
 # application to the Academy.
 class ProgramApplication < ApplicationRecord
   belongs_to :person
+  belongs_to :program_enrollment
   has_one :program_acceptance
   has_many :notes, as: :notable
 

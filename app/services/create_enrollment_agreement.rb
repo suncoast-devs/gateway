@@ -12,9 +12,6 @@ class CreateEnrollmentAgreement
 
   def call
     response = HTTP.post(eversign_url, json: document_data).parse
-    puts response["signers"]
-    puts response["signers"].first
-    puts response["signers"].first["embedded_signing_url"]
     @program_acceptance.update(enrollment_agreement_url: response["signers"].first["embedded_signing_url"])
   end
 

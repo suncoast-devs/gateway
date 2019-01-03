@@ -1,0 +1,182 @@
+section.section
+  .container
+    .columns
+      .column
+        h1.title= link_to @person.full_name, @person
+        h2.subtitle
+          = @program_enrollment.program.titleize
+          |  Program Enrollment
+        .tags
+          - @person.tags.each do |tag|
+            span.tag= tag.name
+      .column.is-3
+        nav.panel.contact-information
+          p.panel-heading Enrollment Details
+          .panel-block
+            nav.level
+              .level-left
+                .level-item
+                  strong Cohort
+              .level-right
+                .level-item
+                  = @program_enrollment.cohort&.display_name
+          .panel-block
+            nav.level
+              .level-left
+                .level-item
+                  strong Stage
+              .level-right
+                .level-item
+                  = @program_enrollment.stage.titleize
+          .panel-block
+            nav.level
+              .level-left
+                .level-item
+                  strong Status
+              .level-right
+                .level-item
+                  = @program_enrollment.status.titleize
+          - if @program_enrollment.accepted? || @program_enrollment.enrolled?
+            .panel-block
+              nav.level
+                .level-left
+                  .level-item
+                    strong Deposit
+                .level-right
+                  .level-item
+                    - if @program_enrollment.deposit_required?
+                      = @program_enrollment.deposit_paid ? "Paid" : "Unpaid"
+                    - else
+                      | N/A
+            .panel-block
+              nav.level
+                .level-left
+                  .level-item
+                    strong Enrollment Agreement
+                .level-right
+                  .level-item
+                    = @program_enrollment.enrollment_agreement_complete? ? "Yes" : "No"
+            .panel-block
+              nav.level
+                .level-left
+                  .level-item
+                    strong Financial Clearance
+                .level-right
+                  .level-item
+                    = @program_enrollment.financial_clearance || "No"
+
+          .panel-block
+            nav.level
+                .level-left
+                .level-right
+                  .level-item
+                    = link_to [:edit, @program_enrollment] do
+                      span.icon
+                        i.fas.fa-edit
+
+      .column.is-2
+        nav.panel.contact-information
+          p.panel-heading Contact Information
+          .panel-block
+            nav.level
+              .level-left
+                .level-item
+                  span.icon
+                    i.fas.fa-envelope
+              .level-right
+                .level-item
+                  = mail_to @person.email_address
+          .panel-block
+            nav.level
+              .level-left
+                .level-item
+                  span.icon
+                    i.fas.fa-mobile-alt
+              .level-right
+                .level-item
+                  = link_to @person.phone_number, "tel:#{@person.phone_number}"
+
+
+    h4.title.is-4 Applications
+
+    table.program-applications.table.is-bordered.is-striped.is-fullwidth
+      thead
+        tr
+          th Program
+          th.has-text-centered
+            abbr title=("Application Complete?")  App
+          th.has-text-centered
+            abbr title=("Interview(s) Scheduled?")  Int
+          th.has-text-centered
+            abbr title=("Administrative Sign-off?")  Ad SO
+          th.has-text-centered
+            abbr title=("Academic Sign-off?")  Ac SO
+          th.has-text-centered
+            abbr title=("Acceptance Sent?")  Acc
+          th
+
+      tbody
+        - @person.program_applications.each do |program_application|
+          tr
+            td
+              = link_to program_application.program.titleize, program_application
+            td.has-text-centered
+              - case program_application.application_status
+              - when "incomplete"
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - when "complete"
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+            td.has-text-centered
+              - case program_application.interview_status
+              - when "pending"
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - when "scheduled"
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+              - when "skipped"
+                span.icon.has-text-grey-light
+                  i.fas.fa-check-circle
+            td.has-text-centered
+              - if program_application.administrative_signoff.nil?
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - elsif program_application.administrative_signoff
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+              - else
+                span.icon.has-text-danger
+                  i.fas.fa-ban
+            td.has-text-centered
+              - if program_application.academic_signoff.nil?
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - elsif program_application.academic_signoff
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+              - else
+                span.icon.has-text-danger
+                  i.fas.fa-ban
+            td.has-text-centered
+              - case program_application.acceptance_status
+              - when "unsent"
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - when "sent"
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+              - when "rejected"
+                span.icon.has-text-danger
+                  i.fas.fa-check-ban
+            td.has-text-centered
+              - if program_application.program == "web-development"
+                - if program_application.program_acceptance.present?
+                  = link_to "Acceptance", [@person, program_application.program_acceptance]
+                - else
+                  = link_to "Accept", new_person_program_acceptance_path(@person, app: program_application.id), class: 'button is-primary is-small'
+
+    ul.activity-timeline
+      - @person.notes.order(created_at: :asc).each do |note|
+        = render partial: "notes/#{note.note_type.underscore}", locals: { note: note }

@@ -1,10 +1,12 @@
 section.section
   .container
-    h1.title People
+    h1.title
+      | People
+    - if @tag
+      h2.subtitle tagged with &ldquo;#{@tag.name}&rdquo;
 
 section.section
   .container
-
     nav.level
       .level-left
         .level-item
@@ -17,6 +19,23 @@ section.section
                   = link_to people_path, class: "button is-info" do
                     span.icon
                       i.fas.fa-times
+        .level-item
+          = form_tag(people_path, method: :get) do
+            .field.has-addons
+              .control.has-icons-left
+                .select
+                  = select_tag :t, options_from_collection_for_select(Tag.all, :id, :name, @tag&.id), include_blank: true
+                .icon.is-small.is-left
+                  i.fas.fa-tag
+              .control
+                - if @tag
+                  = link_to people_path, class: "button is-info" do
+                    span.icon
+                      i.fas.fa-times
+                - else
+                  button.button[type="submit"]
+                    span.icon
+                      i.fas.fa-filter
       .level-right
         .level-item
           = link_to new_person_path, class: 'button' do
@@ -30,14 +49,11 @@ section.section
           th Name
           th Email
           th Phone Number
-          th CRM
       tbody
         - @people.each do |person|
           tr
             td = link_to person.full_name, person
             td = person.email_address
             td = person.phone_number
-            td
-              - if person.crm_url.present?
-                = link_to person.crm_identifier, person.crm_url
+
     == pagy_bulma_nav(@pagy)

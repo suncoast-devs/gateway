@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_02_212345) do
+ActiveRecord::Schema.define(version: 2019_01_03_073021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -68,6 +68,9 @@ ActiveRecord::Schema.define(version: 2019_01_02_212345) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ac_contact_identifier"
+    t.string "preferred_communication"
+    t.string "shirt_size"
+    t.string "dietary_note"
   end
 
   create_table "program_acceptances", force: :cascade do |t|
@@ -82,10 +85,12 @@ ActiveRecord::Schema.define(version: 2019_01_02_212345) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "message_id"
+    t.bigint "program_enrollment_id"
     t.index ["cohort_id"], name: "index_program_acceptances_on_cohort_id"
     t.index ["deposit_invoice_id"], name: "index_program_acceptances_on_deposit_invoice_id"
     t.index ["person_id"], name: "index_program_acceptances_on_person_id"
     t.index ["program_application_id"], name: "index_program_acceptances_on_program_application_id"
+    t.index ["program_enrollment_id"], name: "index_program_acceptances_on_program_enrollment_id"
   end
 
   create_table "program_applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -100,8 +105,43 @@ ActiveRecord::Schema.define(version: 2019_01_02_212345) do
     t.integer "acceptance_status", default: 0
     t.boolean "is_hidden", default: false
     t.bigint "person_id"
-    t.string "ac_deal_identifier"
+    t.bigint "program_enrollment_id"
     t.index ["person_id"], name: "index_program_applications_on_person_id"
+    t.index ["program_enrollment_id"], name: "index_program_applications_on_program_enrollment_id"
+  end
+
+  create_table "program_enrollments", force: :cascade do |t|
+    t.bigint "person_id"
+    t.bigint "cohort_id"
+    t.string "program"
+    t.string "ac_deal_identifier"
+    t.integer "stage", default: 3, null: false
+    t.integer "status", default: 0, null: false
+    t.boolean "deposit_required"
+    t.boolean "deposit_paid"
+    t.boolean "enrollment_agreement_complete"
+    t.string "financial_clearance"
+    t.string "lost_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cohort_id"], name: "index_program_enrollments_on_cohort_id"
+    t.index ["person_id"], name: "index_program_enrollments_on_person_id"
+  end
+
+  create_table "taggings", force: :cascade do |t|
+    t.bigint "tag_id"
+    t.string "taggable_type"
+    t.bigint "taggable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -120,4 +160,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_212345) do
   add_foreign_key "program_acceptances", "people"
   add_foreign_key "program_acceptances", "program_applications"
   add_foreign_key "program_applications", "people"
+  add_foreign_key "program_enrollments", "cohorts"
+  add_foreign_key "program_enrollments", "people"
+  add_foreign_key "taggings", "tags"
 end

@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     resources :notes, only: %i[create update destroy]
   end
 
+  resources :program_enrollments, only: %i[index show edit update], path: "enrollments"
+
   resources :people do
     resources :program_acceptances, except: %i[index destroy] do
       member do

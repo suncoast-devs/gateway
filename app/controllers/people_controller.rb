@@ -11,6 +11,12 @@ class PeopleController < ApplicationController
     @query = params[:q]
     scope = Person.order(created_at: :desc)
     scope = scope.where("full_name ILIKE ?", "%#{@query}%") if @query.present?
+
+    if params[:t].present?
+      @tag = Tag.find(params[:t])
+      scope = scope.joins(:tags).merge(Tag.where(id: @tag.id))
+    end
+
     @pagy, @people = pagy(scope)
   end
 
@@ -50,6 +56,6 @@ class PeopleController < ApplicationController
   end
 
   def person_params
-    params.require(:person).permit(:full_name, :email_address, :phone_number, :source)
+    params.require(:person).permit(:full_name, :email_address, :phone_number, :source, :tag_list, :preferred_communication, :shirt_size, :dietary_note)
   end
 end

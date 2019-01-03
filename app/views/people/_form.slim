@@ -35,6 +35,41 @@ section.section
               = form.phone_field :phone_number, class: "input"
 
       .field.is-horizontal
+        .field-label.is-normal
+          = form.label :tag_list, class: "label"
+        .field-body
+          .field
+            .control
+              = form.phone_field :tag_list, class: "input"
+            p.help Comma-separated list
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :preferred_communication, class: "label"
+        .field-body
+          .field
+            .control
+              .select
+                = form.select :preferred_communication, ["SMS", "Phone", "Email", "Slack"], include_blank: true, class: "input"
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :shirt_size, class: "label"
+        .field-body
+          .field
+            .control
+              .select
+                = form.select :shirt_size, ["XS", "S", "M", "L", "XXL", "XXXL", "XS (W)", "S (W)", "M (W)", "L (W)", "XL (W)"], include_blank: true, class: "input"
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :dietary_note, class: "label"
+        .field-body
+          .field
+            .control
+              = form.text_field :dietary_note, class: "input"
+
+      .field.is-horizontal
         .field-label
         .field-body
           .field.is-grouped

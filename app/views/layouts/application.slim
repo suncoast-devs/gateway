@@ -23,6 +23,7 @@ html
           .navbar-start
             - if signed_in?
               = link_to "People", people_path, class: "navbar-item #{current_controller? 'people'}"
+              = link_to "Enrollment", program_enrollments_path, class: "navbar-item #{current_controller? 'program_enrollments'}"
               = link_to "Applications", program_applications_path, class: "navbar-item #{current_controller? 'program_applications'}"
           .navbar-end
             .navbar-item

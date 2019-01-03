@@ -3,6 +3,7 @@ table.program-applications.table.is-bordered.is-striped.is-fullwidth
     tr
       th Applicant
       th Program
+      th Stage
       th.has-text-centered
         abbr title=("Application Complete?")  App
       th.has-text-centered
@@ -20,9 +21,11 @@ table.program-applications.table.is-bordered.is-striped.is-fullwidth
     - program_applications.each do |program_application|
       tr
         td
-          = link_to program_application.person.full_name, program_application.person
+          = link_to program_application.person.full_name, program_application
         td
           = link_to program_application.program.titleize, program_application
+        td
+          = link_to program_application.program_enrollment.stage.titleize, program_application.program_enrollment
         td.has-text-centered
           - case program_application.application_status
           - when "incomplete"

@@ -1,0 +1,40 @@
+section.section
+  .container
+    h1.title Enrollment
+
+section.section
+  .container
+    nav.level
+      .level-left
+        .level-item
+          = form_tag(program_enrollments_path, method: :get) do
+            .field.has-addons
+              .control
+                = text_field_tag :q, @query, placeholder: "Search People", class: "input"
+              - if @query
+                .control
+                  = link_to program_enrollments_path, class: "button is-info" do
+                    span.icon
+                      i.fas.fa-times
+
+    table.table.is-bordered.is-striped.is-fullwidth
+      thead
+        tr
+          th Name
+          th Stage
+          th Status
+          th Cohort
+          th.has-text-centered
+            span.icon
+              i.fas.fa-stopwatch
+      tbody
+        - @program_enrollments.each do |enrollment|
+          tr
+            td = link_to enrollment.person.full_name, enrollment
+            td = link_to enrollment.stage.titleize, enrollment
+            td = link_to enrollment.status.titleize, enrollment
+            td = enrollment.cohort&.display_name
+            td.has-text-centered
+              = time_tag(enrollment.created_at) { time_ago_in_words(enrollment.created_at) }
+
+    == pagy_bulma_nav(@pagy)
