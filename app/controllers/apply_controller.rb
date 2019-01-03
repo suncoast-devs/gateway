@@ -18,10 +18,10 @@ class ApplyController < ApplicationController
       person.source = "#{params[:program].parameterize}-program-application"
     end
     @program_application = @person.program_applications.create! create_params
-    SyncCrmsJob.perform_later(@person.id)
+    # SyncCrmsJob.perform_later(@person.id)
     LocateCRMIdentifierJob.perform_later(@person.id, @program_application.id)
     SubmitApplicationJob.perform_later(@program_application.id) unless @program_application.question_responses.empty?
-    render json: { id: @program_application.id }
+    render json: {id: @program_application.id}
   end
 
   # PATCH /apply/:idea
@@ -35,7 +35,7 @@ class ApplyController < ApplicationController
     puts(update_params)
     @program_application.update update_params
     SubmitApplicationJob.perform_later(@program_application.id)
-    render json: { ok: true }
+    render json: {ok: true}
   end
 
   private
