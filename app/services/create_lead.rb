@@ -20,7 +20,7 @@ class CreateLead
     @phone = phone
     @note = note
 
-    Person.where(email_address: email.downcase).first_or_initialize do |person|
+    Person.where("lower(email_address) = ?", email.downcase).first_or_initialize do |person|
       person.full_name ||= [given_name, family_name].join(" ")
       person.phone_number ||= phone
       person.source ||= source.parameterize

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_073021) do
+ActiveRecord::Schema.define(version: 2019_01_03_124526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(version: 2019_01_03_073021) do
     t.string "email_address"
     t.string "phone_number"
     t.string "crm_identifier"
-    t.string "source"
     t.string "crm_url"
+    t.string "source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ac_contact_identifier"
@@ -117,13 +117,14 @@ ActiveRecord::Schema.define(version: 2019_01_03_073021) do
     t.string "ac_deal_identifier"
     t.integer "stage", default: 3, null: false
     t.integer "status", default: 0, null: false
-    t.boolean "deposit_required"
+    t.boolean "deposit_required", default: true
     t.boolean "deposit_paid"
     t.boolean "enrollment_agreement_complete"
     t.string "financial_clearance"
     t.string "lost_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "referrer"
     t.index ["cohort_id"], name: "index_program_enrollments_on_cohort_id"
     t.index ["person_id"], name: "index_program_enrollments_on_person_id"
   end

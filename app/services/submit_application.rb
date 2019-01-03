@@ -12,25 +12,9 @@ class SubmitApplication
   def call
     @program_application.update(application_status: :complete)
     update_crm_status
-    create_program_enrollment
   end
 
   private
-
-  def create_program_enrollment
-    if @program_application.program == "web-development"
-      if @program_application.person.program_enrollments.count > 0
-        # TODO: Eventually this will need to be refactored, if we offer more than one type of program.
-        @program_application.update(program_enrollment: @program_application.person.program_enrollments.first)
-      else
-        ProgramEnrollment.create({
-          person: @program_application.person,
-          program: web_development,
-          program_applications: [@program_application],
-        })
-      end
-    end
-  end
 
   def update_crm_status
     lead = @nutshell.get_lead(@program_application.person.crm_identifier)
