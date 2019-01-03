@@ -9,7 +9,7 @@ section.section
   .container
     = form_for([@person, @program_acceptance]) do |form|
       = form.hidden_field :program_application_id, value: params[:app]
-      = form.hidden_field :program_enrollment_id, value: ProgramApplication.find(params[:app]).program_enrollment_id # TODO: UGG, fix this.
+      = form.hidden_field :program_enrollment_id, value: ProgramApplication.find(params[:app]).program_enrollment_id
       .field.is-horizontal
         .field-label.is-normal
           = form.label :cohort_id, class: "label"

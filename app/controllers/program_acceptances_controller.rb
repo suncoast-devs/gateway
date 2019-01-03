@@ -50,6 +50,6 @@ class ProgramAcceptancesController < ApplicationController
   end
 
   def program_acceptance_params
-    params.require(:program_acceptance).permit(:cohort_id, :program_application_id, :tuition_reduction, :notification_body)
+    params.require(:program_acceptance).permit(:cohort_id, :program_application_id, :program_enrollment_id, :tuition_reduction, :notification_body)
   end
 end
