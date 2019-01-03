@@ -8,14 +8,77 @@ section.section
       .level-left
         .level-item
           = form_tag(program_enrollments_path, method: :get) do
+            = hidden_field_tag :cohort, @cohort if @cohort
+            = hidden_field_tag :stage, @stage if @stage
+            = hidden_field_tag :status, @status if @status
             .field.has-addons
               .control
-                = text_field_tag :q, @query, placeholder: "Search People", class: "input"
-              - if @query
+                = text_field_tag :query, @query, placeholder: "Search People", class: "input"
+              - if @query.present?
                 .control
-                  = link_to program_enrollments_path, class: "button is-info" do
+                  = link_to program_enrollments_path(cohort: @cohort, status: @status, stage: @stage), class: "button is-info" do
                     span.icon
                       i.fas.fa-times
+        .level-item
+          = form_tag(program_enrollments_path, method: :get) do
+            = hidden_field_tag :stage, @stage if @stage
+            = hidden_field_tag :status, @status if @status
+            = hidden_field_tag :query, @query if @query
+            .field.has-addons
+              .control.has-icons-left
+                .select
+                  = select_tag :cohort, options_from_collection_for_select(Cohort.order(begins_on: :ASC), :name, :display_name, @cohort), include_blank: true, disabled: @cohort
+                .icon.is-small.is-left
+                  i.fas.fa-users
+              .control
+                - if @cohort
+                  = link_to program_enrollments_path(status: @status, stage: @stage, query: @query), class: "button is-info" do
+                    span.icon
+                      i.fas.fa-times
+                - else
+                  button.button[type="submit"]
+                    span.icon
+                      i.fas.fa-filter
+        .level-item
+          = form_tag(program_enrollments_path, method: :get) do
+            = hidden_field_tag :cohort, @cohort if @cohort
+            = hidden_field_tag :status, @status if @status
+            = hidden_field_tag :query, @query if @query
+            .field.has-addons
+              .control.has-icons-left
+                .select
+                  = select_tag :stage, options_for_select(ProgramEnrollment.stages.keys.map { |k| [k.titleize, k] }, @stage), include_blank: true, disabled: @stage
+                .icon.is-small.is-left
+                  i.fas.fa-tasks
+              .control
+                - if @stage.present?
+                  = link_to program_enrollments_path(cohort: @cohort, status: @status, query: @query), class: "button is-info" do
+                    span.icon
+                      i.fas.fa-times
+                - else
+                  button.button[type="submit"]
+                    span.icon
+                      i.fas.fa-filter
+        .level-item
+          = form_tag(program_enrollments_path, method: :get) do
+            = hidden_field_tag :cohort, @cohort if @cohort
+            = hidden_field_tag :stage, @stage if @stage
+            = hidden_field_tag :query, @query if @query
+            .field.has-addons
+              .control.has-icons-left
+                .select
+                  = select_tag :status, options_for_select(ProgramEnrollment.statuses.keys.map { |k| [k.titleize, k] }, @status), include_blank: true, disabled: @status
+                .icon.is-small.is-left
+                  i.fas.fa-flag
+              .control
+                - if @status.present?
+                  = link_to program_enrollments_path(cohort: @cohort, stage: @stage, query: @query), class: "button is-info" do
+                    span.icon
+                      i.fas.fa-times
+                - else
+                  button.button[type="submit"]
+                    span.icon
+                      i.fas.fa-filter
 
     table.table.is-bordered.is-striped.is-fullwidth
       thead

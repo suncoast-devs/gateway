@@ -3,6 +3,6 @@
 # Provides home page
 class HomeController < ApplicationController
   def index
-    redirect_to :program_applications if signed_in?
+    redirect_to :program_enrollments if signed_in?
   end
 end

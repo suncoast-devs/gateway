@@ -8,12 +8,22 @@ class ProgramEnrollmentsController < ApplicationController
   before_action :find_program_enrollment, only: %i[show edit update]
 
   def index
-    @query = params[:q]
+    @query = params[:query]
+    @status = params[:status]
+    @stage = params[:stage]
+    @cohort = params[:cohort]
 
     scope = ProgramEnrollment.joins(:person).order(created_at: :desc)
+    scope = scope.where("people.full_name ILIKE ?", "%#{@query}%") if @query.present?
+    scope = scope.where(status: @status.split(",")) if @status.present?
+    scope = scope.where(stage: @stage.split(",")) if @stage.present?
 
-    if @query.present?
-      scope = scope.where("people.full_name ILIKE ?", "%#{@query}%")
+    unless @cohort.nil?
+      if @cohort.blank?
+        scope = scope.where(cohort_id: nil)
+      else
+        scope = scope.joins(:cohort).merge(Cohort.where(name: @cohort.split(",")))
+      end
     end
 
     @pagy, @program_enrollments = pagy(scope)
