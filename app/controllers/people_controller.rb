@@ -40,7 +40,7 @@ class PeopleController < ApplicationController
 
   def update
     if @person.update(person_params)
-      # SyncCrmsJob.perform_later(@person.id)
+      SyncCrmsJob.perform_later(@person.id)
       redirect_to @person, notice: "#{@person.full_name} updated."
     else
       render :edit

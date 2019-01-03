@@ -17,7 +17,7 @@ class CreateProgramEnrollment
       else
         program_start = @program_application.question_responses["When are you hoping to start the program?"]
         cohort_name = program_start.match(/Cohort ([IVX]+)/)[1] || "Future"
-        ProgramEnrollment.create!({
+        enrollment = ProgramEnrollment.create!({
           cohort: Cohort.where(name: cohort_name).first,
           person: @program_application.person,
           program: "web-development",

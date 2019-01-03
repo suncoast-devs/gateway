@@ -19,7 +19,7 @@ class ApplyController < ApplicationController
       person.source = "#{params[:program].parameterize}-program-application"
     end
     @program_application = @person.program_applications.create! create_params
-    # SyncCrmsJob.perform_later(@person.id)
+    SyncCrmsJob.perform_later(@person.id)
     # LocateCRMIdentifierJob.perform_later(@person.id, @program_application.id)
     # SubmitApplicationJob.perform_later(@program_application.id) unless @program_application.question_responses.empty?
     @program_application.update(application_status: :complete) unless @program_application.question_responses.empty?
