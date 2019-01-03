@@ -21,7 +21,7 @@ section.section
           .field
             .control
               .select
-                = form.collection_select(:cohort_id, Cohort.all.order(begins_on: :ASC), :id, :display_name)
+                = form.collection_select(:cohort_id, Cohort.all.order(begins_on: :ASC), :id, :display_name, include_blank: true)
 
       .field.is-horizontal
         .field-label.is-normal

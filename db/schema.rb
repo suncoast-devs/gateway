@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(version: 2019_01_03_124526) do
     t.string "email_address"
     t.string "phone_number"
     t.string "crm_identifier"
-    t.string "crm_url"
     t.string "source"
+    t.string "crm_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ac_contact_identifier"
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_124526) do
     t.integer "acceptance_status", default: 0
     t.boolean "is_hidden", default: false
     t.bigint "person_id"
+    t.string "ac_deal_identifier"
     t.bigint "program_enrollment_id"
     t.index ["person_id"], name: "index_program_applications_on_person_id"
     t.index ["program_enrollment_id"], name: "index_program_applications_on_program_enrollment_id"
