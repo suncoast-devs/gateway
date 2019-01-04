@@ -13,7 +13,7 @@ class HooksController < ApplicationController
   #    source: "mailing-list"
   # }
   def lead
-    CreateLeadJob.perform_later(params[:email], params[:givenName], params[:familyName], params[:source], params[:phone], params[:note])
+    CreateLead.call_later(params[:email], params[:givenName], params[:familyName], params[:source], params[:phone], params[:note])
     head :ok
   end
 

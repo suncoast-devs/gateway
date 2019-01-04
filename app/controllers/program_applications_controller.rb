@@ -13,7 +13,7 @@ class ProgramApplicationsController < ApplicationController
     scope = ProgramApplication.joins(:person).order(created_at: :desc)
 
     if @query.present?
-      scope = scope.where('people.full_name ILIKE ?', "%#{@query}%")
+      scope = scope.where("people.full_name ILIKE ?", "%#{@query}%")
     else
       # Only use this scope if search query isn't present (i.e., allow searching hidden applications)
       scope = params[:hidden] ? scope.hidden : scope.visible
@@ -30,10 +30,10 @@ class ProgramApplicationsController < ApplicationController
     @program_application.update program_application_params
     # TODO: Refactor this?
     if @program_application.saved_change_to_academic_signoff?
-      UpdateSignoffJob.perform_later(@program_application.id, 'academic_signoff')
+      UpdateSignoff.call_later(@program_application.id, "academic_signoff")
     end
     if @program_application.saved_change_to_administrative_signoff?
-      UpdateSignoffJob.perform_later(@program_application.id, 'administrative_signoff')
+      UpdateSignoff.call_later(@program_application.id, "administrative_signoff")
     end
     redirect_to @program_application
   end

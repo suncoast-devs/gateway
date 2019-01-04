@@ -23,6 +23,7 @@ class CreateProgramEnrollment
           program: "web-development",
           program_applications: [@program_application],
         })
+        ConnectProgramEnrollmentToActiveCampaign.call_later(enrollment.id)
       end
     end
   end

@@ -26,7 +26,7 @@ class InvoicesController < ApplicationController
     @person = @invoice.person
 
     if @invoice.save
-      CreateInvoiceJob.perform_later @invoice.id
+      CreateInvoice.call_later @invoice.id
       redirect_to @invoice, notice: "Invoice created."
     else
       render :new

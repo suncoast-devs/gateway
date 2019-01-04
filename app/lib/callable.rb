@@ -8,5 +8,9 @@ module Callable
     def call(*args)
       new(*args).call
     end
+
+    def call_later(*args)
+      AsyncServiceJob.perform_later(self.name, *args)
+    end
   end
 end

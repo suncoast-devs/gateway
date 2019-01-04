@@ -15,7 +15,7 @@ class ProgramAcceptancesController < ApplicationController
   def create
     @program_acceptance = @person.program_acceptances.new(program_acceptance_params)
     if @program_acceptance.save
-      # No job, this needs to be done synchronously before redirect.
+      # NOTE: This needs to be done synchronously before redirect, so no call_later.
       CreateProgramAcceptance.call @program_acceptance.id
       redirect_to [:edit, @person, @program_acceptance]
     else
@@ -35,7 +35,7 @@ class ProgramAcceptancesController < ApplicationController
   end
 
   def deliver
-    DeliverProgramAcceptanceJob.perform_later(@program_acceptance.id)
+    DeliverProgramAcceptance.call_later(@program_acceptance.id)
     redirect_to @person, notice: "Delivering program acceptance email."
   end
 
