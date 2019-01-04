@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     post "lead", to: "hooks#lead"
     post "/hooks/stripe", to: "hooks#stripe"
     post "/hooks/postmark", to: "hooks#postmark"
+    post "/hooks/activecampaign", to: "hooks#activecampaign"
   end
 
   root to: "home#index"

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# TODO: Refactor into Service Objects
 class HooksController < ApplicationController
   before_action :honey_pot
   skip_before_action :verify_authenticity_token
@@ -44,6 +45,27 @@ class HooksController < ApplicationController
              end
       @program_acceptance.person.notes.create note_type: "email-event", message: note, data: request.request_parameters
     end
+    head :ok
+  end
+
+  def activecampaign
+    case params[:type]
+    when "deal_update"
+      enrollment = ProgramEnrollment.where(ac_deal_identifier: params[:deal][:id]).first
+      if enrollment
+        enrollment.update(status: params[:deal][:status].to_i, stage: params[:deal][:stageid].to_i)
+      end
+    when "update"
+      person = Person.where(ac_contact_identifier: params[:contact][:id]).first
+      if person
+        person.full_name = [params[:contact][:first_name], params[:contact][:last_name]].join(" ")
+        person.email_address = params[:contact][:email] if params[:contact][:email].present?
+        person.phone_number = params[:contact][:phone] if params[:contact][:phone].present?
+        person.save
+      end
+    else
+    end
+
     head :ok
   end
 end
