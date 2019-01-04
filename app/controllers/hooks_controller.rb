@@ -63,7 +63,15 @@ class HooksController < ApplicationController
         person.phone_number = params[:contact][:phone] if params[:contact][:phone].present?
         person.save
       end
-    else
+    when "subscribe"
+      @person = Person.where("lower(email_address) = ?", params[:contact][:email].downcase).first_or_initialize do |person|
+        person.full_name = [params[:contact][:first_name], params[:contact][:last_name]].join(" ")
+        person.email_address = params[:contact][:email] if params[:contact][:email].present?
+        person.phone_number = params[:contact][:phone] if params[:contact][:phone].present?
+        person.source = "active-campaign"
+        person.ac_contact_identifier = params[:contact][:id]
+        person.save
+      end
     end
 
     head :ok

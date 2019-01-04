@@ -9,7 +9,8 @@ class ConnectPersonToActiveCampaign
   end
 
   def call
-    @person.update ac_contact_identifier: contact['id']
+    return unless Rail.environment.production?
+    @person.update ac_contact_identifier: contact["id"]
   end
 
   private
@@ -17,13 +18,13 @@ class ConnectPersonToActiveCampaign
   def contact
     first_name, last_name = FullNameSplitter.split(@person.full_name)
     @contact ||= begin
-      ActiveCampaign.post('contact/sync',
+      ActiveCampaign.post("contact/sync",
                           contact: {
                             firstName: first_name,
                             lastName: last_name,
                             email: @person.email_address,
-                            phone: @person.phone_number
-                          })['contact']
+                            phone: @person.phone_number,
+                          })["contact"]
     end
   end
 end
