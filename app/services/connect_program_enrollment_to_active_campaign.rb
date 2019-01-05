@@ -9,7 +9,7 @@ class ConnectProgramEnrollmentToActiveCampaign
   end
 
   def call
-    return unless Rails.environment.production?
+    return unless Rails.env.production?
     @program_enrollment.update ac_deal_identifier: deal["id"] unless @program_enrollment.ac_deal_identifier
   end
 

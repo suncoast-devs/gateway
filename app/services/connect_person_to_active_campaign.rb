@@ -9,7 +9,7 @@ class ConnectPersonToActiveCampaign
   end
 
   def call
-    return unless Rails.environment.production?
+    return unless Rails.env.production?
     @person.update ac_contact_identifier: contact["id"]
   end
 
