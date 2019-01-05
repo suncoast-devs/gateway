@@ -14,7 +14,7 @@ class SyncProgramEnrollmentToActiveCampaign
                        deal: {
                          stage: ProgramEnrollment.stages[@program_enrollment.stage].to_s,
                          status: ProgramEnrollment.statuses[@program_enrollment.status].to_s,
-                         title: "#{person.full_name} (Cohort #{@program_enrollment.cohort.name})",
+                         title: "#{@program_enrollment.person.full_name} (Cohort #{@program_enrollment.cohort.name})",
                        })
   end
 
