@@ -12,7 +12,7 @@ module ActiveCampaign
     HTTP.headers("Api-Token" => API_KEY).post("#{BASE_URL}/#{action}", json: params).parse
   end
 
-  def self.post(action, params = nil)
+  def self.put(action, params = nil)
     HTTP.headers("Api-Token" => API_KEY).put("#{BASE_URL}/#{action}", json: params).parse
   end
 end
