@@ -27,9 +27,10 @@ Rails.application.routes.draw do
     post "apply", to: "apply#create"
     patch "apply/:id", to: "apply#update"
     post "lead", to: "hooks#lead"
-    post "/hooks/stripe", to: "hooks#stripe"
-    post "/hooks/postmark", to: "hooks#postmark"
-    post "/hooks/activecampaign", to: "hooks#activecampaign"
+
+    ["stripe", "postmark", "activecampaign", "slack"].each do |hook|
+      post "/hooks/#{hook}", to: "hooks##{hook}"
+    end
   end
 
   root to: "home#index"
