@@ -12,7 +12,6 @@ class CreateLead
   }
 
   def initialize(email, given_name, family_name, source, phone, note)
-    @nutshell = Nutshell.client
     @email = email
     @given_name = given_name
     @family_name = family_name
@@ -24,13 +23,12 @@ class CreateLead
       person.full_name ||= [given_name, family_name].join(" ")
       person.phone_number ||= phone
       person.source ||= source.parameterize
-      person.crm_identifier ||= lead["id"]
-      person.crm_url ||= lead["htmlUrl"]
       person.save!
     end
   end
 
   def call
+    return unless Rails.env.production?
     ConnectPersonToActiveCampaign.call_later @person.id
 
     if @source == "mailing-list"

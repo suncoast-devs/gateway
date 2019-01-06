@@ -9,19 +9,20 @@ class CreateInvoice
   end
 
   def call
+    return unless Rails.env.production?
     @invoice.invoice_items.each do |item|
       Stripe::InvoiceItem.create(
         unit_amount: (item.amount * 100).to_i,
-        currency: 'usd',
+        currency: "usd",
         customer: customer_id,
         quantity: item.quantity,
-        description: item.description
+        description: item.description,
       )
     end
     invoice = Stripe::Invoice.create(
       customer: customer_id,
-      billing: 'send_invoice',
-      due_date: @invoice.due_on.future? ? @invoice.due_on.to_time.to_i : 7.days.from_now.to_i
+      billing: "send_invoice",
+      due_date: @invoice.due_on.future? ? @invoice.due_on.to_time.to_i : 7.days.from_now.to_i,
     ).finalize_invoice
     @invoice.update(stripe_id: invoice.id, payment_url: invoice.hosted_invoice_url)
   end
@@ -35,7 +36,7 @@ class CreateInvoice
     @customer_id = if customers.data.empty?
                      Stripe::Customer.create(
                        email: @invoice.person.email_address,
-                       description: @invoice.person.full_name
+                       description: @invoice.person.full_name,
                      ).id
                    else
                      customers.data.first.id
