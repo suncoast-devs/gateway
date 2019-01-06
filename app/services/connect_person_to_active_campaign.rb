@@ -10,14 +10,14 @@ class ConnectPersonToActiveCampaign
 
   def call
     return unless Rails.env.production?
-    @person.update ac_contact_identifier: contact["id"]
+    @person.update ac_contact_identifier: contact["id"] if contact
   end
 
   private
 
   def contact
-    first_name, last_name = FullNameSplitter.split(@person.full_name)
     @contact ||= begin
+      first_name, last_name = FullNameSplitter.split(@person.full_name)
       ActiveCampaign.post("contact/sync",
                           contact: {
                             firstName: first_name,
