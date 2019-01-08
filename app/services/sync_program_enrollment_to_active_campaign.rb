@@ -5,11 +5,11 @@ class SyncProgramEnrollmentToActiveCampaign
   include Callable
 
   AC_FIELD_IDS = {
-    deposit_outstanding: "2",
-    enrollment_agreement_signed: "3",
-    financially_cleared: "4",
-    deposit_invoice_url: "5",
-    enrollment_agreement_url: "6",
+    deposit_outstanding: "1",
+    deposit_invoice_url: "2",
+    sea_signed: "3",
+    sea_sign_url: "4",
+    financially_cleared: "5",
   }
 
   def initialize(program_enrollment_id)
@@ -24,32 +24,23 @@ class SyncProgramEnrollmentToActiveCampaign
                          status: ProgramEnrollment.statuses[@program_enrollment.status].to_s,
                          title: "#{@program_enrollment.person.full_name} (Cohort #{@program_enrollment.cohort.name})",
                        })
-    %i[
-      deposit_outstanding deposit_invoice_url
-      enrollment_agreement_signed financially_cleared
-      enrollment_agreement_url
-    ].each do |n|
+    AC_FIELD_IDS.keys.each do |n|
       value = @program_enrollment.send "ac_#{n}_value"
       ac_field = @program_enrollment.send("ac_#{n}_field")
+      data = {
+        fieldValue: {
+          contact: @program_enrollment.person.ac_contact_identifier,
+          field: AC_FIELD_IDS[n],
+          value: value,
+        },
+      }
       if ac_field
         # Update existing custom field datum
-        ActiveCampaign.put("dealCustomFieldData/#{ac_field}", {
-          dealCustomFieldDatum: {
-            fieldValue: value,
-          },
-        })
+        ActiveCampaign.put("fieldValues/#{ac_field}", data)
       else
         # Create custom field datum
-        response = ActiveCampaign.post("dealCustomFieldData", {
-          dealCustomFieldDatum: {
-            dealId: @program_enrollment.ac_deal_identifier,
-            custom_field_id: AC_FIELD_IDS[n],
-            fieldValue: value,
-          },
-        })
-        if response["dealCustomFieldDatum"]
-          @program_enrollment.update("ac_#{n}_field": response["dealCustomFieldDatum"]["id"])
-        end
+        response = ActiveCampaign.post("fieldValues", data)["fieldValue"]
+        @program_enrollment.update("ac_#{n}_field": response["id"]) if response
       end
     end
   end

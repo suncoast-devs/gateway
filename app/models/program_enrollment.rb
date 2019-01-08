@@ -20,11 +20,11 @@ class ProgramEnrollment < ApplicationRecord
     deposit_invoice&.payment_url
   end
 
-  def ac_enrollment_agreement_signed_value
+  def ac_sea_signed_value
     enrollment_agreement_complete ? "Yes" : "No"
   end
 
-  def ac_enrollment_agreement_url_value
+  def ac_sea_sign_url_value
     current_program_acceptance&.enrollment_agreement_url
   end
 
