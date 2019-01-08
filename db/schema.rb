@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_08_152202) do
+ActiveRecord::Schema.define(version: 2019_01_08_194818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -121,6 +121,11 @@ ActiveRecord::Schema.define(version: 2019_01_08_152202) do
     t.datetime "updated_at", null: false
     t.string "referrer"
     t.bigint "deposit_invoice_id"
+    t.string "ac_deposit_outstanding_field"
+    t.string "ac_enrollment_agreement_signed_field"
+    t.string "ac_financially_cleared_field"
+    t.string "ac_deposit_invoice_url_field"
+    t.string "ac_enrollment_agreement_url_field"
     t.index ["cohort_id"], name: "index_program_enrollments_on_cohort_id"
     t.index ["deposit_invoice_id"], name: "index_program_enrollments_on_deposit_invoice_id"
     t.index ["person_id"], name: "index_program_enrollments_on_person_id"

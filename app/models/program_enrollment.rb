@@ -7,4 +7,28 @@ class ProgramEnrollment < ApplicationRecord
 
   enum status: {active: 0, won: 1, lost: 2, cancelled: 3, pending: 4}
   enum stage: {applied: 3, interviewing: 4, accepted: 5, enrolled: 6}
+
+  def current_program_acceptance
+    program_acceptances.order(created_at: :desc).first
+  end
+
+  def ac_deposit_outstanding_value
+    deposit_required? && deposit_paid? ? "Yes" : "No"
+  end
+
+  def ac_deposit_invoice_url_value
+    deposit_invoice&.payment_url
+  end
+
+  def ac_enrollment_agreement_signed_value
+    enrollment_agreement_complete ? "Yes" : "No"
+  end
+
+  def ac_enrollment_agreement_url_value
+    current_program_acceptance&.enrollment_agreement_url
+  end
+
+  def ac_financially_cleared_value
+    financial_clearance.present? ? "Yes" : "No"
+  end
 end
