@@ -17,7 +17,7 @@ class SyncProgramEnrollmentToActiveCampaign
   end
 
   def call
-    return unless Rails.env.production?
+    return unless Rails.env.production? && @program_enrollment.ac_deal_identifier
     ActiveCampaign.put("deals/#{@program_enrollment.ac_deal_identifier}",
                        deal: {
                          stage: ProgramEnrollment.stages[@program_enrollment.stage].to_s,
