@@ -32,6 +32,13 @@ class SyncProgramEnrollmentToActiveCampaign
       value = @program_enrollment.send "ac_#{n}_value"
       ac_field = @program_enrollment.send("ac_#{n}_field")
       if ac_field
+        # Update existing custom field datum
+        ActiveCampaign.put("dealCustomFieldData/#{ac_field}", {
+          dealCustomFieldDatum: {
+            fieldValue: value,
+          },
+        })
+      else
         # Create custom field datum
         response = ActiveCampaign.post("dealCustomFieldData", {
           dealCustomFieldDatum: {
@@ -43,13 +50,6 @@ class SyncProgramEnrollmentToActiveCampaign
         if response["dealCustomFieldDatum"]
           @program_enrollment.update("ac_#{n}_field": response["dealCustomFieldDatum"]["id"])
         end
-      else
-        # Update existing custom field datum
-        ActiveCampaign.put("dealCustomFieldData/#{ac_field}", {
-          dealCustomFieldDatum: {
-            fieldValue: value,
-          },
-        })
       end
     end
   end
