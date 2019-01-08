@@ -6,6 +6,7 @@ class CreateProgramAcceptance
 
   def initialize(program_acceptance_id)
     @program_acceptance = ProgramAcceptance.find(program_acceptance_id)
+    @program_enrollment = @program_acceptance.program_enrollment
     @cohort = @program_acceptance.cohort
     @person = @program_acceptance.person
   end
@@ -15,16 +16,19 @@ class CreateProgramAcceptance
     CreateEnrollmentAgreement.call(@program_acceptance.id)
     @program_acceptance.reload
 
-    # Deposit Invoice
-    due_date = [tuition_due_date, 1.day.from_now].max
-    @invoice = @person.invoices.create(due_on: due_date,
-                                       invoice_items_attributes: [
-                                         {description: "Tuition Deposit", quantity: 1, amount: 1000},
-                                       ])
-    CreateInvoice.call(@invoice.id)
-    @invoice.reload
-    @program_acceptance.update(deposit_invoice: @invoice,
-                               notification_body: notification_template)
+    unless @program_enrollment.deposit_invoice
+      # Deposit Invoice
+      due_date = [tuition_due_date, 1.day.from_now].max
+      @invoice = @person.invoices.create(due_on: due_date,
+                                         invoice_items_attributes: [
+                                           {description: "Tuition Deposit", quantity: 1, amount: 1000},
+                                         ])
+      CreateInvoice.call(@invoice.id)
+      @invoice.reload
+      @program_enrollment.update(deposit_invoice: @invoice)
+    end
+
+    @program_acceptance.update(notification_body: notification_template)
   end
 
   private

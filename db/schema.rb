@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_124526) do
+ActiveRecord::Schema.define(version: 2019_01_08_152202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(version: 2019_01_03_124526) do
     t.string "email_address"
     t.string "phone_number"
     t.string "crm_identifier"
-    t.string "source"
     t.string "crm_url"
+    t.string "source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "ac_contact_identifier"
@@ -74,10 +74,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_124526) do
   end
 
   create_table "program_acceptances", force: :cascade do |t|
-    t.bigint "person_id"
     t.bigint "cohort_id"
-    t.uuid "program_application_id"
-    t.bigint "deposit_invoice_id"
     t.integer "tuition_reduction", default: 0, null: false
     t.string "enrollment_agreement_url"
     t.text "notification_body"
@@ -86,10 +83,8 @@ ActiveRecord::Schema.define(version: 2019_01_03_124526) do
     t.datetime "updated_at", null: false
     t.string "message_id"
     t.bigint "program_enrollment_id"
+    t.string "enrollment_agreement_identifier"
     t.index ["cohort_id"], name: "index_program_acceptances_on_cohort_id"
-    t.index ["deposit_invoice_id"], name: "index_program_acceptances_on_deposit_invoice_id"
-    t.index ["person_id"], name: "index_program_acceptances_on_person_id"
-    t.index ["program_application_id"], name: "index_program_acceptances_on_program_application_id"
     t.index ["program_enrollment_id"], name: "index_program_acceptances_on_program_enrollment_id"
   end
 
@@ -105,7 +100,6 @@ ActiveRecord::Schema.define(version: 2019_01_03_124526) do
     t.integer "acceptance_status", default: 0
     t.boolean "is_hidden", default: false
     t.bigint "person_id"
-    t.string "ac_deal_identifier"
     t.bigint "program_enrollment_id"
     t.index ["person_id"], name: "index_program_applications_on_person_id"
     t.index ["program_enrollment_id"], name: "index_program_applications_on_program_enrollment_id"
@@ -126,7 +120,9 @@ ActiveRecord::Schema.define(version: 2019_01_03_124526) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "referrer"
+    t.bigint "deposit_invoice_id"
     t.index ["cohort_id"], name: "index_program_enrollments_on_cohort_id"
+    t.index ["deposit_invoice_id"], name: "index_program_enrollments_on_deposit_invoice_id"
     t.index ["person_id"], name: "index_program_enrollments_on_person_id"
   end
 
@@ -158,11 +154,9 @@ ActiveRecord::Schema.define(version: 2019_01_03_124526) do
   add_foreign_key "invoices", "people"
   add_foreign_key "notes", "users"
   add_foreign_key "program_acceptances", "cohorts"
-  add_foreign_key "program_acceptances", "invoices", column: "deposit_invoice_id"
-  add_foreign_key "program_acceptances", "people"
-  add_foreign_key "program_acceptances", "program_applications"
   add_foreign_key "program_applications", "people"
   add_foreign_key "program_enrollments", "cohorts"
+  add_foreign_key "program_enrollments", "invoices", column: "deposit_invoice_id"
   add_foreign_key "program_enrollments", "people"
   add_foreign_key "taggings", "tags"
 end

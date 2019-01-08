@@ -13,7 +13,10 @@ class CreateEnrollmentAgreement
   def call
     return unless Rails.env.production?
     response = HTTP.post(eversign_url, json: document_data).parse
-    @program_acceptance.update(enrollment_agreement_url: response["signers"].first["embedded_signing_url"])
+    @program_acceptance.update({
+      enrollment_agreement_identifier: response["document_hash"],
+      enrollment_agreement_url: response["signers"].first["embedded_signing_url"],
+    })
   end
 
   private

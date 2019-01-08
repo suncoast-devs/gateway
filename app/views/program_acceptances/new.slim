@@ -3,13 +3,20 @@ section.section
     h1.title Program Acceptance
     h2.subtitle
       em for
-      =< @person.full_name
+      =< @program_enrollment.person.full_name
 
 section.section
   .container
-    = form_for([@person, @program_acceptance]) do |form|
-      = form.hidden_field :program_application_id, value: params[:app]
-      = form.hidden_field :program_enrollment_id, value: ProgramApplication.find(params[:app]).program_enrollment_id
+    = form_for([@program_enrollment, @program_acceptance]) do |form|
+      - if @program_acceptance.errors.any?
+        .message
+          .message-header
+            p #{pluralize(@program_acceptance.errors.count, "error")} prohibited this acceptanc from being saved:
+          .message-body
+            ul
+              - @program_acceptance.errors.full_messages.each do |message|
+                li = message
+
       .field.is-horizontal
         .field-label.is-normal
           = form.label :cohort_id, class: "label"

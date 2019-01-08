@@ -9,7 +9,10 @@ section.section
         .tags
           - @person.tags.each do |tag|
             span.tag= tag.name
-      .column.is-3
+        p
+          = link_to "Deal in CRM", "https://sdg.activehosted.com/app/contacts/#{@person.ac_contact_identifier}/deal/#{@program_enrollment.ac_deal_identifier}", class: 'button', target:"_blank", rel: "noopener noreferrer"
+
+      .column.is-narrow
         nav.panel.contact-information
           p.panel-heading Enrollment Details
           .panel-block
@@ -74,7 +77,7 @@ section.section
                       span.icon
                         i.fas.fa-edit
 
-      .column.is-3
+      .column.is-narrow
         nav.panel.contact-information
           p.panel-heading Contact Information
           .panel-block
@@ -96,6 +99,15 @@ section.section
                 .level-item
                   = link_to @person.phone_number, "tel:#{@person.phone_number}"
 
+          .panel-block
+            nav.level
+                .level-left
+                .level-right
+                  .level-item
+                    = link_to [:edit, @person] do
+                      span.icon
+                        i.fas.fa-edit
+
 
     h4.title.is-4 Applications
 
@@ -104,16 +116,11 @@ section.section
         tr
           th Program
           th.has-text-centered
-            abbr title=("Application Complete?")  App
+            abbr title=("Application Complete?")  Complete
           th.has-text-centered
-            abbr title=("Interview(s) Scheduled?")  Int
+            abbr title=("Administrative Sign-off?")  Administrative
           th.has-text-centered
-            abbr title=("Administrative Sign-off?")  Ad SO
-          th.has-text-centered
-            abbr title=("Academic Sign-off?")  Ac SO
-          th.has-text-centered
-            abbr title=("Acceptance Sent?")  Acc
-          th
+            abbr title=("Academic Sign-off?")  Academic
 
       tbody
         - @person.program_applications.each do |program_application|
@@ -127,17 +134,6 @@ section.section
                   i.fas.fa-question-circle
               - when "complete"
                 span.icon.has-text-success
-                  i.fas.fa-check-circle
-            td.has-text-centered
-              - case program_application.interview_status
-              - when "pending"
-                span.icon.has-text-light
-                  i.fas.fa-question-circle
-              - when "scheduled"
-                span.icon.has-text-success
-                  i.fas.fa-check-circle
-              - when "skipped"
-                span.icon.has-text-grey-light
                   i.fas.fa-check-circle
             td.has-text-centered
               - if program_application.administrative_signoff.nil?
@@ -159,23 +155,30 @@ section.section
               - else
                 span.icon.has-text-danger
                   i.fas.fa-ban
-            td.has-text-centered
-              - case program_application.acceptance_status
-              - when "unsent"
-                span.icon.has-text-light
-                  i.fas.fa-question-circle
-              - when "sent"
-                span.icon.has-text-success
-                  i.fas.fa-check-circle
-              - when "rejected"
-                span.icon.has-text-danger
-                  i.fas.fa-check-ban
-            td.has-text-centered
-              - if program_application.program == "web-development"
-                - if program_application.program_acceptance.present?
-                  = link_to "Acceptance", [@person, program_application.program_acceptance]
-                - else
-                  = link_to "Accept", new_person_program_acceptance_path(@person, app: program_application.id), class: 'button is-primary is-small'
+
+    nav.level
+      .level-left
+        .level-item
+          h4.title.is-4 Acceptance
+      .level-right
+        .level-item
+          = link_to new_program_enrollment_program_acceptance_path(@program_enrollment), class: 'button is-primary is-small'
+            span.icon
+              i.fas.fa-plus
+            span Acceptance
+
+    table.table.is-fullwidth
+      thead
+        tr
+          th Cohort
+          th Tuition Reduction
+          th Date
+      tbody
+        - @program_enrollment.program_acceptances.each do |acceptance|
+          tr
+            td = link_to acceptance.cohort.display_name, [@program_enrollment, acceptance]
+            td = usd(acceptance.tuition_reduction)
+            td = acceptance.created_at
 
     ul.activity-timeline
       - @person.notes.order(created_at: :asc).each do |note|

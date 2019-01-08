@@ -1,6 +1,5 @@
 section.section
   .container
-    - unless @program_acceptance.sent_at
       nav.level
         .level-left
           .div
@@ -8,11 +7,12 @@ section.section
             h2.subtitle
               em for
               =< link_to @person.full_name, @person
-        .level-right
-          .level-item
-            = form_tag([:deliver, @person, @program_acceptance], method: :patch)
-              .field.has-addons
-                .control
+        - unless @program_acceptance.sent_at
+          .level-right
+            .level-item
+              = link_to "Edit", [:edit, @program_enrollment, @program_acceptance], class: 'button'
+            .level-item
+              = form_tag([:deliver, @program_enrollment, @program_acceptance], method: :patch)
                 button.button.is-primary Deliver Acceptance
 
 section.section
