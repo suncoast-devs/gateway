@@ -26,6 +26,8 @@ class CreateProgramAcceptance
       CreateInvoice.call(@invoice.id)
       @invoice.reload
       @program_enrollment.update(deposit_invoice: @invoice)
+    else
+      @invoice = @program_enrollment.deposit_invoice
     end
 
     @program_acceptance.update(notification_body: notification_template)
