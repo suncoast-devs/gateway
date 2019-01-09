@@ -5,7 +5,7 @@ namespace :sync do
     invoices.auto_paging_each do |invoice|
       next if Invoice.where(stripe_id: invoice.id).first
       customer = Stripe::Customer.retrieve(invoice.customer)
-      person = Person.where("lower(email_address) = ?", customer.email.downcase).first
+      person = Person.where("lower(email_address) = ?", customer&.email&.downcase).first
       next unless person
 
       gateway_invoice = person.invoices.create({
