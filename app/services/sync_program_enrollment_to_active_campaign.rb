@@ -10,6 +10,8 @@ class SyncProgramEnrollmentToActiveCampaign
     sea_signed: "3",
     sea_sign_url: "4",
     financially_cleared: "5",
+    cohort_start_date: "6",
+    cohort_name: "7",
   }
 
   def initialize(program_enrollment_id)

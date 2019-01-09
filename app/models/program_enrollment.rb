@@ -31,4 +31,12 @@ class ProgramEnrollment < ApplicationRecord
   def ac_financially_cleared_value
     financial_clearance.present? ? "Yes" : "No"
   end
+
+  def ac_cohort_start_date_value
+    cohort.begins_on.to_s
+  end
+
+  def ac_cohort_name_value
+    "Cohort #{cohort.name}"
+  end
 end
