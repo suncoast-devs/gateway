@@ -9,7 +9,7 @@ namespace :sync do
       next unless person
 
       gateway_invoice = person.invoices.create({
-        due_on: Time.at(invoice.due_date).to_date,
+        due_on: (Time.at(invoice.due_date).to_date rescue Date.today),
         is_paid: invoice.paid,
         stripe_id: invoice.id,
       })
