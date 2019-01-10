@@ -33,7 +33,7 @@ html
                     - current_user.name
                   p.control
                     = link_to "Sign Out", sign_out_path, class: "button is-primary"
-                - else
+                - elsif controller.controller_name != 'student'
                   p.control
                     = link_to "Sign In", sign_in_path, class: "button is-primary"
 

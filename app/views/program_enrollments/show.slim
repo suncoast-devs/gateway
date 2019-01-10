@@ -9,8 +9,9 @@ section.section
         .tags
           - @person.tags.each do |tag|
             span.tag= tag.name
-        p
+        .buttons
           = link_to "Deal in CRM", "https://sdg.activehosted.com/app/contacts/#{@person.ac_contact_identifier}/deal/#{@program_enrollment.ac_deal_identifier}", class: 'button', target:"_blank", rel: "noopener noreferrer"
+          = link_to "Student Status", student_status_url(@program_enrollment.status_locator), class: "button"
 
       .column.is-narrow
         nav.panel.contact-information

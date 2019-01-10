@@ -32,5 +32,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get "s/:locator", to: "student#status", as: :student_status
+
   root to: "home#index"
 end
