@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_14_185532) do
+ActiveRecord::Schema.define(version: 2019_01_14_195106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 2019_01_14_185532) do
     t.string "ac_cohort_start_date_field"
     t.string "ac_cohort_name_field"
     t.uuid "status_locator", default: -> { "gen_random_uuid()" }, null: false
+    t.string "ac_student_status_url_field"
     t.index ["cohort_id"], name: "index_program_enrollments_on_cohort_id"
     t.index ["deposit_invoice_id"], name: "index_program_enrollments_on_deposit_invoice_id"
     t.index ["person_id"], name: "index_program_enrollments_on_person_id"

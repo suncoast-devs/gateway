@@ -43,4 +43,10 @@ class ProgramEnrollment < ApplicationRecord
   def ac_student_status_url_value
     "https://gateway.suncoast.io/s/#{status_locator}"
   end
+
+  def self.sync_all
+    where(status: "active").each do |enrollment|
+      SyncProgramEnrollmentToActiveCampaign.call(enrollment.id)
+    end
+  end
 end
