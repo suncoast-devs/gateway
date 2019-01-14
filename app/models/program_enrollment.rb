@@ -39,4 +39,8 @@ class ProgramEnrollment < ApplicationRecord
   def ac_cohort_name_value
     "Cohort #{cohort.name}"
   end
+
+  def ac_student_status_url_value
+    "https://gateway.suncoast.io/s/#{status_locator}"
+  end
 end

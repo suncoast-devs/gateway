@@ -12,6 +12,7 @@ class SyncProgramEnrollmentToActiveCampaign
     financially_cleared: "5",
     cohort_start_date: "6",
     cohort_name: "7",
+    student_status_url: "9",
   }
 
   def initialize(program_enrollment_id)
