@@ -7,7 +7,7 @@
       h3.subtitle #{@program_enrollment.program.titleize} Program
 
     .columns.is-centered
-      .column.is-narrow
+      .column.is-5
 
         table.table.is-fullwidth
           tr
@@ -78,6 +78,42 @@
               - else
                 .fas.fa-circle
             | We'll see you in class on #{@program_enrollment.cohort.begins_on&.to_s(:long_ordinal)}!
+
+        article.message.is-info.is-small
+          .message-body
+            p If any of the above information is innacurate, or you have any questions; please #{mail_to "jason@suncoast.io", "let us know"}!
+
+
+        h4.title.is-4 Your next steps&hellip;
+
+        .content
+          p To keep your enrollment for #{@program_enrollment.cohort.name} on track, these are your next steps:
+
+          ol
+            - if @program_enrollment.accepted?
+              - unless @program_enrollment.enrollment_agreement_complete?
+                li
+                  strong Sign the Student Enrollment Agreement.
+                  - if @program_enrollment.program_acceptances.active.first
+                    p You can #{link_to "e-sign this agreement online now", @program_enrollment.program_acceptances.active.first.enrollment_agreement_url}.
+
+              - unless @program_enrollment.financial_clearance.present?
+                li
+                  strong Secure financing and/or pay tuition
+                  p If you plan on paying this tution in full (i.e. #{link_to "not financing", "https://suncoast.io/academy/tuition/financing"}), please reach out to #{mail_to "jason@suncoast.io", "Jason"} to make arrangement for the payment.
+              - if @program_enrollment.deposit_required? && !@program_enrollment.deposit_paid?
+                li
+                  strong Submit payment for your deposit.
+                  p You can pay #{link_to "this invoice online", @program_enrollment.deposit_invoice.payment_url} now.
+            - if @program_enrollment.applied?
+                li
+                  strong Schedule your interview
+                  p We've recieved your application, the next step will be an interview with our team. You can schedule it now:
+            - if @program_enrollment.interviewing?
+              li
+                strong Recieve a determination
+                p After your interview, you'll receive an email from us with a determination as to acceptance or rejection for the program.
+
 
     - if @program_enrollment.applied?
       .class.calendly-inline-widget[data-url="https://calendly.com/suncoastio/interview" style="min-width:320px;height:580px;"]

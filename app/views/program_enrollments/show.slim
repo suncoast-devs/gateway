@@ -176,7 +176,7 @@ section.section
           th Date
       tbody
         - @program_enrollment.program_acceptances.each do |acceptance|
-          tr
+          tr[class=("strikeout" if acceptance.is_rescinded?)]
             td = link_to acceptance.cohort.display_name, [@program_enrollment, acceptance]
             td = usd(acceptance.tuition_reduction)
             td = acceptance.created_at

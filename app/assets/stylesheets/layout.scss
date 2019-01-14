@@ -11,3 +11,10 @@ body {
 .control.quantity {
   max-width: 5rem;
 }
+
+.table {
+  tr.strikeout {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+}

@@ -16,15 +16,20 @@ section.section
                 button.button.is-primary Deliver Acceptance
 
 section.section
-  .container
-    table.table
-      tr
-        th Cohort
-        td = @program_acceptance.cohort.name
-      tr
-        th Tuition Reduction / Scholarship
-        td = usd(@program_acceptance.tuition_reduction)
+  .columns
+    .column
+      table.table
+        tr
+          th Cohort
+          td = @program_acceptance.cohort.name
+        tr
+          th Tuition Reduction / Scholarship
+          td = usd(@program_acceptance.tuition_reduction)
+    .column.is-narrow
+      = form_for([@program_enrollment, @program_acceptance]) do |form|
+        = form.hidden_field :is_rescinded, value: @program_acceptance.is_rescinded ? false : true
+        = form.submit "#{@program_acceptance.is_rescinded ? "Un-rescind" : "Rescind"} Acceptance", class: "button is-warning"
 
-    .box
-      .content
-        = markdown(@program_acceptance.notification_body)
+  .box
+    .content
+      = markdown(@program_acceptance.notification_body)

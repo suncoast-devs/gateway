@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_10_195555) do
+ActiveRecord::Schema.define(version: 2019_01_14_185532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 2019_01_10_195555) do
     t.string "message_id"
     t.bigint "program_enrollment_id"
     t.string "enrollment_agreement_identifier"
+    t.boolean "is_rescinded", default: false
     t.index ["cohort_id"], name: "index_program_acceptances_on_cohort_id"
     t.index ["program_enrollment_id"], name: "index_program_acceptances_on_program_enrollment_id"
   end
