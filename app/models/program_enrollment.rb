@@ -41,7 +41,12 @@ class ProgramEnrollment < ApplicationRecord
   end
 
   def ac_student_status_url_value
-    "https://gateway.suncoast.io/s/#{status_locator}"
+    student_status_url || begin
+      gateway_url = "https://gateway.suncoast.io/s/#{status_locator}"
+      short_url = ShortURL.generate("Student Status for #{person.full_name}", gateway_url)
+      update(student_status_url: short_url)
+      short_url
+    end
   end
 
   def self.sync_all

@@ -77,12 +77,12 @@ class HooksController < ApplicationController
 
   def slack
     if params[:type] == "url_verification"
-      render(json: { challenge: params[:challenge] })
+      render(json: {challenge: params[:challenge]})
       return
     end
 
     case params[:event][:type]
-    when 'team_join'
+    when "team_join"
       profile = params[:event][:user][:profile]
       mailchimp = Mailchimp::API.new(Rails.application.credentials.mailchimp_api_key)
       given_name, family_name = FullNameSplitter.split(profile[:real_name])
