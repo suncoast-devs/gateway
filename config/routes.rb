@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   defaults format: :json do
     post "apply", to: "apply#create"
     patch "apply/:id", to: "apply#update"
+    get "apply/:id", to: "apply#continue"
     post "lead", to: "hooks#lead"
 
     ["stripe", "postmark", "activecampaign", "slack"].each do |hook|

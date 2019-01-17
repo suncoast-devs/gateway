@@ -20,7 +20,6 @@ class ApplyController < ApplicationController
     end
     @program_application = @person.program_applications.create! create_params
     ConnectPersonToActiveCampaign.call_later(@person.id)
-    @program_application.update(application_status: :complete) unless @program_application.question_responses.empty?
     render json: {id: @program_application.id}
   end
 
@@ -32,19 +31,35 @@ class ApplyController < ApplicationController
   # }
   def update
     @program_application = ProgramApplication.find params[:id]
-    puts(update_params)
     @program_application.update update_params
-    CreateProgramEnrollment.call(@program_application.id)
+    @program_application.person.update(contact_params)
+    CreateProgramEnrollment.call(@program_application.id) if @program_application.application_complete?
     render json: {ok: true}
+  end
+
+  def continue
+    @program_application = ProgramApplication.find params[:id]
+
+    render json: {
+      token: @program_application.id,
+      responses: @program_application.question_responses,
+      contact: {full_name: @program_application.person.full_name,
+                email_address: @program_application.person.email_address,
+                phone_number: @program_application.person.phone_number},
+    }
   end
 
   private
 
+  def contact_params
+    params.slice(:full_name, :email_address, :phone_number).permit!
+  end
+
   def create_params
-    params.slice(:program, :question_responses).permit!
+    params.slice(:program, :question_responses, :application_status).permit!
   end
 
   def update_params
-    params.slice(:question_responses).permit!
+    params.slice(:question_responses, :application_status).permit!
   end
 end
