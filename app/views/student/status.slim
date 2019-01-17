@@ -1,5 +1,5 @@
 - if @program_enrollment
-
+  - title "Enrollment Status for #{@program_enrollment.person.full_name}"
   - if @program_enrollment.active?
 
     section.section.has-text-centered
@@ -77,12 +77,18 @@
                 .fas.fa-check-circle.has-text-success
               - else
                 .fas.fa-circle
+            | Work on pre-work for the program.
+          .panel-block
+            span.panel-icon
+              - if @program_enrollment.enrolled?
+                .fas.fa-check-circle.has-text-success
+              - else
+                .fas.fa-circle
             | We'll see you in class on #{@program_enrollment.cohort.begins_on&.to_s(:long_ordinal)}!
 
         article.message.is-info.is-small
           .message-body
             p If any of the above information is innacurate, or you have any questions; please #{mail_to "jason@suncoast.io", "let us know"}!
-
 
         h4.title.is-4 Your next steps&hellip;
 
@@ -113,7 +119,8 @@
               li
                 strong Recieve a determination
                 p After your interview, you'll receive an email from us with a determination as to acceptance or rejection for the program.
-
+            - if @program_enrollment.enrolled?
+              li We'll see you in class on #{@program_enrollment.cohort.begins_on&.to_s(:long_ordinal)}!
 
     - if @program_enrollment.applied?
       .class.calendly-inline-widget[data-url="https://calendly.com/suncoastio/interview" style="min-width:320px;height:580px;"]
@@ -127,7 +134,6 @@
         p
           | Please reach out and let us know if you're interested in the program:&nbsp;
           a href="mailto:hello@suncoast.io" hello@suncoast.io
-
 - else
   article.message.is-warning
     .message-header
@@ -136,3 +142,33 @@
       p
         | Please reach out and let us know what you were looking for:&nbsp;
         a href="mailto:hello@suncoast.io" hello@suncoast.io
+
+- unless signed_in?
+  javascript:
+    // Set to false if opt-in required
+    var trackByDefault = true;
+
+    function acEnableTracking() {
+      var expiration = new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 30);
+      document.cookie = "ac_enable_tracking=1; expires= " + expiration + "; path=/";
+      acTrackVisit();
+    }
+
+    function acTrackVisit() {
+      var trackcmp_email = '#{@program_enrollment&.person&.email_address}';
+      var trackcmp = document.createElement("script");
+      trackcmp.async = true;
+      trackcmp.type = 'text/javascript';
+      trackcmp.src = '//trackcmp.net/visit?actid=1000235908&e='+encodeURIComponent(trackcmp_email)+'&r='+encodeURIComponent(document.referrer)+'&u='+encodeURIComponent(window.location.href);
+      var trackcmp_s = document.getElementsByTagName("script");
+      if (trackcmp_s.length) {
+        trackcmp_s[0].parentNode.appendChild(trackcmp);
+      } else {
+        var trackcmp_h = document.getElementsByTagName("head");
+        trackcmp_h.length && trackcmp_h[0].appendChild(trackcmp);
+      }
+    }
+
+    if (trackByDefault || /(^|; )ac_enable_tracking=([^;]+)/.test(document.cookie)) {
+      acEnableTracking();
+    }
