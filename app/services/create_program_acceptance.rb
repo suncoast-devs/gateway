@@ -81,6 +81,8 @@ class CreateProgramAcceptance
       3. [Begin the pre-work](https://suncoast.io/handbook/prework/).
       4. We'll see you in class on **#{@cohort.begins_on.to_s(:long_ordinal)}**.
 
+      Additionally, you can [check the status of your enrollment progress](#{student_status_url(@program_enrollment.status_locator)}) at any time.
+
       Welcome to the **Academy at Suncoast Developers Guild**! We are excited to be a part of your journey. _It's going to be incredible_.
     TEMPLATE
   end
