@@ -20,6 +20,7 @@ class ApplyController < ApplicationController
     end
     @program_application = @person.program_applications.create! create_params
     ConnectPersonToActiveCampaign.call_later(@person.id)
+    CreateProgramApplication.call_later(@program_application.id)
     render json: {id: @program_application.id}
   end
 
