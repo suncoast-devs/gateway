@@ -1,6 +1,18 @@
 # frozen_string_literal: true
 
 module ActiveCampaign
+  FIELD_IDS = {
+    deposit_outstanding: "1",
+    deposit_invoice_url: "2",
+    sea_signed: "3",
+    sea_sign_url: "4",
+    financially_cleared: "5",
+    cohort_start_date: "6",
+    cohort_name: "7",
+    student_status_url: "9",
+    continue_application_url: "11",
+  }
+
   BASE_URL = Rails.application.credentials.active_campaign_url
   API_KEY = Rails.application.credentials.active_campaign_key
 

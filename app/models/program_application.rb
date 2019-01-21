@@ -14,4 +14,13 @@ class ProgramApplication < ApplicationRecord
   enum application_status: %i[incomplete complete], _prefix: "application"
   enum interview_status: %i[pending scheduled skipped], _prefix: "interview"
   enum acceptance_status: %i[unsent sent rejected], _prefix: "acceptance"
+
+  def ac_continue_application_url_value
+    continue_application_url || begin
+      url = "https://suncoast.io/academy/apply?continue=#{id}"
+      short_url = ShortURL.generate("Continue Application for #{person.full_name}", url)
+      update(continue_application_url: short_url)
+      short_url
+    end
+  end
 end

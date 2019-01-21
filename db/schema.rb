@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_15_142805) do
+ActiveRecord::Schema.define(version: 2019_01_21_231826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 2019_01_15_142805) do
     t.boolean "is_hidden", default: false
     t.bigint "person_id"
     t.bigint "program_enrollment_id"
+    t.string "continue_url"
     t.index ["person_id"], name: "index_program_applications_on_person_id"
     t.index ["program_enrollment_id"], name: "index_program_applications_on_program_enrollment_id"
   end
