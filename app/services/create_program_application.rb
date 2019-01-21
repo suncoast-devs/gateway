@@ -6,6 +6,8 @@ class CreateProgramApplication
   end
 
   def call
-    ActiveCampaign.event("new_application", @program_application.person.email_address, @program_application.program)
+    if @program_application.program == "web-development"
+      ActiveCampaign.event("new_application", @program_application.person.email_address)
+    end
   end
 end
