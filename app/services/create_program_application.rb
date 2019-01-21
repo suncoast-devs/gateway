@@ -12,7 +12,7 @@ class CreateProgramApplication
         fieldValue: {
           contact: @program_application.person.ac_contact_identifier,
           field: ActiveCampaign::FIELD_IDS["continue_application_url"],
-          value: @program_application.send("ac_continue_application_url_value"),
+          value: @program_application.ac_continue_application_url_value,
         },
       })
     end
