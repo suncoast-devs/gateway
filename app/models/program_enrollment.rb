@@ -40,6 +40,10 @@ class ProgramEnrollment < ApplicationRecord
     "Cohort #{cohort.name}"
   end
 
+  def ac_continue_application_url_value
+    program_applications.order(created_at: :desc).first.ac_continue_application_url_value
+  end
+
   def ac_student_status_url_value
     student_status_url || begin
       gateway_url = "https://gateway.suncoast.io/s/#{status_locator}"
