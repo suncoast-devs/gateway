@@ -2,16 +2,12 @@
 
 # Provides User session management
 class SessionsController < ApplicationController
-  protect_from_forgery except: 'create'
+  protect_from_forgery except: "create"
 
   def create
-    @user = User.from_auth_hash(request.env['omniauth.auth'])
-    if @user
-      session[:user_id] = @user.id
-      redirect_to :program_applications
-    else
-      redirect_to :root
-    end
+    @user = User.from_auth_hash(request.env["omniauth.auth"])
+    session[:user_id] = @user.id if @user
+    redirect_to :root
   end
 
   def destroy

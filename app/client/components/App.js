@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import { NavBar } from './NavBar'
+import { Container } from './Container'
 
 export class App extends React.Component {
   render() {
-    return <div>Signed In: {document.body.dataset.signedIn}</div>
+    return (
+      <Fragment>
+        <NavBar />
+        <Container>...</Container>
+      </Fragment>
+    )
   }
 }
