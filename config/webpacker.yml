@@ -1,7 +1,7 @@
 # Note: You must restart bin/webpack-dev-server for changes to take effect
 
 default: &default
-  source_path: app/javascript
+  source_path: app/client
   source_entry_path: packs
   public_output_path: packs
   cache_path: tmp/cache/webpacker
@@ -46,10 +46,9 @@ development:
     use_local_ip: false
     quiet: false
     headers:
-      'Access-Control-Allow-Origin': '*'
+      "Access-Control-Allow-Origin": "*"
     watch_options:
       ignored: /node_modules/
-
 
 test:
   <<: *default
