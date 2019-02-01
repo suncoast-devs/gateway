@@ -1,2 +1,2 @@
-import "./banner.svg";
-import "./icon.svg";
+import './banner.svg'
+import './icon.svg'
