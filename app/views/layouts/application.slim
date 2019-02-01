@@ -7,15 +7,13 @@ html
     link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css"
     script defer=true src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
     = javascript_pack_tag "application"
-    = javascript_include_tag "application"
-    = stylesheet_link_tag "application"
 
   body
     nav.navbar.is-light aria-label="main navigation" role="navigation"
       .container
         .navbar-brand
           a.navbar-item href="/"
-            = image_tag "icon.svg", size: '32x32'
+            = image_tag asset_pack_path("images/icon.svg"), size: '32x32'
           a.navbar-burger aria-expanded="false" aria-label="menu" data-target="navMenu" role="button"
             span aria-hidden="true"
             span aria-hidden="true"
@@ -54,7 +52,7 @@ html
               i.fab.fa-github.fa-lg
         p
           a href="https://suncoast.io"
-            = image_tag "banner.svg", size: "150x60"
+            = image_tag asset_pack_path("images/banner.svg"), size: "150x60"
         p
           strong Gateway
           '  by

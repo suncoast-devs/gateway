@@ -9,29 +9,23 @@ gem "jbuilder", "~> 2.5"
 gem "pg", ">= 0.18", "< 2.0"
 gem "puma", "~> 3.11"
 gem "rails", "~> 5.2.1"
-gem "sass-rails", "~> 5.0"
-gem "turbolinks", "~> 5"
-gem "uglifier", ">= 1.3.0"
-
 gem "rack-cors"
-
-gem "omniauth"
-gem "omniauth-google-oauth2"
 
 gem "commonmarker"
 gem "full-name-splitter"
 gem "http"
 gem "mailchimp-api", require: "mailchimp"
 gem "nutshell-crm-api"
+gem "omniauth"
+gem "omniauth-google-oauth2"
 gem "pagy"
 gem "postmark-rails"
 gem "premailer-rails"
+gem "react-rails"
 gem "sentry-raven"
 gem "slim"
 gem "stripe"
-
 gem "webpacker"
-gem "react-rails"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
