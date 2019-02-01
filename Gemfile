@@ -26,10 +26,12 @@ gem "nutshell-crm-api"
 gem "pagy"
 gem "postmark-rails"
 gem "premailer-rails"
+gem "sentry-raven"
 gem "slim"
 gem "stripe"
 
-gem "sentry-raven"
+gem "webpacker"
+gem "react-rails"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
