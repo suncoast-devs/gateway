@@ -6,6 +6,7 @@ html
     title = content_for?(:title) ? yield(:title) + ' - Gateway' : 'Gateway'
     link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css"
     script defer=true src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    = javascript_pack_tag "application"
     = javascript_include_tag "application"
     = stylesheet_link_tag "application"
 
