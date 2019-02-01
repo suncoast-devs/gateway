@@ -2,12 +2,12 @@
   "name": "gateway",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "3.5",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react_ujs": "^2.4.4"
+    "react-dom": "^16.7.0"
   },
   "devDependencies": {
+    "@rails/webpacker": "3.5",
+    "babel-preset-react": "^6.24.1",
     "webpack-dev-server": "2.11.2"
   }
 }
