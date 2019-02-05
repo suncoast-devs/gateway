@@ -38,6 +38,6 @@ class ProgramApplicationsController < ApplicationController
   end
 
   def program_application_params
-    params.require(:program_application).permit(:full_name, :email_address, :phone_number, :application_status, :interview_status, :acceptance_status, :academic_signoff, :administrative_signoff, :is_hidden)
+    params.require(:program_application).permit(:application_status, :is_hidden)
   end
 end

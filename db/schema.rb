@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_21_231826) do
+ActiveRecord::Schema.define(version: 2019_02_05_164655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -90,15 +90,11 @@ ActiveRecord::Schema.define(version: 2019_01_21_231826) do
   end
 
   create_table "program_applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.boolean "academic_signoff"
-    t.boolean "administrative_signoff"
     t.json "question_responses", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "program"
     t.integer "application_status", default: 0
-    t.integer "interview_status", default: 0
-    t.integer "acceptance_status", default: 0
     t.boolean "is_hidden", default: false
     t.bigint "person_id"
     t.bigint "program_enrollment_id"
@@ -133,6 +129,8 @@ ActiveRecord::Schema.define(version: 2019_01_21_231826) do
     t.uuid "status_locator", default: -> { "gen_random_uuid()" }, null: false
     t.string "ac_student_status_url_field"
     t.string "student_status_url"
+    t.boolean "academic_signoff"
+    t.boolean "administrative_signoff"
     t.index ["cohort_id"], name: "index_program_enrollments_on_cohort_id"
     t.index ["deposit_invoice_id"], name: "index_program_enrollments_on_deposit_invoice_id"
     t.index ["person_id"], name: "index_program_enrollments_on_person_id"

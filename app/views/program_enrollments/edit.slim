@@ -46,6 +46,33 @@ section.section
         .field-body
           .field
             .control
+              = form.check_box :administrative_signoff, class: "checkbox"
+              | &nbsp;
+              = form.label :administrative_signoff, class: "checkbox"
+
+      .field.is-horizontal
+        .field-label
+        .field-body
+          .field
+            .control
+              = form.check_box :academic_signoff, class: "checkbox"
+              | &nbsp;
+              = form.label :academic_signoff, class: "checkbox"
+
+      .field.is-horizontal
+        .field-label
+        .field-body
+          .field
+            .control
+              = form.check_box :deposit_required, class: "checkbox"
+              | &nbsp;
+              = form.label :deposit_required, class: "checkbox"
+
+      .field.is-horizontal
+        .field-label
+        .field-body
+          .field
+            .control
               = form.check_box :deposit_required, class: "checkbox"
               | &nbsp;
               = form.label :deposit_required, class: "checkbox"

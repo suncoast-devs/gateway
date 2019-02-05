@@ -1,0 +1,38 @@
+section.section
+  .container
+    = form_with(model: @program_application, local: true) do |form|
+      - if @program_application.errors.any?
+        .message
+          .message-header
+            p #{pluralize(@program_application.errors.count, "error")} prohibited this application from being saved:
+          .message-body
+            ul
+              - @program_application.errors.full_messages.each do |message|
+               li = message
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :application_status, class: "label"
+        .field-body
+          .field
+            .control
+              .select
+                = form.select :application_status, ProgramApplication.application_statuses.keys.map { |k| [k.titleize, k] }, class: "input"
+
+      .field.is-horizontal
+        .field-label
+        .field-body
+          .field
+            .control
+              = form.check_box :is_hidden, class: "checkbox"
+              | &nbsp;
+              = form.label :is_hidden, class: "checkbox"
+
+      .field.is-horizontal
+        .field-label
+        .field-body
+          .field.is-grouped
+            .control
+              = form.submit class: "button is-primary"
+            .control
+              = link_to "Cancel", @program_application, class: "button is-text"

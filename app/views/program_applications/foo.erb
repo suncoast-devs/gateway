@@ -1,0 +1,54 @@
+<section class="section">
+  <div class="container">
+    <h1 class="title">Edit Application Details</h1>
+    <h2 class="subtitle"><em>for</em> <%= @program_application.person.full_name %> (<%= @program_application.program.titleize %>)</h2>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <%= form_with(model: @program_application) do |form| %>
+      <% if @program_application.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@program_application.errors.count, "error") %> prohibited this program application from being saved:</h2>
+
+          <ul>
+            <% @program_application.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <%= form.label :application_status, "Application", class: "label" %>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <div class="select">
+                <%= form.select :application_status, ProgramApplication.application_statuses.keys.map { |k| [k.titleize, k] } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <%= form.label :is_hidden, "Hidden?", class: "label" %>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+                <%= form.check_box :is_hidden %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= form.submit %>
+      </div>
+    <% end %>
+  </div>
+</section>

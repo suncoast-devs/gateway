@@ -15,7 +15,7 @@ section.section
           = link_to "Deal in CRM", "https://sdg.activehosted.com/app/contacts/#{@person.ac_contact_identifier}/deal/#{@program_enrollment.ac_deal_identifier}", class: 'button', target:"_blank", rel: "noopener noreferrer"
           = link_to "Student Status", student_status_url(@program_enrollment.status_locator), class: "button"
 
-      .column.is-narrow
+      .column
         nav.panel.contact-information
           p.panel-heading Enrollment Details
           .panel-block
@@ -42,6 +42,38 @@ section.section
               .level-right
                 .level-item
                   = @program_enrollment.status.titleize
+          .panel-block
+            nav.level
+              .level-left
+                .level-item
+                  strong Academic Sign-off
+              .level-right
+                .level-item
+                  - if @program_enrollment.administrative_signoff.nil?
+                    span.icon.has-text-light
+                      i.fas.fa-question-circle
+                  - elsif @program_enrollment.administrative_signoff
+                    span.icon.has-text-success
+                      i.fas.fa-check-circle
+                  - else
+                    span.icon.has-text-danger
+                      i.fas.fa-ban
+          .panel-block
+            nav.level
+              .level-left
+                .level-item
+                  strong Administrative Sign-off
+              .level-right
+                .level-item
+                  - if @program_enrollment.academic_signoff.nil?
+                    span.icon.has-text-light
+                      i.fas.fa-question-circle
+                  - elsif @program_enrollment.academic_signoff
+                    span.icon.has-text-success
+                      i.fas.fa-check-circle
+                  - else
+                    span.icon.has-text-danger
+                      i.fas.fa-ban
           - if @program_enrollment.accepted? || @program_enrollment.enrolled?
             .panel-block
               nav.level
@@ -120,10 +152,6 @@ section.section
           th Program
           th.has-text-centered
             abbr title=("Application Complete?")  Complete
-          th.has-text-centered
-            abbr title=("Administrative Sign-off?")  Administrative
-          th.has-text-centered
-            abbr title=("Academic Sign-off?")  Academic
 
       tbody
         - @person.program_applications.each do |program_application|
@@ -138,26 +166,6 @@ section.section
               - when "complete"
                 span.icon.has-text-success
                   i.fas.fa-check-circle
-            td.has-text-centered
-              - if program_application.administrative_signoff.nil?
-                span.icon.has-text-light
-                  i.fas.fa-question-circle
-              - elsif program_application.administrative_signoff
-                span.icon.has-text-success
-                  i.fas.fa-check-circle
-              - else
-                span.icon.has-text-danger
-                  i.fas.fa-ban
-            td.has-text-centered
-              - if program_application.academic_signoff.nil?
-                span.icon.has-text-light
-                  i.fas.fa-question-circle
-              - elsif program_application.academic_signoff
-                span.icon.has-text-success
-                  i.fas.fa-check-circle
-              - else
-                span.icon.has-text-danger
-                  i.fas.fa-ban
 
     nav.level
       .level-left
