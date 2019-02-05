@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
-import { NavBar } from './NavBar'
-import { Container } from './Container'
+import { Container, NavBar } from '.'
 
 export class App extends React.Component {
   render() {
