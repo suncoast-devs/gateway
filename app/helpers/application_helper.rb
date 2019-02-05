@@ -33,6 +33,26 @@ module ApplicationHelper
     number_to_currency amount, unit: "$"
   end
 
+  # enum status: {active: 0, won: 1, lost: 2, cancelled: 3, pending: 4}
+  # enum stage: {applied: 3, interviewing: 4, accepted: 5, enrolled: 6}
+
+  def intent_for_stage(stage)
+    case stage
+    when "applied" then "is-warning"
+    when "interviewing" then "is-info"
+    when "accepted" then "is-primary"
+    when "enrolled" then "is-success"
+    end
+  end
+
+  def intent_for_status(status)
+    case status
+    when "active" then "is-info"
+    when "lost" then "is-danger"
+    when "won" then "is-success"
+    end
+  end
+
   def markdown(markdown)
     CommonMarker.render_html(markdown, :DEFAULT).html_safe
   end

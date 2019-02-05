@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :program_applications, only: %i[index show edit update], path: "apps" do
-    resources :notes, only: %i[create update destroy]
-  end
-
+  resources :program_applications, only: %i[index show edit update], path: "apps"
   resources :program_enrollments, only: %i[index show edit update], path: "enrollments" do
     resources :program_acceptances, except: %i[index destroy] do
       member do
@@ -13,7 +10,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :people
+  resources :people do
+    resources :notes, only: %i[create update destroy]
+  end
+
   resources :invoices, only: %i[index show new create]
   resources :cohorts, except: %i[show]
 

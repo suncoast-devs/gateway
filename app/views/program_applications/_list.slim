@@ -19,7 +19,8 @@ table.program-applications.table.is-bordered.is-striped.is-fullwidth
           = link_to program_application.program.titleize, program_application
         td
           - if program_application.program_enrollment
-            = link_to program_application.program_enrollment.stage.titleize, program_application.program_enrollment
+            span[class="tag #{intent_for_stage(program_application.program_enrollment.stage)}"]
+              = program_application.program_enrollment.stage.titleize
         td.has-text-centered
           - case program_application.application_status
           - when "incomplete"

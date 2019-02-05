@@ -104,7 +104,7 @@
     <div class="columns">
       <div class="column is-three-quarters">
         <div class="notes">
-          <% @program_application.person.notes.where(note_type: 'comment').order(created_at: :asc).each do |note| %>
+          <% @program_application.person.notes.where(note_type: 'interview-note').order(created_at: :asc).each do |note| %>
             <article class="media">
               <figure class="media-left">
                 <p class="image is-64x64">
@@ -122,7 +122,7 @@
               </div>
               <% if note.user_id == current_user.id %>
                 <div class="media-right">
-                  <%= form_for([@program_application, note], :html => { :method => :delete }) do |f| %>
+                  <%= form_for([@program_application.person, note], :html => { :method => :delete }) do |f| %>
                     <%= f.button class: "delete" %>
                   <% end %>
                 </div>
@@ -136,7 +136,8 @@
               </p>
             </figure>
             <div class="media-content">
-              <%= form_for [@program_application, Note.new] do |f| %>
+              <%= form_for [@program_application.person, Note.new] do |f| %>
+                <%= f.hidden_field :note_type, value: 'interview-note' %>
                 <div class="field">
                   <p class="control">
                     <%= f.text_area :message, class: "textarea", placeholder: "Add a note..." %>

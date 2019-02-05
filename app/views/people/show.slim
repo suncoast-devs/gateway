@@ -3,12 +3,17 @@
 section.section
   .container
     .columns
-      .column.is-three-quarters
+      .column
         h1.title= @person.full_name
         .tags
           - @person.tags.each do |tag|
             span.tag= tag.name
-      .column
+        .buttons
+          - if @person.crm_url
+            = link_to "Open Lead in Nutshell", @person.crm_url, class: 'button is-link', target:"_blank", rel: "noopener noreferrer"
+          = link_to "Contact in CRM", "https://sdg.activehosted.com/app/contacts/#{@person.ac_contact_identifier}", class: 'button is-link', target:"_blank", rel: "noopener noreferrer"
+
+      .column.is-one-third
         nav.panel.contact-information
           p.panel-heading Contact Information
           .panel-block
@@ -59,38 +64,170 @@ section.section
                     span.icon
                       i.fas.fa-edit
 
-        - if @person.crm_url
-          .level.box
-            .level-item
-              p
-                = link_to "Open Lead in Nutshell", @person.crm_url
+    - @person.program_enrollments.each do |enrollment|
+      .columns
+        .column
+          h5.title.is-5
+            = enrollment.program.titleize
+            |  Program Enrollment
+          .buttons
+            = link_to "Deal in CRM", "https://sdg.activehosted.com/app/contacts/#{@person.ac_contact_identifier}/deal/#{enrollment.ac_deal_identifier}", class: 'button is-link', target:"_blank", rel: "noopener noreferrer"
+            = link_to "Student Status", student_status_url(enrollment.status_locator), class: "button is-link"
 
-    h4.title.is-4 Enrollment
+        .column.is-one-third
+          nav.panel.contact-information
+            p.panel-heading Enrollment Details
+            .panel-block
+              nav.level
+                .level-left
+                  .level-item
+                    strong Cohort
+                .level-right
+                  .level-item
+                    = enrollment.cohort&.display_name
+            .panel-block
+              nav.level
+                .level-left
+                  .level-item
+                    strong Stage
+                .level-right
+                  .level-item
+                    span[class="tag #{intent_for_stage(enrollment.stage)}"]
+                      = enrollment.stage.titleize
+            .panel-block
+              nav.level
+                .level-left
+                  .level-item
+                    strong Status
+                .level-right
+                  .level-item
+                    span[class="tag #{intent_for_status(enrollment.status)}"]
+                      = enrollment.status.titleize
+            .panel-block
+              nav.level
+                .level-left
+                  .level-item
+                    strong Academic Sign-off
+                .level-right
+                  .level-item
+                    - if enrollment.administrative_signoff.nil?
+                      span.icon.has-text-light
+                        i.fas.fa-question-circle
+                    - elsif enrollment.administrative_signoff
+                      span.icon.has-text-success
+                        i.fas.fa-check-circle
+                    - else
+                      span.icon.has-text-danger
+                        i.fas.fa-ban
+            .panel-block
+              nav.level
+                .level-left
+                  .level-item
+                    strong Administrative Sign-off
+                .level-right
+                  .level-item
+                    - if enrollment.academic_signoff.nil?
+                      span.icon.has-text-light
+                        i.fas.fa-question-circle
+                    - elsif enrollment.academic_signoff
+                      span.icon.has-text-success
+                        i.fas.fa-check-circle
+                    - else
+                      span.icon.has-text-danger
+                        i.fas.fa-ban
+            - if enrollment.accepted? || enrollment.enrolled?
+              .panel-block
+                nav.level
+                  .level-left
+                    .level-item
+                      strong Deposit
+                  .level-right
+                    .level-item
+                      - if enrollment.deposit_required?
+                        = enrollment.deposit_paid ? "Paid" : "Unpaid"
+                      - else
+                        | N/A
+              .panel-block
+                nav.level
+                  .level-left
+                    .level-item
+                      strong Enrollment Agreement
+                  .level-right
+                    .level-item
+                      = enrollment.enrollment_agreement_complete? ? "Yes" : "No"
+              .panel-block
+                nav.level
+                  .level-left
+                    .level-item
+                      strong Financial Clearance
+                  .level-right
+                    .level-item
+                      = enrollment.financial_clearance || "No"
 
-    table.program-enrollments.table.is-bordered.is-striped.is-fullwidth
+            .panel-block
+              nav.level
+                  .level-left
+                  .level-right
+                    .level-item
+                      = link_to [:edit, enrollment] do
+                        span.icon
+                          i.fas.fa-edit
+
+      nav.level
+        .level-left
+          .level-item
+            h5.title.is-5 Acceptance
+        .level-right
+          .level-item
+            = link_to new_program_enrollment_program_acceptance_path(enrollment), class: 'button is-primary is-small'
+              span.icon
+                i.fas.fa-plus
+              span Acceptance
+
+      - if enrollment.program_acceptances.any?
+        table.table.is-fullwidth
+          thead
+            tr
+              th Cohort
+              th Tuition Reduction
+              th Date
+          tbody
+            - enrollment.program_acceptances.each do |acceptance|
+              tr[class=("strikeout" if acceptance.is_rescinded?)]
+                td = link_to acceptance.cohort.display_name, [enrollment, acceptance]
+                td = usd(acceptance.tuition_reduction)
+                td = acceptance.created_at
+
+    h5.title.is-5 Application(s)
+
+    table.program-applications.table.is-bordered.is-striped.is-fullwidth
       thead
         tr
           th Program
-          th Stage
-          th Status
+          th.has-text-centered
+            abbr title=("Application Complete?")  Complete
 
       tbody
-        - @person.program_enrollments.each do |enrollment|
+        - @person.program_applications.each do |program_application|
           tr
             td
-              = link_to enrollment.program.titleize, enrollment
-            td
-              = enrollment.stage.titleize
-            td
-              = enrollment.status.titleize
+              = link_to program_application.program.titleize, program_application
+            td.has-text-centered
+              - case program_application.application_status
+              - when "incomplete"
+                span.icon.has-text-light
+                  i.fas.fa-question-circle
+              - when "complete"
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
 
     nav.level
       .level-left
         .level-item
-          h4.title.is-4 Invoices
+          h5.title.is-5 Invoices
       .level-right
         .level-item
-          = link_to "New Invoice", new_invoice_path(person_id: @person.id), class: 'button'
+          = link_to "New Invoice", new_invoice_path(person_id: @person.id), class: 'button is-small'
 
     table.table.is-bordered.is-striped.is-fullwidth
       thead
@@ -114,3 +251,21 @@ section.section
     ul.activity-timeline
       - @person.notes.order(created_at: :asc).each do |note|
         = render partial: "notes/#{note.note_type.underscore}", locals: { note: note }
+
+    hr
+
+    article.media
+      figure.media-left
+        p.image.is-64x64
+          = gravatar_for current_user
+      .media-content
+        = form_for [@person, Note.new] do |f|
+          .field
+            p.control
+              = f.text_area :message, class: "textarea", placeholder: "Add a note..."
+          .field.is-grouped
+            .control
+              .select
+                = f.select :note_type, ['comment', 'interview-note', 'job-placement'].map { |o| [o.titleize, o]}
+            .control
+              = f.submit class: "button is-info"

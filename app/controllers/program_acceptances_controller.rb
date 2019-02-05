@@ -36,7 +36,7 @@ class ProgramAcceptancesController < ApplicationController
 
   def deliver
     DeliverProgramAcceptance.call_later(@program_acceptance.id)
-    redirect_to @program_enrollment, notice: "Delivering program acceptance email."
+    redirect_to @person, notice: "Delivering program acceptance email."
   end
 
   private

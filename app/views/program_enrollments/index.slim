@@ -95,10 +95,12 @@ section.section
       tbody
         - @program_enrollments.each do |enrollment|
           tr
-            td = link_to enrollment.person.full_name, enrollment
-            td = link_to enrollment.stage.titleize, enrollment
-            td = link_to enrollment.status.titleize, enrollment
-            td = enrollment.cohort&.display_name
+            td = link_to enrollment.person.full_name, enrollment.person
+            td
+              span[class="tag #{intent_for_stage(enrollment.stage)}"] = enrollment.stage.titleize
+            td
+              span[class="tag #{intent_for_status(enrollment.status)}"] = enrollment.status.titleize
+            td = enrollment.cohort&.name
             td.has-text-centered
               = time_tag(enrollment.created_at) { time_ago_in_words(enrollment.created_at) }
 
