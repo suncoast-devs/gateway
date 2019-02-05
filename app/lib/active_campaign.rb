@@ -13,8 +13,10 @@ module ActiveCampaign
     continue_application_url: "11",
   }
 
-  BASE_URL = Rails.application.credentials.active_campaign_url
-  API_KEY = Rails.application.credentials.active_campaign_key
+  CREDENTIALS = Rails.application.credentials[Rails.env.to_sym][:active_campaign]
+
+  BASE_URL = CREDENTIALS[:url]
+  API_KEY = CREDENTIALS[:key]
 
   def self.get(action, params = nil)
     HTTP.headers("Api-Token" => API_KEY).get("#{BASE_URL}/#{action}", params: params).parse
