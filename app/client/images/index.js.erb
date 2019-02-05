@@ -1,0 +1,6 @@
+<% images = Dir.glob(Rails.root / 'app' / 'client' / 'images' / '*.{png,svg}')
+images.each do |image| %>
+import <%= File.basename(image, '.*') %> from './<%= File.basename(image) %>'
+<% end %>
+
+export { <%= images.map { |i| File.basename(i, '.*') }.join(', ') %> }
