@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-heroku local -f Procfile.dev

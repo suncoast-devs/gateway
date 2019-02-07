@@ -1,12 +1,14 @@
 import React, { Fragment } from 'react'
-import { Container, NavBar } from '.'
+import { Container, NavBar, PeopleList } from '.'
 
 export class App extends React.Component {
   render() {
     return (
       <Fragment>
         <NavBar />
-        <Container>...</Container>
+        <Container>
+          <PeopleList />
+        </Container>
       </Fragment>
     )
   }
