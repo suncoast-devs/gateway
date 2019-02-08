@@ -74,7 +74,7 @@ class HooksController < ApplicationController
       end
     when "contact_tag_added", "contact_tag_removed"
       person = Person.where(ac_contact_identifier: params[:contact][:id]).first
-      person.merge_tags params[:contact][:tags]
+      person.tag_list = params[:contact][:tags]
     end
 
     head :ok
