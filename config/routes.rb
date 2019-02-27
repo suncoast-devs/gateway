@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   resources :invoices, only: %i[index show new create]
   resources :cohorts, except: %i[show]
+  resources :course_registrations, only: %i[index]
 
   get "sign_in", to: redirect("/auth/#{Rails.env.production? ? :google_oauth2 : :developer}")
   get "sign_out", to: "sessions#destroy"
@@ -30,6 +31,10 @@ Rails.application.routes.draw do
 
     ["stripe", "postmark", "activecampaign", "slack"].each do |hook|
       post "/hooks/#{hook}", to: "hooks##{hook}"
+    end
+
+    namespace :api do
+      post "register", to: "registration#create"
     end
   end
 

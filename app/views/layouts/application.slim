@@ -24,6 +24,7 @@ html
             - if signed_in?
               = link_to "Enrollment", program_enrollments_path, class: "navbar-item #{current_controller? 'program_enrollments'}"
               = link_to "Applications", program_applications_path, class: "navbar-item #{current_controller? 'program_applications'}"
+              = link_to "Part-Time", course_registrations_path, class: "navbar-item #{current_controller? 'course_registrations'}"
               = link_to "People", people_path, class: "navbar-item #{current_controller? 'people'}"
           .navbar-end
             .navbar-item

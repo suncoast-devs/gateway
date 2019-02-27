@@ -1,0 +1,32 @@
+section.section
+  .container
+    h1.title
+      | Part-Time Course Registrations
+
+section.section
+  .container
+
+    table.table.is-bordered.is-striped.is-fullwidth
+      thead
+        tr
+          th Name
+          th Email
+          th Phone Number
+          th Course
+          th.has-text-centered $
+      tbody
+        - @course_registrations.each do |registration|
+          tr
+            td = link_to registration.person.full_name, registration.person
+            td = registration.person.email_address
+            td = registration.person.phone_number
+            td = registration.course.name
+            td.has-text-centered
+              - if registration.invoice.is_paid?
+                span.icon.has-text-success
+                  i.fas.fa-check-circle
+              - else
+                span.icon.has-text-warning
+                  i.fas.fa-ban
+
+    == pagy_bulma_nav(@pagy)

@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Serif+Pro:700" rel="stylesheet" type="text/css">
     <style>
       body {
-        background-color: #80ced2;
+        background-color: #acd0d2;
         font-family: 'Source Sans Pro', sans-serif;
         -webkit-font-smoothing: antialiased;
         font-size: 14px;
@@ -22,11 +22,19 @@
         border-collapse: separate;
         mso-table-lspace: 0pt;
         mso-table-rspace: 0pt;
-        width: 100%; }
-        table td {
+        width: 100%;
+      }
+
+      table td,
+      table th {
           font-family: 'Source Sans Pro', sans-serif;
           font-size: 14px;
           vertical-align: top;
+      }
+
+      table.info th {
+        text-align: right;
+        padding-right: 8px;
       }
 
       img {
@@ -36,7 +44,7 @@
       }
 
       .body {
-        background-color: #80ced2;
+        background-color: #acd0d2;
         width: 100%;
       }
 
@@ -135,6 +143,20 @@
         Margin: 20px 0;
       }
 
+      .cta {
+        margin: 32px;
+        text-align: center;
+      }
+
+      .cta a {
+        background-color: #85577e;
+        color: white;
+        padding: 8px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
       @media only screen and (max-width: 620px) {
         table[class=body] h1 {
           font-size: 28px !important;
@@ -146,7 +168,7 @@
         table[class=body] td,
         table[class=body] span,
         table[class=body] a {
-          font-size: 16px !important;
+          font-size: 14px !important;
         }
         table[class=body] .wrapper,
         table[class=body] .article {

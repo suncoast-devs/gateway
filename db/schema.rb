@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_08_181902) do
+ActiveRecord::Schema.define(version: 2019_02_26_201744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -21,6 +21,31 @@ ActiveRecord::Schema.define(version: 2019_02_08_181902) do
     t.boolean "is_enrolling", default: false
     t.date "begins_on"
     t.date "ends_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "course_registrations", force: :cascade do |t|
+    t.bigint "person_id"
+    t.bigint "course_id"
+    t.bigint "invoice_id"
+    t.integer "fee"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_registrations_on_course_id"
+    t.index ["invoice_id"], name: "index_course_registrations_on_invoice_id"
+    t.index ["person_id"], name: "index_course_registrations_on_person_id"
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string "identifier"
+    t.string "name"
+    t.string "session"
+    t.date "starts_on"
+    t.date "ends_on"
+    t.string "days"
+    t.string "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -161,6 +186,9 @@ ActiveRecord::Schema.define(version: 2019_02_08_181902) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "course_registrations", "courses"
+  add_foreign_key "course_registrations", "invoices"
+  add_foreign_key "course_registrations", "people"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "people"
   add_foreign_key "notes", "users"

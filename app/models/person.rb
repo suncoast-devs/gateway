@@ -8,5 +8,7 @@ class Person < ApplicationRecord
   has_many :program_applications
   has_many :program_enrollments
   has_many :notes, as: :notable
+  has_many :course_registrations
+
   validates :full_name, presence: true
 end
