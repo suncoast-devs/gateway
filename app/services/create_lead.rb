@@ -31,12 +31,20 @@ class CreateLead
     return unless Rails.env.production?
     ConnectPersonToActiveCampaign.call_later @person.id
 
+    mailchimp = Mailchimp::API.new(Rails.application.credentials.mailchimp_api_key)
+
     if @source == "mailing-list"
-      mailchimp = Mailchimp::API.new(Rails.application.credentials.mailchimp_api_key)
       mailchimp.lists.subscribe("ee85c9fa69",
                                 {email: @email},
                                 {FNAME: @given_name, LNAME: @family_name},
                                 "html")
+    end
+
+    if @source == "community"
+      @mailchimp.lists.subscribe("3d4e0699f1",
+                                 {email: @email_address},
+                                 {FNAME: @given_name, LNAME: @family_name},
+                                 "html")
     end
   end
 end

@@ -89,12 +89,10 @@ class HooksController < ApplicationController
     case params[:event][:type]
     when "team_join"
       profile = params[:event][:user][:profile]
-      mailchimp = Mailchimp::API.new(Rails.application.credentials.mailchimp_api_key)
       given_name, family_name = FullNameSplitter.split(profile[:real_name])
-      mailchimp.lists.subscribe("3d4e0699f1",
-                                {email: profile[:email]},
-                                {FNAME: given_name, LNAME: family_name},
-                                "html")
+      email_address = profile[:email]
+
+      CreateLead.call_later(email_address, given_name, family_name, "community", nil, nil)
     end
 
     head :ok
