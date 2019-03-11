@@ -1,15 +1,17 @@
-import React, { Fragment } from 'react'
-import { Container, NavBar, PeopleList } from '.'
+import React from 'react'
+import { Router } from '@reach/router'
+import { Footer, NavBar, People } from '.'
 
 export class App extends React.Component {
   render() {
     return (
-      <Fragment>
+      <>
         <NavBar />
-        <Container>
-          <PeopleList />
-        </Container>
-      </Fragment>
+        <Router>
+          <People path="/" />
+        </Router>
+        <Footer />
+      </>
     )
   }
 }

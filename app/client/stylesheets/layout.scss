@@ -1,19 +1,15 @@
-@import '~@blueprintjs/core/lib/scss/variables.scss';
+@charset "utf-8";
+@import url('https://use.typekit.net/rmp3tzf.css');
+@import './colors';
 
-body {
-  background-color: $pt-dark-app-background-color;
-}
+$family-sans-serif: 'source-sans-pro', sans-serif;
+$family-serif: 'source-serif-pro', serif;
 
-.container {
-  margin: 0 auto;
-  max-width: 960px;
-}
+$family-secondary: $family-serif;
 
-#root > .container {
-  padding: 0 15px;
-  max-width: 990px;
-}
+$primary: $night-sky;
+$info: $bright-sky;
+$link: $sea;
+$text: $asphalt;
 
-.section {
-  margin: 1rem 0;
-}
+@import '~bulma';
