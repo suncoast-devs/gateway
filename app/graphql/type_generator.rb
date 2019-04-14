@@ -1,5 +1,5 @@
 module TypeGenerator
-  Dir.glob("#{Rails.root}/app/models/*.rb").each { |p| require_dependency p } if Rails.env.development?
+  Dir.glob("#{Rails.root}/app/models/*.rb").each { |p| require_dependency p } # if Rails.env.development?
   MODELS = ApplicationRecord.descendants
 
   def define_types
