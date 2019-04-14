@@ -11,7 +11,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "rails/test_unit/railtie"
-require "sprockets/railtie" # if Rails.env.development?
+require "sprockets/railtie" if Rails.env.development?
 
 Bundler.require(*Rails.groups)
 

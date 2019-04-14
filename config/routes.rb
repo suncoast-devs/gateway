@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # if Rails.env.development?
-  mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
-  # end
-  post "/graphql", to: "graphql#execute"
-
   scope :legacy do
     resources :program_applications, only: %i[index show edit update], path: "apps"
 
@@ -45,6 +40,12 @@ Rails.application.routes.draw do
       post "register", to: "registration#create"
     end
   end
+
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
+  end
+
+  post "/graphql", to: "graphql#execute"
 
   get "s/:locator", to: "student#status", as: :student_status
 

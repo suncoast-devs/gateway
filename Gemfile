@@ -14,7 +14,6 @@ gem "rack-cors"
 gem "commonmarker"
 gem "full-name-splitter"
 gem "graphql"
-gem "graphiql-rails"
 gem "http"
 gem "mailchimp-api", require: "mailchimp"
 gem "nutshell-crm-api"
@@ -34,6 +33,7 @@ end
 
 group :development do
   gem "awesome_print"
+  gem "graphiql-rails"
   gem "letter_opener"
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "spring"
