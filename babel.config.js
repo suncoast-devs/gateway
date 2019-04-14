@@ -1,6 +1,5 @@
 module.exports = api => {
   const env = api.cache(() => process.env.NODE_ENV)
-  console.log(env)
   return {
     presets: [
       [
