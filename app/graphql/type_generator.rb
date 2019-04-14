@@ -35,8 +35,28 @@ module TypeGenerator
     all do |type, model|
       type.class_eval do
         model.reflect_on_all_associations(:belongs_to).each do |reflection|
-          field_type = reflection.options[:polymorphic] ? "#{reflection.name.to_s.classify}Union" : "#{reflection.klass}Type"
-          field reflection.name, Types.const_get(field_type), null: !reflection.options[:required] || !!reflection.options[:optional]
+          nullable = !reflection.options[:required] || !!reflection.options[:optional]
+
+          if reflection.options[:polymorphic]
+            types = MODELS.
+              select { |m| m.reflect_on_all_associations.any? { |r| r.options[:as] == reflection.name } }.
+              map { |m| [m, Types.const_get("#{m.name}Type")] }.
+              to_h
+
+            union = Types.const_set(
+              "#{reflection.name.to_s.classify}Union",
+              Class.new(Types::BaseUnion) do
+                possible_types *types.values
+
+                define_singleton_method :resolve_type do |object, context|
+                  types[object]
+                end
+              end
+            )
+            field reflection.name, union, null: true
+          else
+            field reflection.name, Types.const_get("#{reflection.klass}Type"), null: nullable
+          end
         end
 
         model.reflect_on_all_associations(:has_many).each do |reflection|
