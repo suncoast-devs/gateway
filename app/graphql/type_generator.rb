@@ -12,7 +12,19 @@ module TypeGenerator
           foreign_keys = model.reflect_on_all_associations(:belongs_to).map(&:foreign_key)
           model.columns.each do |column|
             next if foreign_keys.include? column.name
-            field column.name, TypeGenerator.type_for(model, column), null: column.null
+            if model.defined_enums.include? column.name
+              enum = Types.const_set(
+                "#{model.name}#{column.name.classify}Enum",
+                Class.new(Types::BaseEnum) do
+                  model.defined_enums[column.name].keys.each do |key|
+                    value key
+                  end
+                end
+              )
+              field column.name, enum, null: column.null
+            else
+              field column.name, TypeGenerator.type_for(model, column), null: column.null
+            end
           end
         end
       )
@@ -23,8 +35,8 @@ module TypeGenerator
     all do |type, model|
       type.class_eval do
         model.reflect_on_all_associations(:belongs_to).each do |reflection|
-          next if reflection.options[:polymorphic] # TODO: Implement union types
-          field reflection.name, Types.const_get("#{reflection.klass}Type"), null: !reflection.options[:required] || !!reflection.options[:optional]
+          field_type = reflection.options[:polymorphic] ? "#{reflection.name.to_s.classify}Union" : "#{reflection.klass}Type"
+          field reflection.name, Types.const_get(field_type), null: !reflection.options[:required] || !!reflection.options[:optional]
         end
 
         model.reflect_on_all_associations(:has_many).each do |reflection|
