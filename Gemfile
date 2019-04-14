@@ -13,6 +13,7 @@ gem "rack-cors"
 
 gem "commonmarker"
 gem "full-name-splitter"
+gem "graphql"
 gem "http"
 gem "mailchimp-api", require: "mailchimp"
 gem "nutshell-crm-api"
@@ -44,3 +45,5 @@ group :test do
   gem "chromedriver-helper"
   gem "selenium-webdriver"
 end
+
+gem 'graphiql-rails', group: :development
