@@ -23,3 +23,5 @@ Rails.application.configure do
 
   config.active_record.dump_schema_after_migration = false
 end
+
+require "type_generator" # Load this before Unions
