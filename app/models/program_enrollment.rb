@@ -6,7 +6,7 @@ class ProgramEnrollment < ApplicationRecord
   has_many :program_acceptances
 
   enum status: {active: 0, won: 1, lost: 2, cancelled: 3, pending: 4}
-  enum stage: {applied: 3, interviewing: 4, accepted: 5, enrolled: 6}
+  enum stage: {applied: 3, interviewing: 4, accepted: 5, enrolling: 7, enrolled: 6}
 
   def current_program_acceptance
     program_acceptances.order(created_at: :desc).first

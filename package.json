@@ -10,7 +10,8 @@
     "classnames": "^2.2.6",
     "rails-erb-loader": "^5.5.2",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "react-fontawesome": "^1.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
