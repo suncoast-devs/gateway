@@ -13,7 +13,7 @@ class ProgramEnrollment < ApplicationRecord
   end
 
   def ac_deposit_outstanding_value
-    deposit_required? && deposit_paid? ? "Yes" : "No"
+    deposit_required? && deposit_paid? ? "No" : "Yes"
   end
 
   def ac_deposit_invoice_url_value
