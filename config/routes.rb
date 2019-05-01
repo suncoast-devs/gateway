@@ -41,6 +41,14 @@ Rails.application.routes.draw do
     end
   end
 
+  scope path: ApplicationResource.endpoint_namespace, module: :api, defaults: { format: :jsonapi } do
+    resources :cohorts
+    resources :courses
+    resources :people
+    resources :tags
+    resources :users
+  end
+
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end

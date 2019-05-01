@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-ruby "2.5.1"
+ruby "2.6.3"
 
 gem "bootsnap", ">= 1.1.0", require: false
 gem "jbuilder", "~> 2.5"
@@ -14,7 +14,9 @@ gem "rack-cors"
 gem "commonmarker"
 gem "full-name-splitter"
 gem "graphql"
+gem "graphiti"
 gem "http"
+gem "kaminari"
 gem "mailchimp-api", require: "mailchimp"
 gem "nutshell-crm-api"
 gem "omniauth"
@@ -22,6 +24,7 @@ gem "omniauth-google-oauth2"
 gem "pagy"
 gem "postmark-rails"
 gem "premailer-rails"
+gem "responders"
 gem "sentry-raven"
 gem "slim"
 gem "stripe"
