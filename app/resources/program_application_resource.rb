@@ -4,7 +4,7 @@ class ProgramApplicationResource < ApplicationResource
   attribute :person_id, :integer
   attribute :program_enrollment_id, :integer
 
-  attribute :question_responses, :json
+  attribute :question_responses, :hash
   attribute :program, :string
   attribute :application_status, :integer
   attribute :is_hidden, :boolean

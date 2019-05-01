@@ -5,7 +5,7 @@ class NoteResource < ApplicationResource
   attribute :notable_type, :string
 
   attribute :message, :string
-  attribute :data, :jsonb
+  attribute :data, :hash
   attribute :note_type, :string
 
   attribute :created_at, :datetime, writable: false
