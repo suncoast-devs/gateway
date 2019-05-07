@@ -1,6 +1,6 @@
 import React from 'react'
 import { Router } from '@reach/router'
-import { Footer, NavBar, People } from '.'
+import { Footer, NavBar, People, Courses } from '.'
 
 export class App extends React.Component {
   render() {
@@ -8,7 +8,8 @@ export class App extends React.Component {
       <>
         <NavBar />
         <Router>
-          <People path="/" />
+          <People path="/people" />
+          <Courses path="/courses" />
         </Router>
         <Footer />
       </>

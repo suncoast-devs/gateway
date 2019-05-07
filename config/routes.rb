@@ -57,6 +57,6 @@ Rails.application.routes.draw do
 
   get "s/:locator", to: "student#status", as: :student_status
 
-  # get "*path", to: "home#index"
+  get "*path", to: "home#index"
   root to: "home#index"
 end

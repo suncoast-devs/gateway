@@ -53,32 +53,43 @@ export const NavBar = () => {
 
         <div className={cx('navbar-menu', { 'is-active': isActive })}>
           <div className="navbar-start">
-            <NavLink exact to="/">
-              People
-            </NavLink>
-
-            <div className="navbar-item has-dropdown is-hoverable">
-              <a className="navbar-link">Legacy</a>
-
-              <div className="navbar-dropdown">
-                <a className="navbar-item" href="/legacy/enrollments">
-                  Enrollment
-                </a>
-                <a className="navbar-item" href="/legacy/apps">
-                  Applications
-                </a>
-                <a className="navbar-item" href="/legacy/course_registrations">
-                  Part-Time
-                </a>
-                <a className="navbar-item" href="/legacy/people">
+            {signedIn && (
+              <>
+                <NavLink exact to="/people">
                   People
-                </a>
-                <hr className="navbar-divider" />
-                <a className="navbar-item" href="/legacy/cohorts">
-                  Cohorts
-                </a>
-              </div>
-            </div>
+                </NavLink>
+
+                <NavLink exact to="/courses">
+                  Part-Time
+                </NavLink>
+
+                <div className="navbar-item has-dropdown is-hoverable">
+                  <a className="navbar-link">Legacy</a>
+
+                  <div className="navbar-dropdown">
+                    <a className="navbar-item" href="/legacy/enrollments">
+                      Enrollment
+                    </a>
+                    <a className="navbar-item" href="/legacy/apps">
+                      Applications
+                    </a>
+                    <a
+                      className="navbar-item"
+                      href="/legacy/course_registrations"
+                    >
+                      Part-Time
+                    </a>
+                    <a className="navbar-item" href="/legacy/people">
+                      People
+                    </a>
+                    <hr className="navbar-divider" />
+                    <a className="navbar-item" href="/legacy/cohorts">
+                      Cohorts
+                    </a>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="navbar-end">

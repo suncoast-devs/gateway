@@ -11,10 +11,12 @@
     "rails-erb-loader": "^5.5.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-fontawesome": "^1.6.1"
+    "react-fontawesome": "^1.6.1",
+    "spraypaint": "^0.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@rails/webpacker": "4.0.2",
     "babel-preset-react": "^6.24.1",

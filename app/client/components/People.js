@@ -102,7 +102,7 @@ export const People = () => {
               </td>
               <td />
               <td className="has-text-centered">
-                <time datetime="2019-03-18T15:30:13Z">27 days</time>
+                <time dateTime="2019-03-18T15:30:13Z">27 days</time>
               </td>
             </tr>
           </tbody>
