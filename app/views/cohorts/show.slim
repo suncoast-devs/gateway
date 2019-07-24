@@ -1,0 +1,52 @@
+- title "Cohort #{@cohort.name} Enrollment"
+
+section.section
+  .container
+    h1.title Enrollment
+
+section.section
+  .container
+
+    table.table.is-bordered.is-striped.is-fullwidth
+      thead
+        tr
+          th Name
+          th Stage
+          th Status
+          th SEA
+          th Deposit
+          th Financial Clearance
+          th.has-text-centered
+            span.icon
+              i.fas.fa-stopwatch
+      tbody
+        - @cohort.program_enrollments.order("stage DESC").each do |enrollment|
+          tr
+            td = link_to enrollment.person.full_name, enrollment.person
+            td
+              span[class="tag #{intent_for_stage(enrollment.stage)}"] = enrollment.stage.titleize
+            td
+              span[class="tag #{intent_for_status(enrollment.status)}"] = enrollment.status.titleize
+            td
+              - if enrollment.enrollment_agreement_complete?
+                .fas.fa-check-circle.has-text-success
+              - else
+                .fas.fa-exclamation-circle.has-text-warning
+            td
+              - if enrollment.deposit_required?
+                - if enrollment.deposit_paid
+                  .fas.fa-check-circle.has-text-success
+                - else
+                  .fas.fa-exclamation-circle.has-text-warning
+              - else
+                .fas.fa-ban.has-text-grey
+            td
+              - if enrollment.financial_clearance
+                .is-pulled-left
+                  .fas.fa-check-circle.has-text-success
+                .is-pulled-right
+                  .tag= enrollment.financial_clearance
+              - else
+                .fas.fa-exclamation-circle.has-text-warning
+            td.has-text-centered
+              = time_tag(enrollment.created_at) { time_ago_in_words(enrollment.created_at) }

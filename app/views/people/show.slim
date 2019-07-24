@@ -135,7 +135,7 @@ section.section
                     - else
                       span.icon.has-text-danger
                         i.fas.fa-ban
-            - if enrollment.accepted? || enrollment.enrolled?
+            - if enrollment.accepted? || enrollment.enrolled? || enrollment.enrolling?
               .panel-block
                 nav.level
                   .level-left

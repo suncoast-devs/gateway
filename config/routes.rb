@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     end
 
     resources :invoices, only: %i[index show new create]
-    resources :cohorts, except: %i[show]
+    resources :cohorts
     resources :course_registrations, only: %i[index]
   end
 

@@ -42,6 +42,7 @@ module ApplicationHelper
     when "interviewing" then "is-info"
     when "accepted" then "is-primary"
     when "enrolled" then "is-success"
+    when "enrolling" then "is-success lighten"
     end
   end
 
