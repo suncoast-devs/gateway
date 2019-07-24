@@ -2,7 +2,44 @@
 
 section.section
   .container
-    h1.title Enrollment
+    h1.title Cohort #{@cohort.name} Enrollment
+
+section.section
+  .container
+    nav.level
+      .level-item.has-text-centered
+        div
+          p.heading Applicants
+          p.title
+            span.has-text-info = @cohort.program_enrollments.active.count + @cohort.program_enrollments.won.count
+            span = " + "
+            span.has-text-danger = @cohort.program_enrollments.lost.count + @cohort.program_enrollments.cancelled.count + @cohort.program_enrollments.pending.count
+            span = " = "
+            = @cohort.program_enrollments.count
+
+      .level-item.has-text-centered
+        div
+          p.heading Applied/Interviewing
+          p.title
+            span.has-text-warning = @cohort.program_enrollments.applied.count
+            span = " + "
+            span.has-text-info = @cohort.program_enrollments.interviewing.count
+            span = " = "
+            = @cohort.program_enrollments.interviewing.count + @cohort.program_enrollments.applied.count
+
+      .level-item.has-text-centered
+        div
+          p.heading Accepted
+          p.title.has-text-primary = @cohort.program_enrollments.accepted.count
+      .level-item.has-text-centered
+        div
+          p.heading Enrolling
+          p.title
+            span.has-text-success.lighten = @cohort.program_enrollments.enrolling.count
+            span = " + "
+            span.has-text-success = @cohort.program_enrollments.enrolled.count
+            span = " = "
+            = @cohort.program_enrollments.enrolling.count + @cohort.program_enrollments.enrolled.count
 
 section.section
   .container
@@ -20,7 +57,7 @@ section.section
             span.icon
               i.fas.fa-stopwatch
       tbody
-        - @cohort.program_enrollments.order("stage DESC").each do |enrollment|
+        - @cohort.program_enrollments.order("status ASC, stage=5, stage=6, stage=7, stage=3, stage=4").each do |enrollment|
           tr
             td = link_to enrollment.person.full_name, enrollment.person
             td
@@ -41,7 +78,7 @@ section.section
               - else
                 .fas.fa-ban.has-text-grey
             td
-              - if enrollment.financial_clearance
+              - unless enrollment.financial_clearance.blank?
                 .is-pulled-left
                   .fas.fa-check-circle.has-text-success
                 .is-pulled-right

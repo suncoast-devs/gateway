@@ -23,9 +23,9 @@ html
             - if signed_in?
               .navbar-item.has-dropdown.is-hoverable
                 = link_to "Enrollment", program_enrollments_path, class: "navbar-link #{current_controller? 'program_enrollments'}"
-                - Cohort.enrolling.each do |cohort|
-                  .navbar-dropdown
-                    = link_to cohort.display_name, cohort, class: 'navbar-item'
+                .navbar-dropdown
+                  - Cohort.enrolling.each do |cohort|
+                      = link_to cohort.display_name, cohort, class: 'navbar-item'
               = link_to "Applications", program_applications_path, class: "navbar-item #{current_controller? 'program_applications'}"
               = link_to "Part-Time", course_registrations_path, class: "navbar-item #{current_controller? 'course_registrations'}"
               = link_to "People", people_path, class: "navbar-item #{current_controller? 'people'}"
