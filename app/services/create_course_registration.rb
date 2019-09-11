@@ -11,7 +11,7 @@ class CreateCourseRegistration
   end
 
   def call
-    fee = @code =~ /guildies/i ? 720 : 1200
+    fee = @code =~ /guildies/i ? 1199 : 1999
     registration = @person.course_registrations.create(course: @course, code: @code, fee: fee)
     due_date = [@course.starts_on - 7, 1.day.from_now].max
     invoice = @person.invoices.create(due_on: due_date,
