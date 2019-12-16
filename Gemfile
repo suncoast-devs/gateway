@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-ruby "2.6.3"
+ruby "2.6.5"
 
 gem "bootsnap", ">= 1.1.0", require: false
 gem "jbuilder", "~> 2.5"
