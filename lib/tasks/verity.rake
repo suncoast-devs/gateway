@@ -1,0 +1,8 @@
+# SchoolName	CampusName	SchoolID	FirstName	LastName	MI	Gender	Salutation	LeadStatus	LeadSourceCategory	LeadSource	OptIn	Email 1 Type	Email 1	Email 2 Type	Email 2	Phone 1 Type	Phone 1	Phone 2 Type	Phone 2	Program Code	ProgramOfInterest	TermStartOfInterest	LeadDateTime	AdmissionsAdvisor	Address	City	State	Province	Zip	Country	Ethnicity	Citizenship	Nationality	EmploymentStatus	HighSchoolGradYR	DateOfBirth
+# Name of school	Name of campus	Lead unique id for school	Lead first name	Lead last name	Lead middle initial	Lead gender	Lead salutation	Lead status	Lead source category	Lead source	Lead consent for voice/text/email communication	Lead preferred email type	Lead preferred email address	Lead second email type	Lead second email	Lead preferred phone type	Lead preferred phone no	Lead second phone type	Lead second phone no	Short Code for Inquiry Program	Inquiry program	Inquiry term start	Lead date at school	Assigned admissions advisor	Lead preferred mail address	Address City	Address State	Foreign address province	Address Zip	Country of residence	Ethnicity	Citizenship	Nationality	Current employment status	High school graduation year	Date of birth
+# Best College	Boca Raton	34899A (alphanumeric)	Jane	Doe	A	F	Mrs.	Attempting Contact	TV	Channel W Ad	Yes	Home	jane@myemail.com	Work	jane@myjob.com	Home	(561) 990-5531	Work	(877) 788-1541	CJ-1	Criminal Justice	8/25/2018	5/1/16 5:19 AM	Randy Moore	980 N Federal Hwy STE 110	Boca Raton	FL	Transilvania	33432	United States of America	White	Romania	United States of America	Placed in field	1991	1/1/1973
+
+namespace :verity do
+  task export: :environment do
+  end
+end
