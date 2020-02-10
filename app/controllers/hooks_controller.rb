@@ -60,7 +60,7 @@ class HooksController < ApplicationController
       if person
         person.full_name = [params[:contact][:first_name], params[:contact][:last_name]].join(" ")
         person.given_name = [params[:contact][:first_name]
-        person.family_name = params[:contact][:last_name]]
+        person.family_name = params[:contact][:last_name]
         person.email_address = params[:contact][:email] if params[:contact][:email].present?
         person.phone_number = params[:contact][:phone] if params[:contact][:phone].present?
         person.save
