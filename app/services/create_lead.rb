@@ -21,6 +21,8 @@ class CreateLead
 
     @person = Person.where("lower(email_address) = ?", email.downcase).first_or_initialize do |person|
       person.full_name ||= [given_name, family_name].join(" ")
+      person.given_name ||= given_name
+      person.family_name ||= family_name
       person.phone_number ||= phone
       person.source ||= source.parameterize
       person.save!

@@ -15,7 +15,7 @@ class Person < ApplicationRecord
   private
 
   def update_full_name
-    if login.nil?
+    if full_name.blank?
       self.full_name = [given_name, middle_name, family_name].join(' ').squeeze(' ')
     end
   end
