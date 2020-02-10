@@ -15,7 +15,7 @@ gem "commonmarker"
 gem "full-name-splitter"
 gem "graphql"
 gem "graphiti"
-gem "http"
+gem 'http', '~> 5.0.0.pre2'
 gem "kaminari"
 gem "mailchimp-api", require: "mailchimp"
 gem "nutshell-crm-api"

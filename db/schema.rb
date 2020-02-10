@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_25_143810) do
+ActiveRecord::Schema.define(version: 2020_01_29_152907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -96,6 +96,10 @@ ActiveRecord::Schema.define(version: 2019_06_25_143810) do
     t.string "preferred_communication"
     t.string "shirt_size"
     t.string "dietary_note"
+    t.string "given_name"
+    t.string "family_name"
+    t.string "middle_name"
+    t.string "client_ip_address"
   end
 
   create_table "program_acceptances", force: :cascade do |t|

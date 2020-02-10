@@ -10,5 +10,13 @@ class Person < ApplicationRecord
   has_many :notes, as: :notable
   has_many :course_registrations
 
-  validates :full_name, presence: true
+  before_create :update_full_name
+ 
+  private
+
+  def update_full_name
+    if login.nil?
+      self.full_name = [given_name, middle_name, family_name].join(' ').squeeze(' ')
+    end
+  end
 end

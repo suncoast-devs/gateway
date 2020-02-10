@@ -15,17 +15,21 @@ class ApplyController < ApplicationController
     @person = Person.where("lower(email_address) = ?", params[:email_address].downcase).first_or_create do |person|
       person.email_address = params[:email_address]
       person.phone_number = params[:phone_number]
-      person.full_name = params[:full_name]
-      person.source = "#{params[:program].parameterize}-program-application"
+      person.given_name = params[:given_name]
+      person.middle_name = params[:middle_name]
+      person.family_name = params[:family_name]
+      person.client_ip_address = request.remote_ip
+      person.source = "Web Development Program Application"
     end
     @program_application = @person.program_applications.create! create_params
     ConnectPersonToActiveCampaign.call_later(@person.id)
     CreateProgramApplication.call_later(@program_application.id)
+    PostLeadToVerity.call_later(@person.id)
     render json: {id: @program_application.id}
   end
 
   # PATCH /apply/:idea
-  # {
+  # { 
   #   "question_responses": {
   #     "What color is the sky?": "Blue!"
   #   }
@@ -44,7 +48,9 @@ class ApplyController < ApplicationController
     render json: {
       token: @program_application.id,
       responses: @program_application.question_responses,
-      contact: {full_name: @program_application.person.full_name,
+      contact: {given_name: @program_application.person.given_name,
+                middle_name: @program_application.person.middle_name,
+                family_name: @program_application.person.family_name,
                 email_address: @program_application.person.email_address,
                 phone_number: @program_application.person.phone_number},
     }
@@ -53,7 +59,7 @@ class ApplyController < ApplicationController
   private
 
   def contact_params
-    params.slice(:full_name, :email_address, :phone_number).permit!
+    params.slice(:given_name, :family_name, :middle_name, :email_address, :phone_number).permit!
   end
 
   def create_params

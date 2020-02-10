@@ -33,6 +33,7 @@ class PeopleController < ApplicationController
 
     if @person.save
       ConnectPersonToActiveCampaign.call_later(@person.id)
+      # PostLeadToVerity.call_later(@person.id)
       redirect_to @person, notice: "#{@person.full_name} created."
     else
       render :new
@@ -42,6 +43,7 @@ class PeopleController < ApplicationController
   def update
     if @person.update(person_params)
       ConnectPersonToActiveCampaign.call_later(@person.id)
+      # PostLeadToVerity.call_later(@person.id)
       redirect_to @person, notice: "#{@person.full_name} updated."
     else
       render :edit
