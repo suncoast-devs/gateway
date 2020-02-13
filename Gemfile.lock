@@ -121,7 +121,7 @@ GEM
     graphql (1.9.4)
     hashie (3.6.0)
     htmlentities (4.3.4)
-    http (5.0.0.pre2)
+    http (4.3.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
       http-form_data (~> 2.2)
@@ -330,7 +330,7 @@ DEPENDENCIES
   graphiql-rails
   graphiti
   graphql
-  http (~> 5.0.0.pre2)
+  http (~> 4.3)
   jbuilder (~> 2.5)
   kaminari
   letter_opener
