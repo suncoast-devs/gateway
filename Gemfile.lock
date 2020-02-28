@@ -226,7 +226,7 @@ GEM
       actionmailer (>= 3, < 6)
       premailer (~> 1.7, >= 1.7.9)
     public_suffix (3.0.3)
-    puma (3.12.1)
+    puma (3.12.3)
     rack (2.0.7)
     rack-cors (1.0.3)
     rack-proxy (0.6.5)
@@ -343,7 +343,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   postmark-rails
   premailer-rails
-  puma (~> 3.11)
+  puma (~> 3.12)
   rack-cors
   rails (~> 5.2.1)
   responders
