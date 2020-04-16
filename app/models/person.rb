@@ -10,7 +10,7 @@ class Person < ApplicationRecord
   has_many :notes, as: :notable
   has_many :course_registrations
 
-  before_create :update_full_name
+  before_save :update_full_name
  
   private
 
