@@ -23,7 +23,7 @@ class CreateInvoice
       customer: customer_id,
       billing: "send_invoice",
       due_date: @invoice.due_on.future? ? @invoice.due_on.to_time.to_i : 7.days.from_now.to_i,
-    ).finalize_invoice
+    ).send_invoice
     @invoice.update(stripe_id: invoice.id, payment_url: invoice.hosted_invoice_url)
   end
 
