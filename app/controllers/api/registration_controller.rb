@@ -21,7 +21,6 @@ module API
         person.source = "Course Registration"
       end
       ConnectPersonToActiveCampaign.call_later(@person.id)
-      PostLeadToVerity.call_later(@person.id)
       CreateCourseRegistration.call_later(@person.id, params[:course], params[:code])
       render json: {ok: true}
     end

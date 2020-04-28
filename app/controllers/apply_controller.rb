@@ -24,7 +24,7 @@ class ApplyController < ApplicationController
     @program_application = @person.program_applications.create! create_params
     ConnectPersonToActiveCampaign.call_later(@person.id)
     CreateProgramApplication.call_later(@program_application.id)
-    PostLeadToVerity.call_later(@person.id)
+    
     render json: {id: @program_application.id}
   end
 
@@ -38,7 +38,10 @@ class ApplyController < ApplicationController
     @program_application = ProgramApplication.find params[:id]
     @program_application.update update_params
     @program_application.person.update(contact_params)
-    CreateProgramEnrollment.call(@program_application.id) if @program_application.application_complete?
+    if @program_application.application_complete?
+      PostLeadToVerity.call_later(@program_application.person.id)
+      CreateProgramEnrollment.call(@program_application.id)
+    end
     render json: {ok: true}
   end
 
