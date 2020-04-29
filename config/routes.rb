@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     get "apply/:id", to: "apply#continue"
     post "lead", to: "hooks#lead"
 
-    ["stripe", "postmark", "activecampaign", "slack"].each do |hook|
+    ["stripe", "postmark", "slack"].each do |hook|
       post "/hooks/#{hook}", to: "hooks##{hook}"
     end
 

@@ -32,7 +32,6 @@ class CreateProgramAcceptance
 
     @program_acceptance.update(notification_body: notification_template)
     @program_enrollment.accepted!
-    SyncProgramEnrollmentToActiveCampaign.call_later(@program_enrollment.id)
   end
 
   private

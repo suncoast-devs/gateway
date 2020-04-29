@@ -21,10 +21,7 @@ class ApplyController < ApplicationController
       person.client_ip_address = request.remote_ip
       person.source = "Web Development Program Application"
     end
-    @program_application = @person.program_applications.create! create_params
-    ConnectPersonToActiveCampaign.call_later(@person.id)
-    CreateProgramApplication.call_later(@program_application.id)
-    
+    @program_application = @person.program_applications.create! create_params    
     render json: {id: @program_application.id}
   end
 
@@ -38,9 +35,9 @@ class ApplyController < ApplicationController
     @program_application = ProgramApplication.find params[:id]
     @program_application.update update_params
     @program_application.person.update(contact_params)
-    if @program_application.application_complete?
+
+    if update_params[:application_status] == 'complete'
       PostLeadToVerity.call_later(@program_application.person.id)
-      CreateProgramEnrollment.call(@program_application.id)
     end
     render json: {ok: true}
   end

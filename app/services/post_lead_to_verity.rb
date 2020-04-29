@@ -12,7 +12,7 @@ class PostLeadToVerity
   end
 
   def call
-    # return unless Rails.env.production?
+    return unless Rails.env.production?
 
     given_name, family_name = FullNameSplitter.split(@person.full_name)
 

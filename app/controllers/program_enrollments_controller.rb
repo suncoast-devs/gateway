@@ -37,7 +37,6 @@ class ProgramEnrollmentsController < ApplicationController
 
   def update
     @program_enrollment.update program_enrollment_params
-    SyncProgramEnrollmentToActiveCampaign.call_later(@program_enrollment.id)
     redirect_to @program_enrollment.person
   end
 

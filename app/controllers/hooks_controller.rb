@@ -48,40 +48,6 @@ class HooksController < ApplicationController
     head :ok
   end
 
-  def activecampaign
-    case params[:type]
-    when "deal_update"
-      enrollment = ProgramEnrollment.where(ac_deal_identifier: params[:deal][:id]).first
-      if enrollment
-        enrollment.update(status: params[:deal][:status].to_i, stage: params[:deal][:stageid].to_i)
-      end
-    when "update"
-      person = Person.where(ac_contact_identifier: params[:contact][:id]).first
-      if person
-        person.given_name = params[:contact][:first_name]
-        person.family_name = params[:contact][:last_name]
-        person.email_address = params[:contact][:email] if params[:contact][:email].present?
-        person.phone_number = params[:contact][:phone] if params[:contact][:phone].present?
-        person.save
-      end
-    when "subscribe"
-      @person = Person.where("lower(email_address) = ?", params[:contact][:email].downcase).first_or_initialize do |person|
-        person.given_name = params[:contact][:first_name]
-        person.family_name = params[:contact][:last_name]
-        person.email_address = params[:contact][:email] if params[:contact][:email].present?
-        person.phone_number = params[:contact][:phone] if params[:contact][:phone].present?
-        person.source = "active-campaign"
-        person.ac_contact_identifier = params[:contact][:id]
-        person.save
-      end
-    when "contact_tag_added", "contact_tag_removed"
-      person = Person.where(ac_contact_identifier: params[:contact][:id]).first
-      person.tag_list = params[:contact][:tags]
-    end
-
-    head :ok
-  end
-
   def slack
     if params[:type] == "url_verification"
       render(json: {challenge: params[:challenge]})

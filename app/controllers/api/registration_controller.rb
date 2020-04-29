@@ -20,7 +20,6 @@ module API
         person.client_ip_address = request.remote_ip
         person.source = "Course Registration"
       end
-      ConnectPersonToActiveCampaign.call_later(@person.id)
       CreateCourseRegistration.call_later(@person.id, params[:course], params[:code])
       render json: {ok: true}
     end
