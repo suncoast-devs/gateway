@@ -36,7 +36,7 @@ class ApplyController < ApplicationController
     @program_application.update update_params
     @program_application.person.update(contact_params)
 
-    if update_params[:application_status] == 'complete'
+    if update_params[:application_status] == 'complete' && @program_application.program == "web-development"
       PostLeadToVerity.call_later(@program_application.person.id)
     end
     render json: {ok: true}
