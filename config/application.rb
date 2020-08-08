@@ -11,13 +11,12 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "rails/test_unit/railtie"
-require "sprockets/railtie" if Rails.env.development?
 
 Bundler.require(*Rails.groups)
 
 module Gateway
   # :nodoc:
   class Application < Rails::Application
-    config.load_defaults 5.2
+    config.load_defaults 6.0
   end
 end

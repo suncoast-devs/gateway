@@ -1,4 +1,4 @@
-Dir.glob("#{Rails.root}/app/models/*.rb").each { |p| require_dependency p } # if Rails.env.development?
+# Dir.glob("#{Rails.root}/app/models/*.rb").each { |p| require_dependency p } # if Rails.env.development?
 
 module TypeGenerator
   MODELS = ApplicationRecord.descendants
