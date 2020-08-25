@@ -4,12 +4,11 @@ source "https://rubygems.org"
 
 ruby "2.6.5"
 
-gem "rails", "~> 6.0"
-gem "pg"
-
-gem "bootsnap", require: false
-gem "jbuilder"
-gem "puma"
+gem "bootsnap", ">= 1.1.0", require: false
+gem "jbuilder", "~> 2.5"
+gem "pg", ">= 0.18", "< 2.0"
+gem "puma", "~> 3.12"
+gem "rails", "~> 5.2.1"
 gem "rack-cors"
 
 gem "commonmarker"
@@ -37,9 +36,16 @@ end
 
 group :development do
   gem "awesome_print"
+  gem "graphiql-rails"
   gem "letter_opener"
-  gem "listen" 
+  gem "listen", ">= 3.0.5", "< 3.2"
   gem "spring"
-  gem "spring-watcher-listen"
-  gem "web-console"
+  gem "spring-watcher-listen", "~> 2.0.0"
+  gem "web-console", ">= 3.3.0"
+end
+
+group :test do
+  gem "capybara", ">= 2.15"
+  gem "chromedriver-helper"
+  gem "selenium-webdriver"
 end

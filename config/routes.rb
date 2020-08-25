@@ -49,6 +49,10 @@ Rails.application.routes.draw do
     resources :users
   end
 
+  if Rails.env.development?
+    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
+  end
+
   post "/graphql", to: "graphql#execute"
 
   get "s/:locator", to: "student#status", as: :student_status
