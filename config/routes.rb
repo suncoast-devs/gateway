@@ -38,6 +38,7 @@ Rails.application.routes.draw do
 
     namespace :api do
       post "register", to: "registration#create"
+      get "cohorts", to: "public#cohorts"
     end
   end
 

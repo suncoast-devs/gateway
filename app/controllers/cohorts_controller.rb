@@ -49,6 +49,6 @@ class CohortsController < ApplicationController
   end
 
   def cohort_params
-    params.require(:cohort).permit(:name, :begins_on, :ends_on, :is_enrolling)
+    params.require(:cohort).permit(:name, :begins_on, :ends_on, :note, :format, :delivery, :is_enrolling)
   end
 end
