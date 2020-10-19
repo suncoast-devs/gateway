@@ -6,6 +6,7 @@ html
     title = content_for?(:title) ? yield(:title) + ' - Gateway' : 'Gateway'
     script src="https://kit.fontawesome.com/175595d43c.js" crossorigin="anonymous"
     = javascript_pack_tag "application"
+    = stylesheet_pack_tag "application"
 
   body
     nav.navbar.is-light aria-label="main navigation" role="navigation"
