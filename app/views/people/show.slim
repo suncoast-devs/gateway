@@ -8,16 +8,12 @@ section.section
         .tags
           - @person.tags.each do |tag|
             span.tag= tag.name
-        .buttons
-          - if @person.crm_url
-            = link_to "Open Lead in Nutshell", @person.crm_url, class: 'button is-link', target:"_blank", rel: "noopener noreferrer"
-          = link_to "Contact in CRM", "https://sdg.activehosted.com/app/contacts/#{@person.ac_contact_identifier}", class: 'button is-link', target:"_blank", rel: "noopener noreferrer"
 
       .column.is-one-third
         nav.panel.contact-information
           p.panel-heading Contact Information
           .panel-block
-            nav.level
+            nav.level.is-flex-grow-1
               .level-left
                 .level-item
                   span.icon
@@ -26,7 +22,7 @@ section.section
                 .level-item
                   = mail_to @person.email_address
           .panel-block
-            nav.level
+            nav.level.is-flex-grow-1
               .level-left
                 .level-item
                   span.icon
@@ -35,28 +31,29 @@ section.section
                 .level-item
                   = link_to @person.phone_number, "tel:#{@person.phone_number}"
           .panel-block
-            nav.level
+            nav.level.is-flex-grow-1
               .level-left
                 .level-item Preferred Communication
               .level-right
                 .level-item
                   = @person.preferred_communication
           .panel-block
-            nav.level
+            nav.level.is-flex-grow-1
               .level-left
                 .level-item Shirt Size
               .level-right
                 .level-item
                   = @person.shirt_size
           .panel-block
-            nav.level
+            nav.level.is-flex-grow-1
               .level-left
                 .level-item Dietary Note
               .level-right
                 .level-item
                   = @person.dietary_note
+          
           .panel-block
-            nav.level
+            nav.level.is-flex-grow-1
               .level-left
               .level-right
                 .level-item
@@ -71,14 +68,13 @@ section.section
             = enrollment.program.titleize
             |  Program Enrollment
           .buttons
-            = link_to "Deal in CRM", "https://sdg.activehosted.com/app/contacts/#{@person.ac_contact_identifier}/deal/#{enrollment.ac_deal_identifier}", class: 'button is-link', target:"_blank", rel: "noopener noreferrer"
             = link_to "Student Status", student_status_url(enrollment.status_locator), class: "button is-link"
 
         .column.is-one-third
           nav.panel.contact-information
             p.panel-heading Enrollment Details
             .panel-block
-              nav.level
+              nav.level.is-flex-grow-1
                 .level-left
                   .level-item
                     strong Cohort
@@ -86,7 +82,7 @@ section.section
                   .level-item
                     = enrollment.cohort&.display_name
             .panel-block
-              nav.level
+              nav.level.is-flex-grow-1
                 .level-left
                   .level-item
                     strong Stage
@@ -95,7 +91,7 @@ section.section
                     span[class="tag #{intent_for_stage(enrollment.stage)}"]
                       = enrollment.stage.titleize
             .panel-block
-              nav.level
+              nav.level.is-flex-grow-1
                 .level-left
                   .level-item
                     strong Status
@@ -104,7 +100,7 @@ section.section
                     span[class="tag #{intent_for_status(enrollment.status)}"]
                       = enrollment.status.titleize
             .panel-block
-              nav.level
+              nav.level.is-flex-grow-1
                 .level-left
                   .level-item
                     strong Academic Sign-off
@@ -120,7 +116,7 @@ section.section
                       span.icon.has-text-danger
                         i.fas.fa-ban
             .panel-block
-              nav.level
+              nav.level.is-flex-grow-1
                 .level-left
                   .level-item
                     strong Administrative Sign-off
@@ -137,7 +133,7 @@ section.section
                         i.fas.fa-ban
             - if enrollment.accepted? || enrollment.enrolled? || enrollment.enrolling?
               .panel-block
-                nav.level
+                nav.level.is-flex-grow-1
                   .level-left
                     .level-item
                       strong Deposit
@@ -148,7 +144,7 @@ section.section
                       - else
                         | N/A
               .panel-block
-                nav.level
+                nav.level.is-flex-grow-1
                   .level-left
                     .level-item
                       strong Enrollment Agreement
@@ -156,7 +152,7 @@ section.section
                     .level-item
                       = enrollment.enrollment_agreement_complete? ? "Yes" : "No"
               .panel-block
-                nav.level
+                nav.level.is-flex-grow-1
                   .level-left
                     .level-item
                       strong Financial Clearance
@@ -165,7 +161,7 @@ section.section
                       = enrollment.financial_clearance || "No"
 
             .panel-block
-              nav.level
+              nav.level.is-flex-grow-1
                   .level-left
                   .level-right
                     .level-item

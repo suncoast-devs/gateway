@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# The Person model represents a potential student, connected to a lead in the CRM
+# The Person model represents a potential student
 class Person < ApplicationRecord
   include Taggable
 

@@ -2,8 +2,6 @@ section.section
   .container
     h1.title Editing enrollment record for #{@program_enrollment.person.full_name}
 
-section.section
-  .container
     = form_with(model: @program_enrollment, local: true) do |form|
       - if @program_enrollment.errors.any?
         .message

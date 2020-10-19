@@ -1,3 +1,0 @@
-<% Dir.glob(Rails.root / 'app' / 'client' / 'components' / '*.js').each do |component| %>
-export * from './<%= File.basename(component) %>'
-<% end %>

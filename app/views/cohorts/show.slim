@@ -4,8 +4,6 @@ section.section
   .container
     h1.title Cohort #{@cohort.name} Enrollment
 
-section.section
-  .container
     nav.level
       .level-item.has-text-centered
         div
@@ -40,9 +38,6 @@ section.section
             span.has-text-success = @cohort.program_enrollments.enrolled.count
             span = " = "
             = @cohort.program_enrollments.enrolling.count + @cohort.program_enrollments.enrolled.count
-
-section.section
-  .container
 
     table.table.is-bordered.is-striped.is-fullwidth
       thead

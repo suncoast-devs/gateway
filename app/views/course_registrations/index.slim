@@ -3,9 +3,6 @@ section.section
     h1.title
       | Part-Time Course Registrations
 
-section.section
-  .container
-
     table.table.is-bordered.is-striped.is-fullwidth
       thead
         tr
@@ -13,6 +10,7 @@ section.section
           th Email
           th Phone Number
           th Course
+          th Session
           th.has-text-centered $
       tbody
         - @course_registrations.each do |registration|
@@ -21,6 +19,7 @@ section.section
             td = registration.person.email_address
             td = registration.person.phone_number
             td = registration.course.name
+            td = registration.course.session
             td.has-text-centered
               - if registration.invoice.is_paid?
                 span.icon.has-text-success

@@ -11,8 +11,7 @@ module.exports = (api) => {
           modules: false,
         },
       ],
-      '@babel/react',
     ],
-    plugins: ['@babel/plugin-proposal-class-properties'],
+    plugins: [],
   }
 }

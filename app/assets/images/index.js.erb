@@ -1,4 +1,4 @@
-<% images = Dir.glob(Rails.root / 'app' / 'client' / 'images' / '*.{png,svg}')
+<% images = Dir.glob(Rails.root / 'app' / 'assets' / 'images' / '*.{png,svg}')
 images.each do |image| %>
 import <%= File.basename(image, '.*') %> from './<%= File.basename(image) %>'
 <% end %>

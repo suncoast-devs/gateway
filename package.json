@@ -5,24 +5,16 @@
     "start": "heroku local -f Procfile.dev"
   },
   "dependencies": {
-    "@reach/router": "^1.2.1",
-    "bulma": "^0.8.0",
-    "classnames": "^2.2.6",
+    "bulma": "^0.9.1",
     "core-js": "3",
-    "rails-erb-loader": "^5.5.2",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-fontawesome": "^1.6.1",
-    "spraypaint": "^0.10.0"
+    "rails-erb-loader": "^5.5.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/preset-react": "^7.0.0",
-    "@rails/webpacker": "4.2.2",
-    "babel-preset-react": "^6.24.1",
+    "@babel/core": "^7.12.3",
+    "@rails/webpacker": "5.2.1",
+    "caniuse-lite": "^1.0.30001148",
     "postcss-cssnext": "^3.1.0",
-    "webpack": "^4.29.6",
-    "webpack-dev-server": "^3.3.1"
+    "webpack": "^4.44.2",
+    "webpack-dev-server": "^3.11.0"
   }
 }

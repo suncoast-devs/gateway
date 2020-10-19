@@ -1,25 +1,23 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  scope :legacy do
-    resources :program_applications, only: %i[index show edit update], path: "apps"
+  resources :program_applications, only: %i[index show edit update], path: "apps"
 
-    resources :program_enrollments, only: %i[index show edit update], path: "enrollments" do
-      resources :program_acceptances, except: %i[index destroy] do
-        member do
-          patch "deliver"
-        end
+  resources :program_enrollments, only: %i[index show edit update], path: "enrollments" do
+    resources :program_acceptances, except: %i[index destroy] do
+      member do
+        patch "deliver"
       end
     end
-
-    resources :people do
-      resources :notes, only: %i[create update destroy]
-    end
-
-    resources :invoices, only: %i[index show new create]
-    resources :cohorts
-    resources :course_registrations, only: %i[index]
   end
+
+  resources :people do
+    resources :notes, only: %i[create update destroy]
+  end
+
+  resources :invoices, only: %i[index show new create]
+  resources :cohorts
+  resources :course_registrations, only: %i[index]
 
   get "sign_in", to: redirect("/auth/#{Rails.env.production? ? :google_oauth2 : :developer}")
   get "sign_out", to: "sessions#destroy"
@@ -42,22 +40,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope path: ApplicationResource.endpoint_namespace, module: :api, defaults: { format: :jsonapi } do
-    resources :cohorts
-    resources :courses
-    resources :people
-    resources :tags
-    resources :users
-  end
-
-  if Rails.env.development?
-    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
-  end
-
-  post "/graphql", to: "graphql#execute"
-
   get "s/:locator", to: "student#status", as: :student_status
 
-  get "*path", to: "home#index"
   root to: "home#index"
 end

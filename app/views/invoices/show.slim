@@ -22,8 +22,7 @@ section.section
               = link_to @invoice.payment_url do
                 span.icon
                   i.fab.fa-stripe.fa-2x
-section.section
-  .container
+
     table.table.is-bordered.is-striped.is-fullwidth
       tbody
         - @invoice.invoice_items.each do |item|

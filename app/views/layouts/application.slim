@@ -4,8 +4,7 @@ html
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1"
     title = content_for?(:title) ? yield(:title) + ' - Gateway' : 'Gateway'
-    link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css"
-    script defer=true src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    script src="https://kit.fontawesome.com/175595d43c.js" crossorigin="anonymous"
     = javascript_pack_tag "application"
 
   body
@@ -25,10 +24,15 @@ html
                 = link_to "Enrollment", program_enrollments_path, class: "navbar-link #{current_controller? 'program_enrollments'}"
                 .navbar-dropdown
                   - Cohort.enrolling.each do |cohort|
-                      = link_to cohort.display_name, cohort, class: 'navbar-item'
-              = link_to "Applications", program_applications_path, class: "navbar-item #{current_controller? 'program_applications'}"
-              = link_to "Part-Time", course_registrations_path, class: "navbar-item #{current_controller? 'course_registrations'}"
-              = link_to "People", people_path, class: "navbar-item #{current_controller? 'people'}"
+                    = link_to cohort.display_name, cohort, class: 'navbar-item'
+              = link_to "Weekend", course_registrations_path, class: "navbar-item #{current_controller? 'course_registrations'}"
+              .navbar-item.has-dropdown.is-hoverable
+                a.navbar-link Admin
+                .navbar-dropdown
+                  = link_to "Applications", program_applications_path, class: "navbar-item #{current_controller? 'program_applications'}"
+                  = link_to "Cohorts", cohorts_path, class: "navbar-item #{current_controller? 'cohorts'}"
+                  = link_to "People", people_path, class: "navbar-item #{current_controller? 'people'}"
+
           .navbar-end
             .navbar-item
               .field.is-grouped
@@ -41,17 +45,18 @@ html
                   p.control
                     = link_to "Sign In", sign_in_path, class: "button is-primary"
 
-    section.section
-      .container
-        - if notice.present?
+    - if notice.present?
+      section.section
+        .container
           article.message.is-success
             .message-body= notice
+
     = yield
 
     footer.footer
       .content.has-text-centered
         p
-          a.has-text-grey-dark href="https://github.io/suncoast-devs/gateway"
+          a.has-text-grey-dark href="https://github.com/suncoast-devs/gateway"
             span.icon.is-large
               i.fab.fa-github.fa-lg
         p
@@ -61,7 +66,7 @@ html
           strong Gateway
           '  by
           a href="https://suncoast.io" Suncoast Developers Guild
-          ' . The source code is licensed
+          ' . This source code is licensed
           a href="http://opensource.org/licenses/mit-license.php" MIT
           | .
           br
