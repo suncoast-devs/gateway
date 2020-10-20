@@ -29,4 +29,9 @@ class ApplicationController < ActionController::Base
   def set_raven_context
     Raven.user_context(email: current_user&.email)
   end
+
+  def publish_event(name, payload = {})
+    payload[:current_user] = current_user if signed_in?
+    ActiveSupport::Notifications.instrument "#{name}.gateway", payload
+  end
 end

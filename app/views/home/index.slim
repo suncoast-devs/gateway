@@ -1,0 +1,19 @@
+- if signed_in?
+  section.section
+    .container.is-max-desktop
+      h1.title = title "Recent Gateway Events"
+
+      - @events.each do |event|
+        article.level
+          .level-left
+            .level-item.content
+              p
+                strong = event.title
+                br
+                = event.message
+          .level-right
+            .level-item
+              small= link_to time_ago_in_words(event.created_at) + " ago", event.link_url
+        hr
+      
+      == pagy_bulma_nav(@pagy)

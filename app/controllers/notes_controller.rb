@@ -7,9 +7,12 @@ class NotesController < ApplicationController
   before_action :find_note, only: %i[update destroy]
 
   def create
-    @person.notes.create(note_params) do |note|
+    @note = @person.notes.create(note_params) do |note|
       note.user = current_user
     end
+
+    publish_event 'create_note', id: @note.id
+
     redirect_back fallback_location: @person, notice: "Note created."
   end
 

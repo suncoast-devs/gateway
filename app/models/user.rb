@@ -3,6 +3,10 @@
 # User model, login is restricted to suncoast.io email addresses
 class User < ApplicationRecord
   has_many :notes
+  has_many :notifications
+  has_many :events, through: :notifications
+
+  scope :notifiable, -> { where(is_notifiable: true) }
 
   def self.from_auth_hash(auth)
     return unless auth.info.email =~ /@suncoast.io$/
@@ -12,5 +16,9 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.save!
     end
+  end
+
+  def first_name
+    name.split(' ').first
   end
 end
