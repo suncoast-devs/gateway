@@ -1,6 +1,4 @@
 class PersonMailer < ApplicationMailer
-  default from: "Suncoast Developers Guild <hello@suncoast.io>"
-
   def acceptance_email
     @program_acceptance = params[:program_acceptance]
     @person = @program_acceptance.person
