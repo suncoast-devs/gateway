@@ -1,0 +1,19 @@
+section.section
+  .container
+    h1.title = title "Program Applications"
+    nav.level
+      .level-left
+        .level-item
+          = form_tag(program_applications_path, method: :get) do
+            .field
+              .control
+                = text_field_tag :q, @query, placeholder: "Search Applicants", class: "input"
+      .level-right
+        .level-item
+        small.level-item
+          - if params[:hidden].nil?
+            = link_to "Show Hidden", program_applications_path(hidden: "✓"), class: 'button'
+          - else
+            = link_to "Show All", program_applications_path, class: 'button'
+    = render partial: 'list', locals: { program_applications: @program_applications }
+    == pagy_bulma_nav(@pagy)
