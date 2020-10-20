@@ -33,6 +33,7 @@ html
                   = link_to "Applications", program_applications_path, class: "navbar-item #{current_controller? 'program_applications'}"
                   = link_to "Cohorts", cohorts_path, class: "navbar-item #{current_controller? 'cohorts'}"
                   = link_to "People", people_path, class: "navbar-item #{current_controller? 'people'}"
+                  = link_to "Sidekiq Queue", "/sidekiq", class: "navbar-item"
 
           .navbar-end
             .navbar-item

@@ -21,6 +21,6 @@ class CreateCourseRegistration
     registration.update(invoice: invoice)
     CreateInvoice.call(invoice.id)
     invoice.reload
-    PersonMailer.with(course_registration: registration).part_time_registration_email.deliver_now
+    PersonMailer.with(course_registration: registration).part_time_registration_email.deliver_later
   end
 end
