@@ -20,7 +20,12 @@ module API
         person.client_ip_address = request.remote_ip
         person.source = "Course Registration"
       end
-      CreateCourseRegistration.call_later(@person.id, params[:course], params[:code])
+      @course = Course.where(identifier: params[:course]).where("starts_on > ?", Date.today).first
+      @course_registration = @person.course_registrations.create(course: @course, code: params[:code])
+      
+      CreateCourseRegistrationInvoice.call_later(@course_registration)
+      publish_event :course_registration, @course_registration
+      
       render json: {ok: true}
     end
   end

@@ -21,7 +21,7 @@ section.section
             td = registration.course.name
             td = registration.course.session
             td.has-text-centered
-              - if registration.invoice.is_paid?
+              - if registration.invoice&.is_paid?
                 span.icon.has-text-success
                   i.fas.fa-check-circle
               - else

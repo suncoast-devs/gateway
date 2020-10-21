@@ -37,7 +37,7 @@ class ApplyController < ApplicationController
     @program_application.person.update(contact_params)
 
     if update_params[:application_status] == 'complete' && @program_application.program == "web-development"
-      PostLeadToVerity.call_later(@program_application.person.id) # TODO: Do this stuff in event subscription.
+      PostLeadToVerity.call_later(@program_application.person.id)
       publish_event :complete_application, @program_application
     end
     render json: {ok: true}

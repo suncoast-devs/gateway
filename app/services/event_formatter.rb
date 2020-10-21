@@ -6,7 +6,8 @@ class EventFormatter
   def initialize(event)
     @event = event
     @payload = event.payload
-    @title, @message, @link_url, @is_notifiable = send @event.name.match(/(?<name>\w+)\.gateway/)[:name]
+    @name = @event.name.match(/(?<name>\w+)\.gateway/)[:name]
+    @title, @message, @link_url, @is_notifiable = send @name
   end
 
   def is_notifiable?
@@ -14,6 +15,10 @@ class EventFormatter
   end
 
   private
+
+  def method_missing(m, *args, &block)
+    unhandled_event_format
+  end
 
   def create_note
     note = payload
@@ -36,8 +41,13 @@ class EventFormatter
     return "An application has been submitted by #{program_application.person.full_name}.", "", program_application_url(program_application), true
   end
 
+  def course_registration
+    course_registration = payload
+    return "New weekend course registration.", "#{course_registration.person.full_name} has registered for #{course_registration.course.display_name}.", person_url(course_registration), true
+  end
+
   def unhandled_event_format
-    return "An unhandled event notification has occured.", "This event does not have a formatter implemented. See the `EventFormatter` class.", root_url, false
+    return "An unhandled event notification has occured.", "This `#{@name}` event does not have a formatter implemented. See the `EventFormatter` class.", root_url, false
   end
 
   class << self

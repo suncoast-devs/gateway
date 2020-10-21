@@ -9,4 +9,8 @@ class Course < ApplicationRecord
   validates :ends_on, presence: true
   validates :days, presence: true
   validates :time, presence: true
+
+  def display_name
+    "#{name} (#{session})"
+  end
 end
