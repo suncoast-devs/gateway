@@ -31,7 +31,6 @@ class ApplicationController < ActionController::Base
   end
 
   def publish_event(name, payload = {})
-    payload[:current_user] = current_user if signed_in?
-    ActiveSupport::Notifications.instrument "#{name}.gateway", payload
+    ActiveSupport::Notifications.instrument "#{name}.gateway", [payload, current_user]
   end
 end

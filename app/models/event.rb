@@ -2,7 +2,9 @@ class Event < ApplicationRecord
   has_many :notifications
   belongs_to :instigator, class_name: "User", optional: true
 
-  delegate :title, :message, :link_url, to: :formatter
+  delegate :title, :message, :link_url, :is_notifiable?, to: :formatter
+
+  serialize :payload, PayloadSerializer
 
   private
 

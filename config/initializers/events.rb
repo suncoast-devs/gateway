@@ -1,5 +1,4 @@
 ActiveSupport::Notifications.subscribe /gateway/ do |name, *args|
-  payload = args.extract_options!
-  instigator = payload.delete(:current_user)
+  payload, instigator = args.last
   EventHandler.call(name, payload, instigator)
 end

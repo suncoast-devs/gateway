@@ -11,7 +11,7 @@ class NotesController < ApplicationController
       note.user = current_user
     end
 
-    publish_event 'create_note', id: @note.id
+    publish_event :create_note, @note
 
     redirect_back fallback_location: @person, notice: "Note created."
   end

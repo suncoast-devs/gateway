@@ -6,7 +6,7 @@ class EventHandler
   end
 
   def call
-    if @event.save!
+    if @event.save! && @event.is_notifiable?
       User.notifiable.where.not(id: @event.instigator&.id).each do |user|
         notification = user.notifications.create!(event: @event)
         DeliverNotification.call_later(notification.id)
