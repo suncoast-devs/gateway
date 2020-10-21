@@ -54,15 +54,6 @@ class HooksController < ApplicationController
       return
     end
 
-    case params[:event][:type]
-    when "team_join"
-      profile = params[:event][:user][:profile]
-      given_name, family_name = FullNameSplitter.split(profile[:real_name])
-      email_address = profile[:email]
-
-      CreateLead.call_later(email_address, given_name, family_name, "community", nil, nil)
-    end
-
     head :ok
   end
 end
