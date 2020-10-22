@@ -49,10 +49,10 @@ section.section
           th Deposit
           th Financial Clearance
           th.has-text-centered
-            span.icon
+            span.icon title="Last Contacted"
               i.fas.fa-stopwatch
       tbody
-        - @cohort.program_enrollments.order("status ASC, stage=5, stage=6, stage=7, stage=3, stage=4").each do |enrollment|
+        - @cohort.program_enrollments.eager_load(person: :last_contact_disposition).order("status ASC, stage=5, stage=6, stage=7, stage=3, stage=4").each do |enrollment|
           tr
             td = link_to enrollment.person.full_name, enrollment.person
             td
@@ -81,4 +81,8 @@ section.section
               - else
                 .fas.fa-exclamation-circle.has-text-warning
             td.has-text-centered
-              = time_tag(enrollment.created_at) { time_ago_in_words(enrollment.created_at) }
+              - if enrollment.person.last_contact_disposition.present?
+                span class=[enrollment.person.last_contact_disposition.succeeded? ? "has-text-success-dark" : "has-text-warning-dark"]
+                  = time_tag(enrollment.person.last_contact_disposition.contacted_at) { time_ago_in_words(enrollment.person.last_contact_disposition.contacted_at) + ' ago' }
+              - else
+                span.has-text-danger-dark Never

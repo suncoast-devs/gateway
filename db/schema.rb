@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_20_014623) do
+ActiveRecord::Schema.define(version: 2020_10_22_170521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -26,6 +26,17 @@ ActiveRecord::Schema.define(version: 2020_10_20_014623) do
     t.string "format"
     t.string "note"
     t.string "delivery"
+  end
+
+  create_table "contact_dispositions", force: :cascade do |t|
+    t.bigint "person_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "code", default: 0, null: false
+    t.datetime "contacted_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["person_id"], name: "index_contact_dispositions_on_person_id"
+    t.index ["user_id"], name: "index_contact_dispositions_on_user_id"
   end
 
   create_table "course_registrations", force: :cascade do |t|
@@ -122,6 +133,8 @@ ActiveRecord::Schema.define(version: 2020_10_20_014623) do
     t.string "family_name"
     t.string "middle_name"
     t.string "client_ip_address"
+    t.bigint "last_contact_disposition_id"
+    t.index ["last_contact_disposition_id"], name: "index_people_on_last_contact_disposition_id"
   end
 
   create_table "program_acceptances", force: :cascade do |t|
@@ -213,6 +226,8 @@ ActiveRecord::Schema.define(version: 2020_10_20_014623) do
     t.boolean "is_notifiable", default: false, null: false
   end
 
+  add_foreign_key "contact_dispositions", "people"
+  add_foreign_key "contact_dispositions", "users"
   add_foreign_key "course_registrations", "courses"
   add_foreign_key "course_registrations", "invoices"
   add_foreign_key "course_registrations", "people"
@@ -222,6 +237,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_014623) do
   add_foreign_key "notes", "users"
   add_foreign_key "notifications", "events"
   add_foreign_key "notifications", "users"
+  add_foreign_key "people", "contact_dispositions", column: "last_contact_disposition_id"
   add_foreign_key "program_acceptances", "cohorts"
   add_foreign_key "program_applications", "people"
   add_foreign_key "program_enrollments", "cohorts"

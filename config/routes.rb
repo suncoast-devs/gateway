@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :people do
     resources :notes, only: %i[create update destroy]
+    resources :contact_dispositions, only: %i[create destroy]
   end
 
   resources :invoices, only: %i[index show new create]

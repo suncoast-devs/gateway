@@ -8,7 +8,7 @@ section.section
         .tags
           - @person.tags.each do |tag|
             span.tag= tag.name
-
+      
       .column.is-one-third
         nav.panel.contact-information
           p.panel-heading Contact Information
@@ -244,24 +244,31 @@ section.section
                   i.fas.fa-ban
             td = usd(invoice.invoice_items.sum(:amount))
 
-    ul.activity-timeline
-      - @person.notes.order(created_at: :asc).each do |note|
-        = render partial: "notes/#{note.note_type.underscore}", locals: { note: note }
+    .columns
+      .column.is-two-thirds
+        h4.title.is-4 Activity Timeline
+        
+        ul.activity-timeline
+          - @person.notes.order(created_at: :asc).each do |note|
+            = render partial: "notes/#{note.note_type.underscore}", locals: { note: note }
 
-    hr
+        hr
 
-    article.media
-      figure.media-left
-        p.image.is-64x64
-          = gravatar_for current_user
-      .media-content
-        = form_for [@person, Note.new] do |f|
-          .field
-            p.control
-              = f.text_area :message, class: "textarea", placeholder: "Add a note..."
-          .field.is-grouped
-            .control
-              .select
-                = f.select :note_type, ['comment', 'interview-note', 'job-placement'].map { |o| [o.titleize, o]}
-            .control
-              = f.submit class: "button is-info"
+        article.media
+          figure.media-left
+            p.image.is-64x64
+              = gravatar_for current_user
+          .media-content
+            = form_for [@person, Note.new] do |f|
+              .field
+                p.control
+                  = f.text_area :message, class: "textarea", placeholder: "Add a note..."
+              .field.is-grouped
+                .control
+                  .select
+                    = f.select :note_type, ['comment', 'interview-note', 'job-placement'].map { |o| [o.titleize, o]}
+                .control
+                  = f.submit class: "button is-info"
+
+      .column.is-one-third
+        = render partial: 'contact_dispositions', locals: { person: @person }
