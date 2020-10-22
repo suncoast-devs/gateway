@@ -10,7 +10,7 @@ class Person < ApplicationRecord
   has_many :notes, as: :notable
   has_many :course_registrations
   has_many :contact_dispositions
-  belongs_to :last_contact_disposition, class_name: 'ContactDisposition'  
+  belongs_to :last_contact_disposition, class_name: 'ContactDisposition', optional: true
 
   before_save :update_full_name
  
