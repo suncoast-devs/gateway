@@ -38,6 +38,7 @@ class ApplyController < ApplicationController
 
     if update_params[:application_status] == 'complete' && @program_application.program == "web-development"
       PostLeadToVerity.call_later(@program_application.person.id)
+      CreateProgramEnrollment.call_later(@program_application)
       publish_event :complete_application, @program_application
     end
     render json: {ok: true}

@@ -4,8 +4,8 @@
 class CreateProgramEnrollment
   include Callable
 
-  def initialize(program_application_id)
-    @program_application = ProgramApplication.find(program_application_id)
+  def initialize(program_application)
+    @program_application = program_application
   end
 
   def call
@@ -16,7 +16,7 @@ class CreateProgramEnrollment
         @program_application.update(program_enrollment: @program_application.person.program_enrollments.first)
       else
         program_start = @program_application.question_responses["When are you hoping to start the program?"]
-        cohort_name = program_start.match(/Cohort ([IVX]+)/).try(:[], 1) || "Future"
+        cohort_name = program_start.match(/\d+)/).try(:[], 1) || "Future"
         enrollment = ProgramEnrollment.create!({
           cohort: Cohort.where(name: cohort_name).first,
           person: @program_application.person,
