@@ -220,7 +220,7 @@ class CreateEnrollmentAgreement
         text_size: 11,
         text_font: "calibri",
       }, {
-        identifier: "paymentcheck",
+        identifier: "paymentcash",
         type: "checkbox",
         x: 251,
         y: 551,
@@ -232,7 +232,19 @@ class CreateEnrollmentAgreement
         text_size: 11,
         text_font: "calibri",
       }, {
-        identifier: "paymentcash",
+        identifier: "paymentfinancing",
+        type: "checkbox",
+        x: 383,
+        y: 551,
+        page: 2,
+        width: 17,
+        height: 17,
+        signer: 1,
+        required: 0,
+        text_size: 11,
+        text_font: "calibri",
+      }, {
+        identifier: "paymentother",
         type: "checkbox",
         x: 483,
         y: 551,
@@ -244,7 +256,7 @@ class CreateEnrollmentAgreement
         text_size: 11,
         text_font: "calibri",
       }, {
-        identifier: "studentDig",
+        identifier: "studentSig",
         type: "signature",
         x: 198,
         y: 619,
