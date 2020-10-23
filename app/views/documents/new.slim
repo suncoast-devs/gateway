@@ -1,0 +1,7 @@
+section.section
+  .container
+    h1.title Upload Document
+    h2.subtitle
+      em for
+      =< @person.full_name
+    = render partial: 'form', locals: { person: @person, document: @document }

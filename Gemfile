@@ -9,6 +9,7 @@ gem "pg"
 gem "puma"
 gem "rack-cors"
 
+gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.1.0", require: false
 gem "commonmarker"
 gem "full-name-splitter"

@@ -9,6 +9,8 @@ section.section
           - @person.tags.each do |tag|
             span.tag= tag.name
       
+        = render partial: "documents", locals: { person: @person }
+
       .column.is-one-third
         nav.panel.contact-information
           p.panel-heading Contact Information

@@ -1,0 +1,24 @@
+nav.level
+  .level-left
+    .level-item
+      h5.title.is-5 Documents
+  .level-right
+    .level-item
+      = link_to new_person_document_path(person), class: 'button is-primary is-small'
+        span.icon
+          i.fas.fa-plus
+        span Upload
+
+- if person.documents.any?
+  table.table.is-fullwidth
+    thead
+      tr
+        th Label
+        th Description
+        th Uploaded by
+    tbody
+      - person.documents.each do |document|
+        tr
+          th = link_to document.label, [person, document]
+          td = document.description
+          td = document.user.name
