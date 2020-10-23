@@ -27,6 +27,8 @@ Rails.application.configure do
   logger = ActiveSupport::Logger.new(STDOUT)
   logger.formatter = config.log_formatter
   config.logger = ActiveSupport::TaggedLogging.new(logger)
+
+  config.hosts << '.ngrok.io'
 end
 
 Rails.application.routes.default_url_options[:host] = "localhost:#{ENV.fetch("PORT") { 3000 }}"

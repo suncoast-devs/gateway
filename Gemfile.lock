@@ -167,6 +167,10 @@ GEM
       omniauth (~> 1.9)
     pagy (3.8.3)
     pg (1.2.3)
+    phony (2.18.15)
+    phony_rails (0.14.13)
+      activesupport (>= 3.0)
+      phony (> 2.15)
     postmark (1.21.2)
       json
     postmark-rails (0.20.0)
@@ -288,6 +292,7 @@ DEPENDENCIES
   omniauth-google-oauth2
   pagy
   pg
+  phony_rails
   postmark-rails
   premailer-rails
   puma

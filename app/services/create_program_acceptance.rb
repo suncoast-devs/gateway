@@ -12,11 +12,12 @@ class CreateProgramAcceptance
   end
 
   def call
-    # Enrollment Agreement
-    CreateEnrollmentAgreement.call(@program_acceptance.id)
-    @program_acceptance.reload
+    unless @program_enrollment.enrollment_agreement_url.present?
+      CreateEnrollmentAgreement.call(@program_acceptance)
+      @program_acceptance.reload
+    end
 
-    unless @program_enrollment.deposit_invoice
+    unless @program_enrollment.deposit_invoice.present?
       # Deposit Invoice
       due_date = [tuition_due_date, 1.day.from_now].max
       @invoice = @person.invoices.create(due_on: due_date,
@@ -69,7 +70,7 @@ class CreateProgramAcceptance
 
       ## Pre-work
 
-      Finally, it's time to get started on the [pre-work](https://suncoast.io/handbook/prework/). These resources are designed to get you ready for your cohort. Please remember to extend any questions you may have to the academic team.
+      Finally, it's time to get started on the [pre-work](https://handbook.suncoast.io/lessons/prework). These resources are designed to get you ready for your cohort. Please remember to extend any questions you may have to the academic team.
 
       ## Recap
 
@@ -77,7 +78,7 @@ class CreateProgramAcceptance
 
       1. [Sign the enrollment agreement](#{@program_acceptance.enrollment_agreement_url}).
       2. [Submit payment for your deposit](#{@invoice.payment_url}) and make arrangements for the balance of the tuition.
-      3. [Begin the pre-work](https://suncoast.io/handbook/prework/).
+      3. [Begin the pre-work](https://handbook.suncoast.io/lessons/prework).
       4. We'll see you in class on **#{@cohort.begins_on.to_s(:long_ordinal)}**.
 
       Additionally, you can [check the status of your enrollment progress](https://gateway.suncoast.io/s/#{@program_enrollment.status_locator}) at any time.

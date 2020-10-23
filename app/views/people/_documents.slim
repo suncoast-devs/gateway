@@ -21,4 +21,4 @@ nav.level
         tr
           th = link_to document.label, [person, document]
           td = document.description
-          td = document.user.name
+          td = document&.user&.name || 'System'

@@ -13,6 +13,8 @@ class Person < ApplicationRecord
   has_many :contact_dispositions
   belongs_to :last_contact_disposition, class_name: 'ContactDisposition', optional: true
 
+  phony_normalize :phone_number, default_country_code: 'US', normalize_when_valid: true
+
   before_save :update_full_name
  
   private

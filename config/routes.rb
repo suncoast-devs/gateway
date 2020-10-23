@@ -43,6 +43,8 @@ Rails.application.routes.draw do
     namespace :api do
       post "register", to: "registration#create"
       get "cohorts", to: "public#cohorts"
+
+      post "webhooks/:webhook", to: "webhooks#index"
     end
   end
 

@@ -1,309 +1,59 @@
 # frozen_string_literal: true
 
-# Provides a service for creating an enrollment agreement with the Eversign API
+# Provides a service for creating an enrollment agreement with the eSignatures.io API
 class CreateEnrollmentAgreement
   include Callable
+  
+  BASE_TUITION = 14_900
 
-  def initialize(program_acceptance_id)
-    @program_acceptance = ProgramAcceptance.find(program_acceptance_id)
+  def initialize(program_acceptance)
+    @program_acceptance = program_acceptance
     @cohort = @program_acceptance.cohort
     @person = @program_acceptance.person
   end
 
   def call
     return unless Rails.env.production?
-    response = HTTP.post(eversign_url, json: document_data).parse
-    @program_acceptance.update({
-      enrollment_agreement_identifier: response["document_hash"],
-      enrollment_agreement_url: response["signers"].first["embedded_signing_url"],
-    })
+    response = HTTP.basic_auth(
+      user: Rails.application.credentials.esignatures_api_key, pass: ""
+    ).post("https://esignatures.io/api/contracts", json: document_data).parse
+    @program_acceptance.update(enrollment_agreement_url: response.dig("data", "contract", "signers").first["sign_page_url"])
   end
 
   private
 
-  def eversign_url
-    key = Rails.application.credentials.eversign_api_key
-    business_id = Rails.application.credentials.eversign_business_id
-    "https://api.eversign.com/api/document?access_key=#{key}&business_id=#{business_id}"
-  end
-
   def document_data
     {
-      sandbox: Rails.env.production? ? 0 : 1,
-      use_signer_order: 1,
-      embedded_signing_enabled: 1,
-      title: "Student Enrollment Agreement",
-      redirect: "https://suncoast.io/thanks",
-      files: [{
-        name: "Student Enrollment Agreement",
-        file_id: "e252e5ca01fc4c26aa6a21b572fe6d05",
-      }],
+      test: Rails.env.production? ? "no" : "yes",
+      metadata: @program_acceptance.id,
+      template_id: "1eac09fa-eecc-49d5-a558-f35f59eabfc7",
       signers: [{
-        id: 1,
-        order: 1,
         name: @person.full_name,
         email: @person.email_address,
-        deliver_email: 0,
+        mobile: @person.phone_number&.phony_normalized,
+        skip_signer_identification: "yes",
+        signing_order: "1"
       }, {
-        id: 2,
-        order: 2,
-        name: "SDG Administration",
+        name: "Jason L Perry",
         email: "jason@suncoast.io",
-        deliver_email: 1,
+        company_name: "Suncoast Developers Guild, Inc.",
+        auto_sign: "yes",
+        signing_order: "2"
       }],
-      fields: [[{
-        identifier: "fullName",
-        value: @person.full_name,
-        type: "text",
-        x: 77,
-        y: 463,
-        page: 1,
-        width: 310,
-        height: 16,
-        signer: 1,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "phoneNumber",
-        value: @person.phone_number,
-        type: "text",
-        x: 461,
-        y: 463,
-        page: 1,
-        width: 122,
-        height: 16,
-        signer: 1,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "email",
-        value: @person.email_address,
-        type: "text",
-        x: 76,
-        y: 498,
-        page: 1,
-        width: 310,
-        height: 16,
-        signer: 1,
-        validation_type: "email_address",
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "dob",
-        type: "text",
-        x: 461,
-        y: 498,
-        page: 1,
-        width: 122,
-        height: 16,
-        signer: 1,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "addrStreet",
-        type: "text",
-        x: 76,
-        y: 522,
-        page: 1,
-        width: 230,
-        height: 16,
-        signer: 1,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "addrCity",
-        type: "text",
-        x: 310,
-        y: 522,
-        page: 1,
-        width: 140,
-        height: 16,
-        signer: 1,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "addrState",
-        type: "text",
-        x: 468,
-        y: 522,
-        page: 1,
-        width: 40,
-        height: 16,
-        signer: 1,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "addrZip",
-        type: "text",
-        x: 516,
-        y: 522,
-        page: 1,
-        width: 68,
-        height: 16,
-        signer: 1,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "cohortBegin",
-        value: @cohort.begins_on.strftime("%b %d, %Y"),
-        type: "text",
-        x: 389,
-        y: 632,
-        page: 1,
-        width: 120,
-        height: 16,
-        signer: 1,
-        required: 1,
-        readonly: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "cohortEnd",
-        value: @cohort.ends_on.strftime("%b %d, %Y"),
-        type: "text",
-        x: 389,
-        y: 653,
-        page: 1,
-        width: 120,
-        height: 16,
-        signer: 1,
-        required: 1,
-        readonly: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "tuitionReduction",
-        value: @program_acceptance.tuition_reduction.to_s(:delimited),
-        type: "text",
-        x: 344,
-        y: 222,
-        page: 2,
-        width: 45,
-        height: 16,
-        signer: 1,
-        required: 1,
-        readonly: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "tuitionTotal",
-        value: (14_900 - @program_acceptance.tuition_reduction).to_s(:delimited),
-        type: "text",
-        x: 344,
-        y: 308,
-        page: 2,
-        width: 45,
-        height: 16,
-        signer: 1,
-        required: 1,
-        readonly: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "paymentcredit",
-        type: "checkbox",
-        x: 68,
-        y: 551,
-        page: 2,
-        width: 17,
-        height: 17,
-        signer: 1,
-        required: 0,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "paymentcash",
-        type: "checkbox",
-        x: 251,
-        y: 551,
-        page: 2,
-        width: 17,
-        height: 17,
-        signer: 1,
-        required: 0,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "paymentfinancing",
-        type: "checkbox",
-        x: 383,
-        y: 551,
-        page: 2,
-        width: 17,
-        height: 17,
-        signer: 1,
-        required: 0,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "paymentother",
-        type: "checkbox",
-        x: 483,
-        y: 551,
-        page: 2,
-        width: 17,
-        height: 17,
-        signer: 1,
-        required: 0,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "studentSig",
-        type: "signature",
-        x: 198,
-        y: 619,
-        page: 4,
-        width: 230,
-        height: 32,
-        signer: 1,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "studentSigDate",
-        type: "date_signed",
-        x: 461,
-        y: 635,
-        page: 4,
-        width: 120,
-        height: 16,
-        signer: 1,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "staffSig",
-        type: "signature",
-        x: 198,
-        y: 680,
-        page: 4,
-        width: 230,
-        height: 32,
-        signer: 2,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }, {
-        identifier: "staffSigDate",
-        type: "date_signed",
-        x: 461,
-        y: 697,
-        page: 4,
-        width: 120,
-        height: 16,
-        signer: 2,
-        required: 1,
-        text_size: 11,
-        text_font: "calibri",
-      }]],
+      signer_fields: [
+        { api_key: "name", value: @person.full_name },
+        { api_key: "telephone", value: @person.phone_number&.phony_formatted },
+        { api_key: "email", value: @person.email_address }
+      ],
+      placeholder_fields: [
+        { api_key: "program", value: "Web Development" },
+        { api_key: "clock_hours", value: "396" },
+        { api_key: "start_date", value: @cohort.begins_on.strftime("%b %d, %Y") },
+        { api_key: "end_date", value: @cohort.ends_on.strftime("%b %d, %Y") },
+        { api_key: "base_tuition", value: BASE_TUITION.to_s(:delimited) },
+        { api_key: "scholarships", value: @program_acceptance.tuition_reduction.to_s(:delimited) },
+        { api_key: "total_tuition", value: (BASE_TUITION - @program_acceptance.tuition_reduction).to_s(:delimited) }
+      ]
     }
   end
 end
