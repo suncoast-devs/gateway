@@ -33,7 +33,7 @@ class CreateLead
     return unless Rails.env.production?
     mailchimp = Mailchimp::API.new(Rails.application.credentials.mailchimp_api_key)
     mailchimp.lists.subscribe("3d4e0699f1",
-                                {email: @email_address},
+                                {email: @email},
                                 {FNAME: @given_name, LNAME: @family_name},
                                 "html")
   end
