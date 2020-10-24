@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_23_231952) do
+ActiveRecord::Schema.define(version: 2020_10_24_055533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -35,6 +35,19 @@ ActiveRecord::Schema.define(version: 2020_10_23_231952) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "calendar_events", force: :cascade do |t|
+    t.bigint "person_id"
+    t.string "name"
+    t.string "uuid"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.boolean "is_canceled"
+    t.jsonb "data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["person_id"], name: "index_calendar_events_on_person_id"
   end
 
   create_table "cohorts", force: :cascade do |t|
@@ -259,6 +272,7 @@ ActiveRecord::Schema.define(version: 2020_10_23_231952) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "calendar_events", "people"
   add_foreign_key "contact_dispositions", "people"
   add_foreign_key "contact_dispositions", "users"
   add_foreign_key "course_registrations", "courses"

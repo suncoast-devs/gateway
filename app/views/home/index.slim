@@ -1,19 +1,34 @@
-- if signed_in?
   section.section
     .container.is-max-desktop
-      h1.title = title "Recent Gateway Events"
+      - if signed_in?
+        h1.title.is-1 = title "Hello, #{current_user.first_name}."
 
-      - @events.each do |event|
-        article.level
-          .level-left
-            .level-item.content
-              p
-                strong = event.title
-                br
-                = event.message
-          .level-right
-            .level-item
-              small= link_to time_ago_in_words(event.created_at) + " ago", event.link_url
+        h2.subtitle Welcome to Gateway&hellip;
+
         hr
-      
-      == pagy_bulma_nav(@pagy)
+
+        .columns
+
+          .column.is-half
+            h4.title.is-4 Upcoming Calendar
+            table.table.is-striped.is-fullwidth.upcoming-calendar
+              tbody
+                - @calendar_events.each do |event|
+                  tr class=[event.is_canceled? && 'canceled']
+                    td = link_to_if event.person, event.name, event.person
+                    td = event.starts_at.strftime("%a, %m/%d @ %I:%M %P")
+
+          .column
+            h4.title.is-4 Recent Application Events
+            table.table.is-striped.is-fullwidth
+              tbody
+                - @events.each do |event|
+                  tr
+                    td
+                      strong = event.title
+                      br
+                      = event.message
+                    td
+                      small= link_to time_ago_in_words(event.created_at) + " ago", event.link_url
+            
+            == pagy_bulma_nav(@pagy)

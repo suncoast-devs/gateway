@@ -7,7 +7,7 @@ class EventFormatter
     @event = event
     @payload = event.payload
     @name = @event.name.match(/(?<name>\w+)\.gateway/)[:name]
-    @title, @message, @link_url, @is_notifiable = send @name
+    @title, @message, @link_url, @is_notifiable = self.respond_to?(@name, true) ? send(@name) : unhandled_event_format
   end
 
   def is_notifiable?
@@ -15,10 +15,6 @@ class EventFormatter
   end
 
   private
-
-  def method_missing(m, *args, &block)
-    unhandled_event_format
-  end
 
   def create_note
     note = payload
@@ -43,7 +39,27 @@ class EventFormatter
 
   def course_registration
     course_registration = payload
-    return "New weekend course registration.", "#{course_registration.person.full_name} has registered for #{course_registration.course.display_name}.", person_url(course_registration), true
+    return "New weekend course registration.", "#{course_registration.person.full_name} has registered for #{course_registration.course.display_name}.", person_url(course_registration.person), true
+  end
+
+  def interview_scheduled
+    calendar_event = payload
+    person = calendar_event.person
+    if person
+      return "#{person.full_name} has scheduled an interview.", calendar_event.starts_at.to_formatted_s(:long), person_url(person), true
+    else
+      return "An interview has been scheduled.", calendar_event.starts_at.to_formatted_s(:long), root_url, true
+    end
+  end
+
+  def interview_canceled
+    calendar_event = payload
+    person = calendar_event.person
+    if person
+      return "#{person.full_name} has canceled an interview.", calendar_event.starts_at.to_formatted_s(:long), person_url(person), true
+    else
+      return "An interview has been canceled.", calendar_event.starts_at.to_formatted_s(:long), root_url, true
+    end
   end
 
   def unhandled_event_format

@@ -5,8 +5,8 @@ class HomeController < ApplicationController
   
   def index
     if signed_in?
-      scope = Event.order(created_at: :desc)
-      @pagy, @events = pagy(scope)
+      @pagy, @events = pagy(Event.order(created_at: :desc))
+      @calendar_events = CalendarEvent.upcoming
     end
   end
 end
