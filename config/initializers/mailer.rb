@@ -5,3 +5,5 @@ else
   Rails.application.config.action_mailer.delivery_method = :letter_opener
   Rails.application.config.action_mailer.perform_deliveries = true
 end
+
+Rails::MailersController.before_action -> { redirect_to :sign_in unless Person.exists? session[:user_id] }

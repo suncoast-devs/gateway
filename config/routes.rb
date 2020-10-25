@@ -3,7 +3,6 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
   resources :program_applications, only: %i[index show edit update], path: "apps"
-
   resources :program_enrollments, only: %i[index show edit update], path: "enrollments" do
     resources :program_acceptances, except: %i[index destroy] do
       member do
@@ -20,6 +19,7 @@ Rails.application.routes.draw do
 
   resources :invoices, only: %i[index show new create]
   resources :cohorts
+  resources :communication_templates
   resources :course_registrations, only: %i[index]
 
   # Authentication

@@ -1,0 +1,34 @@
+section.section
+  .container
+    h1.title = title "Communication Templates"
+
+    nav.level
+      .level-left
+      .level-right
+        .level-item
+          = link_to new_communication_template_path, class: 'button' do
+            span.icon
+              i.fas.fa-plus
+            span Communication Template
+
+    table.table.is-bordered.is-striped.is-fullwidth
+      thead
+        tr
+          th Name
+          th Media
+          th Creator
+          th System
+      
+      tbody
+        - @communication_templates.each do |communication_template|
+          tr
+            td = link_to communication_template.name, communication_template
+            td = communication_template.media.titleize
+            td = communication_template.user.name
+            td
+              - if communication_template.is_system?
+                span.icon
+                  i.fad.fa-check-circle
+    
+    == pagy_bulma_nav(@pagy)
+    

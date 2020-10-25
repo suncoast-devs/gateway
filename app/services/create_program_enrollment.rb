@@ -12,8 +12,7 @@ class CreateProgramEnrollment
     @program_application.update(application_status: :complete)
     if @program_application.program == "web-development"
       if @program_application.person.program_enrollments.count > 0
-        # TODO: Eventually this will need to be refactored, if we offer more than one type of program.
-        @program_application.update(program_enrollment: @program_application.person.program_enrollments.first)
+        @program_application.update(program_enrollment: @program_application.person.current_program_enrollment)
       else
         program_start = @program_application.question_responses["When are you hoping to start the program?"]
         cohort_name = program_start.match(/(\d+)/).try(:[], 1) || "Future"

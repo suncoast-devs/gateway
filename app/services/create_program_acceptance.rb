@@ -19,7 +19,7 @@ class CreateProgramAcceptance
 
     unless @program_enrollment.deposit_invoice.present?
       # Deposit Invoice
-      due_date = [tuition_due_date, 1.day.from_now].max
+      due_date = [@cohort.tuition_due_date, 1.day.from_now].max
       @invoice = @person.invoices.create(due_on: due_date,
                                          invoice_items_attributes: [
                                            {description: "Tuition Deposit", quantity: 1, amount: 1000},
@@ -37,11 +37,6 @@ class CreateProgramAcceptance
 
   private
 
-  def tuition_due_date
-    days_before = (@cohort.begins_on.wday + 1) % 5 + 1
-    due_date = @cohort.begins_on - days_before
-  end
-
   def notification_template
     <<~TEMPLATE
       # Congratulations and Welcome Aboard!
@@ -58,7 +53,7 @@ class CreateProgramAcceptance
 
       ## Financing
 
-      The remaining tuition payment is payable to Suncoast Developers Guild in full by **#{tuition_due_date.strftime("%A")}, #{tuition_due_date.to_s(:long_ordinal)}**, before the course start date.
+      The remaining tuition payment is payable to Suncoast Developers Guild in full by **#{@cohort.tuition_due_date.strftime("%A")}, #{@cohort.tuition_due_date.to_s(:long_ordinal)}**, before the course start date.
 
       For private financing, we suggest exploring options with companies like [Climb Credit](https://climbcredit.com/suncoast), [LoanWell](https://loanwell.com/code-school/suncoast), and [SkillsFund](https://skills.fund/). These lenders have built loan programs specifically for code schools like ours. Of course, you can also seek lending through your favorite local bank or credit union.
 

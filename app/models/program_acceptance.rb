@@ -5,4 +5,8 @@ class ProgramAcceptance < ApplicationRecord
   delegate :person, to: :program_enrollment
 
   scope :active, -> { where(is_rescinded: false) }
+
+  def to_liquid
+    ProgramAcceptanceDrop.new(self)
+  end
 end

@@ -18,5 +18,6 @@ module Gateway
   class Application < Rails::Application
     config.load_defaults 6.0
     config.active_job.queue_adapter = :sidekiq
+    config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
   end
 end

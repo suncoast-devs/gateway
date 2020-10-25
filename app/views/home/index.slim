@@ -1,9 +1,8 @@
   section.section
     .container.is-max-desktop
       - if signed_in?
-        h1.title.is-1 = title "Hello, #{current_user.first_name}."
-
-        h2.subtitle Welcome to Gateway&hellip;
+        h1.title.is-1 = title "Hello, #{current_user.first_name}&hellip;".html_safe
+        h2.subtitle Welcome to Gateway.
 
         hr
 
