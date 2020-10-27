@@ -62,9 +62,9 @@
       id="location"
       class="py-1 form-select block border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 text-xs leading-1">
       <option selected />
-      <option>USA</option>
-      <option>Canada</option>
-      <option>EU</option>
+      <option>Reminder</option>
+      <option>Beg</option>
+      <option>LOL</option>
     </select>
   </div>
   <div class="flex rounded-md shadow-sm">
