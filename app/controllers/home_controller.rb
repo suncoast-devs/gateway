@@ -9,4 +9,8 @@ class HomeController < ApplicationController
       @calendar_events = CalendarEvent.upcoming
     end
   end
+
+  def client
+    render html: nil, layout: 'client'
+  end
 end
