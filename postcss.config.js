@@ -1,7 +1,7 @@
 const production = process.env.NODE_ENV === 'production'
 
 const purgecss = require('@fullhuman/postcss-purgecss')({
-  content: ['./src/**/*.html', './src/**/*.svelte'],
+  content: ['./app/**/*.html.erb', './app/**/*.slim', './app/**/*.svelte'],
 
   whitelistPatterns: [/svelte-/],
 
