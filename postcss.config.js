@@ -1,12 +1,10 @@
-const production = process.env.NODE_ENV === 'production'
+// const production = process.env.NODE_ENV === 'production'
 
-const purgecss = require('@fullhuman/postcss-purgecss')({
-  content: ['./app/**/*.html.erb', './app/**/*.slim', './app/**/*.svelte'],
-
-  whitelistPatterns: [/svelte-/],
-
-  defaultExtractor: (content) => content.match(/[A-Za-z0-9-_:/]+/g) || [],
-})
+// const purgecss = require('@fullhuman/postcss-purgecss')({
+//   content: ['./app/**/*.html.erb', './app/**/*.slim', './app/**/*.svelte'],
+//   whitelistPatterns: [/svelte-/],
+//   defaultExtractor: (content) => content.match(/[A-Za-z0-9-_:/]+/g) || [],
+// })
 
 module.exports = {
   plugins: [
@@ -19,6 +17,6 @@ module.exports = {
       },
       stage: 3,
     }),
-    ...(production ? [purgecss] : []),
+    // ...(production ? [purgecss] : []),
   ],
 }
