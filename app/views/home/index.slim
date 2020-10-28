@@ -15,7 +15,7 @@
                 - @calendar_events.each do |event|
                   tr class=[event.is_canceled? && 'canceled']
                     td = link_to_if event.person, event.name, event.person
-                    td = event.starts_at.strftime("%a, %m/%d @ %I:%M %P")
+                    td = event.starts_at.strftime("%a, %m/%d @ %l:%M %P")
 
           .column
             h4.title.is-4 Recent Application Events
@@ -26,7 +26,7 @@
                     td
                       strong = event.title
                       br
-                      = event.message
+                      = truncate event.message, length: 50
                     td
                       small= link_to time_ago_in_words(event.created_at) + " ago", event.link_url
             

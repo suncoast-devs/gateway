@@ -19,5 +19,6 @@ module Gateway
     config.load_defaults 6.0
     config.active_job.queue_adapter = :sidekiq
     config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
+    config.time_zone = 'Eastern Time (US & Canada)'
   end
 end
