@@ -36,4 +36,19 @@ class CommunicationTemplate < ApplicationRecord
       "acceptance" => program_acceptance
     }
   end
+
+  # TODO: Handle SMS.
+  def send_to(person)
+    mail = PersonMailer.with(communication_template: self, person: person).communication_email.deliver
+    person.notes.create note_type: "email-event", message: "Sent #{name} email to #{person.given_name}.", data: { communication_template_id: self.id }
+    person.attempt_contact!
+
+    mail
+  end
+
+  class << self
+    def by_key(key)
+      where(key: key).first
+    end
+  end
 end

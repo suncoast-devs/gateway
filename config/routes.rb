@@ -4,7 +4,7 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   resources :program_applications, only: %i[index show edit update], path: "apps"
   resources :program_enrollments, only: %i[index show edit update], path: "enrollments" do
-    resources :program_acceptances, except: %i[index destroy] do
+    resources :program_acceptances, except: %i[index edit destroy] do
       member do
         patch "deliver"
       end

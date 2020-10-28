@@ -17,6 +17,7 @@ module Webhooks
         document = program_acceptance.person.documents.new(label: "Student Enrollment Agreement")
         document.file.attach(io: open(@params.dig(:data, :contract_pdf_url)), filename: 'student-enrollment-agreement.pdf', content_type: 'application/pdf')
         document.save
+        program_acceptance.person.succeed_contact!
       else
         person = ProgramAcceptance.find(@params.dig(:data, :contract, :metadata)).person
         case status

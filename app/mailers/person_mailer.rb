@@ -22,8 +22,8 @@ class PersonMailer < ApplicationMailer
   end
 
   def communication_email
-    @communication_template = CommunicationTemplate.find(params[:communication_template_id])
-    @person = Person.find(params[:person_id])
+    @communication_template = params[:communication_template]
+    @person = params[:person]
 
     body = @communication_template.render_body(@person)
 

@@ -22,6 +22,9 @@ class CreateProgramEnrollment
           program: "web-development",
           program_applications: [@program_application],
         })
+
+        CommunicationTemplate.by_key('application-received')&.send_to @program_application.person
+        InterviewReminder.call_in 2.days, @program_application.person
       end
     end
   end

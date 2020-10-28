@@ -18,6 +18,9 @@ module Webhooks
           event.is_canceled = @params.dig(:payload, :event, :canceled)
           event.data = @params
         end
+        @program_enrollment = calendar_event.person.current_program_enrollment
+        @program_enrollment&.interviewing!
+        calendar_event.person.succeed_contact!
         ActiveSupport::Notifications.instrument "interview_scheduled.gateway", [calendar_event]
       when "invitee.canceled"
         calendar_event = CalendarEvent.find_by(uuid: @params.dig(:payload, :event, :uuid))

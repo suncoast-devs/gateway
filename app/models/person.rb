@@ -28,6 +28,14 @@ class Person < ApplicationRecord
     PersonDrop.new(self)
   end
 
+  def attempt_contact!
+    contact_dispositions.attempted.create contacted_at: Time.now
+  end
+
+  def succeed_contact!
+    contact_dispositions.succeeded.create contacted_at: Time.now
+  end
+
   private
 
   def update_full_name

@@ -15,28 +15,19 @@ class ProgramAcceptancesController < ApplicationController
   def create
     @program_acceptance = @program_enrollment.program_acceptances.new(program_acceptance_params)
     if @program_acceptance.save
-      # NOTE: This needs to be done synchronously before redirect, so no call_later.
-      CreateProgramAcceptance.call @program_acceptance.id
-      redirect_to [:edit, @program_enrollment, @program_acceptance]
+      CreateProgramAcceptance.call_later @program_acceptance
+      redirect_to @program_enrollment.person
     else
       render :new
     end
   end
 
   def update
-    if @program_acceptance.update(program_acceptance_params)
-      redirect_to [@program_enrollment, @program_acceptance]
-    else
-      render [:edit, @program_enrollment, @program_acceptance]
-    end
+    @program_acceptance.update(program_acceptance_params)
+    redirect_to @program_enrollment.person
   end
 
   def show
-  end
-
-  def deliver
-    DeliverProgramAcceptance.call_later(@program_acceptance.id)
-    redirect_to @person, notice: "Delivering program acceptance email."
   end
 
   private

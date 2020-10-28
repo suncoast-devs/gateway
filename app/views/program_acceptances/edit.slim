@@ -14,11 +14,6 @@ section.section
         td = usd(@program_acceptance.tuition_reduction)
 
     = form_for([@program_enrollment, @program_acceptance]) do |form|
-      .field
-        = form.label :notification_body, "Acceptance Notification", class: "label"
-        .control
-          = form.text_area :notification_body, class: 'textarea', rows: 20
-
       .field.is-grouped
         .control
           = form.submit "Save", class: "button is-primary"

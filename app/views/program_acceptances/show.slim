@@ -2,24 +2,10 @@
 
 section.section
   .container
-    nav.level
-      .level-left
-        .div
-          h1.title Program Acceptance
-          h2.subtitle
-            em for
-            =< link_to @person.full_name, @person
-      .level-right
-        - unless @program_acceptance.sent_at
-          .level-item
-            = link_to "Edit", [:edit, @program_enrollment, @program_acceptance], class: 'button'
-          .level-item
-            = form_tag([:deliver, @program_enrollment, @program_acceptance], method: :patch)
-              button.button.is-primary Deliver Acceptance
-        - else @program_acceptance.sent_at
-          .level-item
-            = form_tag([:deliver, @program_enrollment, @program_acceptance], method: :patch)
-              button.button.is-primary Re-Deliver Acceptance
+    h1.title Program Acceptance
+    h2.subtitle
+      em for
+      =< link_to @person.full_name, @person
 
     .columns
       .column
