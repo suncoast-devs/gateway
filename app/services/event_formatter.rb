@@ -46,9 +46,9 @@ class EventFormatter
     calendar_event = payload
     person = calendar_event.person
     if person
-      return "#{person.full_name} has scheduled an interview.", calendar_event.starts_at.to_formatted_s(:long), person_url(person), true
+      return "#{person.full_name} has scheduled an interview.", calendar_event.starts_at, person_url(person), true
     else
-      return "An interview has been scheduled.", calendar_event.starts_at.to_formatted_s(:long), root_url, true
+      return "An interview has been scheduled.", calendar_event.starts_at, root_url, true
     end
   end
 
@@ -56,9 +56,9 @@ class EventFormatter
     calendar_event = payload
     person = calendar_event.person
     if person
-      return "#{person.full_name} has canceled an interview.", calendar_event.starts_at.to_formatted_s(:long), person_url(person), true
+      return "#{person.full_name} has canceled an interview.", calendar_event.starts_at, person_url(person), true
     else
-      return "An interview has been canceled.", calendar_event.starts_at.to_formatted_s(:long), root_url, true
+      return "An interview has been canceled.", calendar_event.starts_at, root_url, true
     end
   end
 
