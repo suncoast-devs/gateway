@@ -26,7 +26,7 @@
                     td
                       strong = event.title
                       br
-                      = truncate event.message.to_s, length: 50
+                      = truncate event.message.to_s, length: 120
                     td
                       small= link_to time_ago_in_words(event.created_at) + " ago", event.link_url
             
