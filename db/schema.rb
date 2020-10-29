@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_24_152943) do
+ActiveRecord::Schema.define(version: 2020_10_29_171421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -75,9 +75,24 @@ ActiveRecord::Schema.define(version: 2020_10_24_152943) do
     t.index ["user_id"], name: "index_communication_templates_on_user_id"
   end
 
+  create_table "communications", force: :cascade do |t|
+    t.bigint "person_id", null: false
+    t.bigint "user_id"
+    t.integer "media", default: 0, null: false
+    t.boolean "is_unread", default: true, null: false
+    t.text "subject"
+    t.text "body"
+    t.jsonb "data", default: "{}", null: false
+    t.datetime "messaged_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["person_id"], name: "index_communications_on_person_id"
+    t.index ["user_id"], name: "index_communications_on_user_id"
+  end
+
   create_table "contact_dispositions", force: :cascade do |t|
     t.bigint "person_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.integer "code", default: 0, null: false
     t.datetime "contacted_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "created_at", precision: 6, null: false
@@ -287,6 +302,8 @@ ActiveRecord::Schema.define(version: 2020_10_24_152943) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "calendar_events", "people"
   add_foreign_key "communication_templates", "users"
+  add_foreign_key "communications", "people"
+  add_foreign_key "communications", "users"
   add_foreign_key "contact_dispositions", "people"
   add_foreign_key "contact_dispositions", "users"
   add_foreign_key "course_registrations", "courses"
