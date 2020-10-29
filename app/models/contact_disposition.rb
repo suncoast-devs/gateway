@@ -1,6 +1,6 @@
 class ContactDisposition < ApplicationRecord
   belongs_to :person
-  belongs_to :user
+  belongs_to :user, optional: true
   enum code: %i[attempted succeeded]
 
   scope :by_recent, -> { order(contacted_at: :desc) }  

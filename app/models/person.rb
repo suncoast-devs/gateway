@@ -29,11 +29,11 @@ class Person < ApplicationRecord
   end
 
   def attempt_contact!
-    contact_dispositions.attempted.create contacted_at: Time.now
+    contact_dispositions.attempted.create! contacted_at: Time.now
   end
 
   def succeed_contact!
-    contact_dispositions.succeeded.create contacted_at: Time.now
+    contact_dispositions.succeeded.create! contacted_at: Time.now
   end
 
   private
