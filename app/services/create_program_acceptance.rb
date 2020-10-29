@@ -31,7 +31,6 @@ class CreateProgramAcceptance
       @invoice = @program_enrollment.deposit_invoice
     end
     
-    # TODO: Refactor this to be more generic!
     mail = CommunicationTemplate.by_key('acceptance-letter')&.send_to(@person)
     @program_acceptance.update sent_at: Time.now, message_id: mail.message_id
     @program_enrollment.accepted!
