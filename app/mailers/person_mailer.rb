@@ -20,16 +20,16 @@ class PersonMailer < ApplicationMailer
     @person = params[:person]
 
     body = @communication_template.render_body(@person)
-    
+
     # FIXME: This is kind of a hack, is there better way to do this in communication template maybe?
-    if @communication_template.key === 'acceptance-letter'
+    if @communication_template.key === "acceptance-letter"
       attachments["Program Catalog.pdf"] = File.read(Rails.root.join("app/assets/CATALOG.pdf"))
-    end 
+    end
 
     mail(to: "#{@person.full_name} <#{@person.email_address}>",
          subject: @communication_template.render_title(@person),
-         track_opens: "true",) do |format|
-      format.html { render layout: @communication_template.media, html: body  }
+         track_opens: "true") do |format|
+      format.html { render layout: @communication_template.media, html: body }
     end
   end
 
@@ -37,7 +37,7 @@ class PersonMailer < ApplicationMailer
 
   def record_communication
     email = Premailer::Rails::Hook.perform(mail)
-    
+
     # re-encode without attachement before storing.
     if mail.has_attachments?
       email = Mail.new(email.encoded).without_attachments!
@@ -45,14 +45,15 @@ class PersonMailer < ApplicationMailer
 
     Communication.create(
       person: @person,
-      media: 'email',
+      media: "email",
       subject: email.subject,
       body: email.text_part&.body,
+      messaged_at: Time.now,
       data: {
         had_attachments: mail.has_attachments?,
         template_key: @communication_template&.key,
-        mail: email.encoded
-      } 
+        mail: email.encoded,
+      },
     )
   end
 end

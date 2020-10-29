@@ -11,11 +11,12 @@ class Person < ApplicationRecord
   has_many :course_registrations
   has_many :documents
   has_many :contact_dispositions
-  belongs_to :last_contact_disposition, class_name: 'ContactDisposition', optional: true
+  belongs_to :last_contact_disposition, class_name: "ContactDisposition", optional: true
+  belongs_to :last_communication, class_name: "Communication", optional: true
 
   delegate :current_program_acceptance, to: :current_program_enrollment, allow_nil: true
 
-  phony_normalize :phone_number, default_country_code: 'US', normalize_when_valid: true
+  phony_normalize :phone_number, default_country_code: "US", normalize_when_valid: true
 
   before_save :update_full_name
 
@@ -39,6 +40,6 @@ class Person < ApplicationRecord
   private
 
   def update_full_name
-    self.full_name = [given_name, middle_name, family_name].join(' ').squeeze(' ')
+    self.full_name = [given_name, middle_name, family_name].join(" ").squeeze(" ")
   end
 end

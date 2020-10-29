@@ -26,6 +26,6 @@ table.table.is-striped.is-fullwidth
         - if disposition.succeeded?
           i.fad.fa-comment-alt-check
         - else
-      td = disposition.user.name
+      td = disposition.user&.name || 'System'
       td
         = time_tag(disposition.contacted_at) { time_ago_in_words(disposition.contacted_at) + ' ago' }

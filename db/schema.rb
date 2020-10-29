@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_29_171421) do
+ActiveRecord::Schema.define(version: 2020_10_29_193259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -207,6 +207,8 @@ ActiveRecord::Schema.define(version: 2020_10_29_171421) do
     t.string "middle_name"
     t.string "client_ip_address"
     t.bigint "last_contact_disposition_id"
+    t.bigint "last_communication_id"
+    t.index ["last_communication_id"], name: "index_people_on_last_communication_id"
     t.index ["last_contact_disposition_id"], name: "index_people_on_last_contact_disposition_id"
   end
 
@@ -317,6 +319,7 @@ ActiveRecord::Schema.define(version: 2020_10_29_171421) do
   add_foreign_key "notes", "users"
   add_foreign_key "notifications", "events"
   add_foreign_key "notifications", "users"
+  add_foreign_key "people", "communications", column: "last_communication_id"
   add_foreign_key "people", "contact_dispositions", column: "last_contact_disposition_id"
   add_foreign_key "program_acceptances", "cohorts"
   add_foreign_key "program_applications", "people"

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'sidekiq/web'
+require "sidekiq/web"
 
 Rails.application.routes.draw do
   resources :program_applications, only: %i[index show edit update], path: "apps"
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   get "auth/failure", to: redirect("/")
   match "auth/:provider/callback", to: "sessions#create", via: %i[get post]
 
-  mount Sidekiq::Web => '/sidekiq', constraints: lambda { |request| User.exists?(request.session[:user_id]) }
+  mount Sidekiq::Web => "/sidekiq", constraints: lambda { |request| User.exists?(request.session[:user_id]) }
 
   defaults format: :json do
     post "apply", to: "apply#create"
@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 
       post "webhooks/:webhook", to: "webhooks#index"
     end
+
+    resources :communications, except: %i[delete]
   end
 
   get "s/:locator", to: "student#status", as: :student_status

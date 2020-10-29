@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+require "pagy/extras/headers"
 
 # :nodoc:
 class ApplicationController < ActionController::Base
   before_action :set_raven_context
+  after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def authenticate!
     redirect_to :sign_in unless signed_in?
