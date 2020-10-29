@@ -13,9 +13,7 @@ class CommunicationTemplatesController < ApplicationController
   end
 
   def show
-    @person = params[:person]
-      ? Person.find(params[:person])
-      : Person.where(email_address: current_user.email).first || Person.first
+    @person = params[:person] ? Person.find(params[:person]) : Person.where(email_address: current_user.email).first || Person.first
   end
 
   def new
