@@ -36,18 +36,14 @@ class PersonMailer < ApplicationMailer
   private
 
   def record_communication
-    email = Premailer::Rails::Hook.perform(mail)
-
     # re-encode without attachement before storing.
-    if mail.has_attachments?
-      email = Mail.new(email.encoded).without_attachments!
-    end
+    email = mail.has_attachments? ? Mail.new(mail.encoded).without_attachments! : mail
 
     Communication.create(
       person: @person,
       media: "email",
       subject: email.subject,
-      body: email.text_part&.body,
+      body: sanitize_html(email.html_part.body),
       messaged_at: Time.now,
       data: {
         had_attachments: mail.has_attachments?,
@@ -55,5 +51,9 @@ class PersonMailer < ApplicationMailer
         mail: email.encoded,
       },
     )
+  end
+
+  def sanitize_html(doc)
+    ActionController::Base.helpers.strip_tags(doc.to_s.gsub(/<title>.*<\/title>/, "")).squish
   end
 end
