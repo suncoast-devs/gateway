@@ -39,9 +39,8 @@ class PersonMailer < ApplicationMailer
     # re-encode without attachement before storing.
     email = mail.has_attachments? ? Mail.new(mail.encoded).without_attachments! : mail
 
-    Communication.create(
+    Communication.outgoing.email.create(
       person: @person,
-      media: "email",
       subject: email.subject,
       body: sanitize_html(email.html_part.body),
       messaged_at: Time.now,
