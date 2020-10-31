@@ -27,7 +27,6 @@
       }
       lastPersonId = personId
     }
-    console.log('update')
   })
 
   function scrollToBottom() {
