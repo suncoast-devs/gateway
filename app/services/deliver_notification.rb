@@ -7,6 +7,8 @@ class DeliverNotification
 
   # TODO: Slack notifications, etc.
   def call
-    UserMailer.with(notification: @notification).notification_email.deliver_later
+    unless @notification.acknowledged_at
+      UserMailer.with(notification: @notification).notification_email.deliver_later
+    end
   end
 end

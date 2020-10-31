@@ -1,6 +1,7 @@
 <script>
   import { fade, fly } from 'svelte/transition'
   import Icon from './Icon'
+  import Notifications from './Notifications'
   import Sidebar from './Sidebar'
 
   let sidebarOpen = false
@@ -78,3 +79,4 @@
     </div>
   </div>
 </div>
+<Notifications />
