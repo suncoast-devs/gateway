@@ -11,6 +11,7 @@ class Person < ApplicationRecord
   has_many :course_registrations
   has_many :documents
   has_many :contact_dispositions
+  has_many :communications
   belongs_to :last_contact_disposition, class_name: "ContactDisposition", optional: true
   belongs_to :last_communication, class_name: "Communication", optional: true
 

@@ -15,7 +15,7 @@ class PersonMailer < ApplicationMailer
          track_opens: "true")
   end
 
-  def communication_email
+  def communication_template_email
     @communication_template = params[:communication_template]
     @person = params[:person]
 
@@ -42,7 +42,7 @@ class PersonMailer < ApplicationMailer
     Communication.outgoing.email.create(
       person: @person,
       subject: email.subject,
-      body: sanitize_html(email.html_part.body),
+      body: sanitize_html(email.body),
       messaged_at: Time.now,
       data: {
         had_attachments: mail.has_attachments?,

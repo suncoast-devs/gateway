@@ -12,13 +12,13 @@
   const isOwnStyle = 'justify-self-end flex-row-reverse'
 </script>
 
-<div class={`mb-2 flex items-center ${isOwn && isOwnStyle}`}>
+<li class={`mx-2 my-1 flex items-center ${isOwn && isOwnStyle}`}>
   <div
-    class={`px-3 py-2 w-8/12 border  rounded-md ${media === 'sms' ? smsStyle : emailStyle}`}>
+    class={`px-3 py-2 w-8/12 border overflow-x-hidden rounded-md ${media === 'sms' ? smsStyle : emailStyle}`}>
     {#if subject}
       <h4 class="font-semibold text-sm">{subject}</h4>
     {/if}
     {@html body}
   </div>
   <time class="mx-2 text-xs text-gray-400">{formatTime(time)}</time>
-</div>
+</li>

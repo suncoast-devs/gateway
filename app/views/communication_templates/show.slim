@@ -29,7 +29,7 @@ section.section
             word-wrap: break-word;
           }
     - else
-      iframe frameborder="0" allowtransparency="true" width="100%" src="/rails/mailers/person_mailer/communication_email?communication_template_id=#{@communication_template.id}&person_id=#{@person.id}"
+      iframe frameborder="0" allowtransparency="true" width="100%" src="/rails/mailers/person_mailer/communication_template_email?communication_template_id=#{@communication_template.id}&person_id=#{@person.id}"
 
       javascript:
         window.addEventListener('DOMContentLoaded', (event) => {

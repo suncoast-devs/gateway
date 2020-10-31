@@ -39,7 +39,7 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-col w-0 flex-1 overflow-hidden">
+  <div class="flex flex-col w-0 flex-1">
     <!-- Top Bar -->
     <div
       class="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200">
@@ -73,6 +73,8 @@
       <!-- End Search -->
     </div>
     <!-- Layout Content -->
-    <slot />
+    <div class="flex-1">
+      <slot />
+    </div>
   </div>
 </div>

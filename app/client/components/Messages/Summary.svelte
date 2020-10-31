@@ -20,7 +20,7 @@
 
 <li
   on:click={onClick}
-  class={`px-4 py-2 border-b hover:shadow-lg cursor-pointer ${isSelected ? selectedStyles : unselectedStyles}`}>
+  class={`px-4 py-2 border-b hover:shadow-lg overflow-x-hidden cursor-pointer ${isSelected ? selectedStyles : unselectedStyles}`}>
   <div class="flex items-center">
     {#if isUnread}
       <div class="text-purple-500 mr-2">
