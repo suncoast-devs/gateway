@@ -1,8 +1,8 @@
 class DeliverNotification
   include Callable
 
-  def initialize(notification_id)
-    @notification = Notification.find notification_id
+  def initialize(notification)
+    @notification = notification
   end
 
   # TODO: Slack notifications, etc.
