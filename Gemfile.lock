@@ -89,6 +89,7 @@ GEM
       addressable
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    email_reply_trimmer (0.1.13)
     erubi (1.9.0)
     excon (0.78.0)
     faraday (1.1.0)
@@ -284,6 +285,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   byebug
   commonmarker
+  email_reply_trimmer
   full-name-splitter
   http (~> 4.3)
   jbuilder
