@@ -17,7 +17,7 @@
     <Item
       icon="inbox"
       title="Messages"
-      path="/messages"
+      path="/app/messages"
       active
       count={$unreadMessageCount} />
   </nav>
