@@ -43,6 +43,7 @@
   }
 
   async function handleSubmit() {
+    subject = subject || prefilledSubject
     const response = await post('/communications', {
       personId,
       isSMS,
