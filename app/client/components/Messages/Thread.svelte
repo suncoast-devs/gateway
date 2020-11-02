@@ -5,10 +5,14 @@
   import Message from './Message'
 
   export let personId = null
+
+  // FIXME: Move some of this to a store?
+  export let lastSubject
+
   let person = null
   let lastPersonId
   let messages = []
-  let lastMostRecentMessageId
+  let recentMessageId
   let scrollPane
 
   afterUpdate(async () => {
@@ -19,10 +23,16 @@
         messages = data.communications
         if (messages.length > 0) {
           const mostRecentMessageId = messages[0].id
-          if (lastMostRecentMessageId !== mostRecentMessageId) {
-            lastMostRecentMessageId = mostRecentMessageId
+          if (recentMessageId !== mostRecentMessageId) {
+            recentMessageId = mostRecentMessageId
             setTimeout(scrollToBottom, 0)
           }
+
+          // Set default subject in Compose view to last received email's subject
+          const lastIncomingEmail = messages.find(
+            (m) => m.media === 'email' && !m.isOutgoing
+          )
+          if (lastIncomingEmail) lastSubject = lastIncomingEmail.subject
         }
       }
       lastPersonId = personId

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# TODO: Compare subject to previous communication and if they match, set In-Reply-To and References headers.
 # TODO: From Current user with signature.
 class CreateEmailCommunication
   include Callable

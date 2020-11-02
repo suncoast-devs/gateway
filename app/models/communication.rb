@@ -2,6 +2,8 @@ class Communication < ApplicationRecord
   belongs_to :person
   belongs_to :user, optional: true
 
+  scope :recent, -> { order(messaged_at: :desc) }
+
   enum media: %i[email sms]
 
   enum direction: %i[outgoing incoming]
@@ -13,7 +15,7 @@ class Communication < ApplicationRecord
     person.update last_communication: self
   end
 
-  def broadcast_new_unread_count 
+  def broadcast_new_unread_count
     if incoming?
       CommunicationChannel.broadcast_unread
     end

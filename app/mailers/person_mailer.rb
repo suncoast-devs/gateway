@@ -3,7 +3,7 @@ class PersonMailer < ApplicationMailer
 
   after_action :record_communication
 
-  # TODO: Move to communiation template?
+  # TODO: Move to communiation template.
   def part_time_registration_email
     @course_registration = params[:course_registration]
     @course = @course_registration.course
@@ -20,6 +20,13 @@ class PersonMailer < ApplicationMailer
     @person = params[:person]
 
     body = @communication_template.render_body(@person)
+    subject = @communication_template.render_title(@person)
+
+    message_id = replied_message_id(@person, subject)
+
+    if message_id
+      headers({ "References" => message_id, "In-Reply-To" => message_id })
+    end
 
     # FIXME: This is kind of a hack, is there better way to do this in communication template maybe?
     if @communication_template.key === "acceptance-letter"
@@ -27,13 +34,22 @@ class PersonMailer < ApplicationMailer
     end
 
     mail(to: "#{@person.full_name} <#{@person.email_address}>",
-         subject: @communication_template.render_title(@person),
+         subject: subject,
          track_opens: "true") do |format|
       format.html { render layout: @communication_template.media, html: body }
     end
   end
 
-  private
+  # private
+
+  def replied_message_id(person, subject)
+    original_subject = subject.sub(/^(Re|Fwd): ?/i, "")
+    communication = person.communications.email.where(subject: [original_subject, subject].uniq).recent.first
+    if communication.present?
+      previous_mail = Mail.new(communication.data["mail"])
+      return previous_mail.message_id
+    end
+  end
 
   def record_communication
     # re-encode without attachement before storing.

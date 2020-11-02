@@ -3,6 +3,10 @@
   import { post } from '../../utils/api-fetch'
 
   export let personId
+  export let lastSubject
+
+  $: prefilledSubject = lastSubject ? `Re: ${lastSubject}` : ''
+
   let isSMS = false
   let subject = ''
   let body = ''
@@ -10,11 +14,14 @@
   let templates = [
     {
       id: 1,
+      media: 'email',
       name: 'Blah',
+      subject: 'Blah Email',
       body: 'blah blah',
     },
     {
       id: 2,
+      media: 'sms',
       name: 'LOL',
       body: 'LOL...',
     },
@@ -23,7 +30,14 @@
   function handleTemplateChange() {
     if (selectedTemplate) {
       body = selectedTemplate.body
+      if (selectedTemplate.media === 'email') {
+        subject = selectedTemplate.subject
+        isSMS = false
+      } else {
+        isSMS = true
+      }
     } else {
+      subject = ''
       body = ''
     }
   }
@@ -56,7 +70,7 @@
           class="py-1 px-2 form-input block w-full transition duration-150 ease-in-out text-sm leading-2 disabled:opacity-50 text-gray-600"
           disabled={isSMS}
           on:change={(e) => (subject = e.target.value)}
-          value={isSMS ? '' : subject}
+          value={isSMS ? '' : subject || prefilledSubject}
           placeholder="Subject" />
       </div>
       <label
