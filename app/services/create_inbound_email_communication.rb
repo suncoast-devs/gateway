@@ -57,9 +57,7 @@ class CreateInboundEmailCommunication
       text = ActionController::Base.helpers.strip_tags(html)
     end
 
-    encoding = text.encoding
-    text = EmailReplyTrimmer.trim(text)
-    text.force_encoding(encoding).encode("UTF-8")
+    text = EmailReplyTrimmer.trim(text.encode("UTF-8"))
   end
 
   def from_email

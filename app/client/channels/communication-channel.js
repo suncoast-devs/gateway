@@ -6,7 +6,6 @@ export default consumer.subscriptions.create('CommunicationChannel', {
     if (data.unread) {
       unreadMessageCount.set(data.unread)
     } else {
-      console.log({ data })
       communications.update((c) => [data, ...c])
     }
   },
