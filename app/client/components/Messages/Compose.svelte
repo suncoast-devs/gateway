@@ -5,7 +5,7 @@
   export let personId
   export let lastSubject
 
-  $: prefilledSubject = lastSubject ? `Re: ${lastSubject}` : ''
+  $: prefilledSubject = lastSubject ? regarding(lastSubject) : ''
 
   let isSMS = false
   let subject = ''
@@ -53,6 +53,14 @@
     if (response.ok) {
       selectedTemplate = null
       body = ''
+    }
+  }
+
+  function regarding(quotedSubject) {
+    if (/(Re|FWD): ?/i.test(quotedSubject)) {
+      return quotedSubject
+    } else {
+      return `Re: ${quotedSubject}`
     }
   }
 </script>
