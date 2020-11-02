@@ -46,7 +46,11 @@ class CreateInboundEmailCommunication
       text = @mail.text_part&.body&.decoded
       html = @mail.html_part&.body&.decoded
     else
-      text ||= @mail&.body&.decoded if @mail.content_type !~ /text\/html/
+      if @mail.content_type !~ /text\/html/
+        html = @mail&.body&.decoded
+      else
+        text = @mail&.body&.decoded
+      end
     end
 
     if text.blank? && html.present?
