@@ -1,6 +1,6 @@
 class EventFormatter
   include Rails.application.routes.url_helpers
-  
+
   attr :title, :message, :link_url, :payload, :event
 
   def initialize(event)
@@ -19,13 +19,13 @@ class EventFormatter
   def create_note
     note = payload
     notable = note.notable
-    
+
     case notable
-    when Person then
+    when Person
       return "#{note.user.first_name} made a comment on #{notable.full_name}.", note.message, person_url(notable), true
     when ProgramApplication
       return "#{note.user.first_name} left interview notes on #{notable.full_name}'s application.", note.message, program_application_url(notable), true
-    when Invoice then
+    when Invoice
       return "#{notable.persons.full_name}'s invoice was updated.", note.message, invoice_url(notable), true
     else
       unhandled_event_format
@@ -60,6 +60,13 @@ class EventFormatter
     else
       return "An interview has been canceled.", calendar_event.starts_at, root_url, true
     end
+  end
+
+  def communication_received
+    communication = payload
+    person = communication.person
+    # TODO: Actual routes for client paths?
+    return "New message from #{person.full_name}.", communication.body.truncate(200), root_url + "app/messages/#{person.id}", true
   end
 
   def unhandled_event_format

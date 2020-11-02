@@ -35,7 +35,7 @@ class CommunicationsController < ApplicationController
     if params[:is_sms]
     else
       subject = params[:subject]
-      CreateEmailCommunication.call_later @person, subject, body
+      CreateOutboundEmailCommunication.call_later @person, subject, body
     end
     render json: { ok: true }
   end

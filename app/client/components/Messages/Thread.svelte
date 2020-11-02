@@ -1,6 +1,8 @@
 <script>
-  import { afterUpdate } from 'svelte'
+  import { afterUpdate, onDestroy } from 'svelte'
   import { get } from '../../utils/api-fetch'
+  import communicationChannel from '../../channels/communication-channel'
+  import { communications } from '../../stores'
   import Spinner from '../Spinner'
   import Message from './Message'
 
@@ -11,33 +13,45 @@
 
   let person = null
   let lastPersonId
-  let messages = []
   let recentMessageId
   let scrollPane
 
-  afterUpdate(async () => {
-    if (personId && personId !== lastPersonId) {
-      const data = await get('/communications', { person_id: personId })
-      if (data.person) {
-        person = data.person
-        messages = data.communications
-        if (messages.length > 0) {
-          const mostRecentMessageId = messages[0].id
-          if (recentMessageId !== mostRecentMessageId) {
-            recentMessageId = mostRecentMessageId
-            setTimeout(scrollToBottom, 0)
-          }
-
-          // Set default subject in Compose view to last received email's subject
-          const lastIncomingEmail = messages.find(
-            (m) => m.media === 'email' && !m.isOutgoing
-          )
-          if (lastIncomingEmail) lastSubject = lastIncomingEmail.subject
-        }
+  afterUpdate(() => {
+    if (personId !== lastPersonId) {
+      if (personId) {
+        lastPersonId = personId
+        communicationChannel.follow({ id: personId })
+        loadMessages()
+      } else {
+        communicationChannel.unfollow()
       }
-      lastPersonId = personId
     }
   })
+
+  onDestroy(() => {
+    communicationChannel.unfollow()
+  })
+
+  async function loadMessages() {
+    const data = await get('/communications', { person_id: personId })
+    if (data.person) {
+      person = data.person
+      $communications = data.communications
+      if ($communications.length > 0) {
+        const mostRecentMessageId = $communications[0].id
+        if (recentMessageId !== mostRecentMessageId) {
+          recentMessageId = mostRecentMessageId
+          setTimeout(scrollToBottom, 0)
+        }
+
+        // Set default subject in Compose view to last received email's subject
+        const lastIncomingEmail = $communications.find(
+          (m) => m.media === 'email' && !m.isOutgoing
+        )
+        if (lastIncomingEmail) lastSubject = lastIncomingEmail.subject
+      }
+    }
+  }
 
   function scrollToBottom() {
     scrollPane.scroll({
@@ -59,8 +73,8 @@
           <strong>{person.name}</strong>
         </h3>
         <ul class="flex flex-col-reverse py-1">
-          {#each messages as message}
-            <Message {...message} />
+          {#each $communications as communication}
+            <Message {...communication} />
           {/each}
         </ul>
       </div>

@@ -16,6 +16,6 @@ export default consumer.subscriptions.create('NotificationChannel', {
 
   acknowledge({ id }) {
     this.remove({ id })
-    return this.perform('acknowledge', { id })
+    this.perform('acknowledge', { id })
   },
 })

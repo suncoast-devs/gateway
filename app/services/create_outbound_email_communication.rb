@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # TODO: From Current user with signature.
-class CreateEmailCommunication
+class CreateOutboundEmailCommunication
   include Callable
 
   def initialize(person, subject, body)
