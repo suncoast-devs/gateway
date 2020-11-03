@@ -110,7 +110,8 @@
               - if @program_enrollment.deposit_required? && !@program_enrollment.deposit_paid?
                 li
                   strong Submit payment for your deposit.
-                  p You can pay #{link_to "this invoice online", @program_enrollment.deposit_invoice.payment_url} now.
+                  - if @program_enrollment.deposit_invoice.present?
+                    p You can pay #{link_to "this invoice online", @program_enrollment.deposit_invoice.payment_url} now.
             - if @program_enrollment.applied?
                 li
                   strong Schedule your interview
