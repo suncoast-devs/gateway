@@ -10,11 +10,17 @@ export default consumer.subscriptions.create('CommunicationChannel', {
     }
   },
 
+  // follow({ id: 1 }) -- Person id
   follow(data) {
     this.perform('follow', data)
   },
 
   unfollow() {
     this.perform('unfollow')
+  },
+
+  // markAsRead(communication.id)
+  markAsRead(id) {
+    this.perform('mark_as_read', { id })
   },
 })

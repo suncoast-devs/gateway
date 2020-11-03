@@ -15,7 +15,7 @@
 
 <div
   class="fixed inset-0 flex flex-col items-end justify-start p-4 pointer-events-none z-50">
-  {#each $notifications as notification}
+  {#each $notifications as notification (notification.id)}
     <div
       transition:fly={{ y: '-100', duration: 300 }}
       class="max-w-sm w-full mb-4 bg-white shadow-lg rounded-lg pointer-events-auto cursor-pointer"

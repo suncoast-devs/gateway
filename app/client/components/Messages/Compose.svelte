@@ -92,7 +92,7 @@
         on:change={(e) => e.target.blur()}
         on:blur={handleTemplateChange}>
         <option value={null} />
-        {#each templates as template}
+        {#each templates as template (template.id)}
           <option value={template}>{template.name}</option>
         {/each}
       </select>

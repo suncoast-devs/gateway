@@ -16,6 +16,12 @@ class CommunicationChannel < ApplicationCable::Channel
     stream_inbox
   end
 
+  def mark_as_read(data)
+    communication = Communication.find(data["id"])
+    communication.update is_unread: false
+    CommunicationChannel.broadcast_unread
+  end
+
   def self.broadcast_unread
     ActionCable.server.broadcast "inbox", { unread: Communication.incoming.where(is_unread: true).count }
   end

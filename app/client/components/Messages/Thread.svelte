@@ -73,7 +73,7 @@
           <strong>{person.name}</strong>
         </h3>
         <ul class="flex flex-col-reverse py-1">
-          {#each $communications as communication}
+          {#each $communications as communication (communication.id)}
             <Message {...communication} />
           {/each}
         </ul>
