@@ -8,9 +8,10 @@
   let conversationSummaries = []
 
   onMount(async () => {
-    const { people } = await get(`/communications`)
+    const {
+      data: { people },
+    } = await get(`/communications`)
     if (people) conversationSummaries = people
-
     selectedConversationId = people[0].id
   })
 </script>

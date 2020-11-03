@@ -1,6 +1,6 @@
 <script>
   import { afterUpdate, onDestroy } from 'svelte'
-  import { get } from '../../utils/api-fetch'
+  import { getPages } from '../../utils/api-fetch'
   import communicationChannel from '../../channels/communication-channel'
   import { communications } from '../../stores'
   import Spinner from '../Spinner'
@@ -15,6 +15,7 @@
   let lastPersonId
   let recentMessageId
   let scrollPane
+  let nextPage
 
   afterUpdate(() => {
     if (personId !== lastPersonId) {
@@ -33,8 +34,11 @@
   })
 
   async function loadMessages() {
-    const data = await get('/communications', { person_id: personId })
+    const { data, next } = await getPages('/communications', {
+      person_id: personId,
+    })
     if (data.person) {
+      nextPage = next
       person = data.person
       $communications = data.communications
       if ($communications.length > 0) {
@@ -50,6 +54,24 @@
         )
         if (lastIncomingEmail) lastSubject = lastIncomingEmail.subject
       }
+    }
+  }
+
+  let messageList
+
+  async function loadMore(event) {
+    const currentLastItem = messageList.querySelector('li:last-child')
+
+    if (nextPage) {
+      const { data, next } = await getPages(nextPage)
+      $communications = [...$communications, ...data.communications]
+      nextPage = next
+      setTimeout(() => {
+        currentLastItem.previousElementSibling.scrollIntoView({
+          block: 'end',
+          behavior: 'smooth',
+        })
+      }, 0)
     }
   }
 
@@ -72,7 +94,14 @@
           Conversation with
           <strong>{person.name}</strong>
         </h3>
-        <ul class="flex flex-col-reverse py-1">
+        {#if nextPage}
+          <div class="flex flex-col items-center">
+            <button
+              class="inline-flex items-center max-w-sm px-2.5 py-1.5 border border-transparent text-xs leading-4 font-medium rounded text-white bg-gray-300 hover:bg-gray-200 focus:outline-none focus:border-gray-300 focus:shadow-outline-gray active:bg-gray-300 transition ease-in-out duration-150 "
+              on:click={loadMore}>Load More&hellip;</button>
+          </div>
+        {/if}
+        <ul bind:this={messageList} class="flex flex-col-reverse py-1">
           {#each $communications as communication (communication.id)}
             <Message {...communication} />
           {/each}
