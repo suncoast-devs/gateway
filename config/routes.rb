@@ -47,7 +47,7 @@ Rails.application.routes.draw do
       post "webhooks/:webhook", to: "webhooks#index"
     end
 
-    resources :communications, except: %i[delete]
+    resources :communications, only: %i[index show new create]
   end
 
   get "s/:locator", to: "student#status", as: :student_status

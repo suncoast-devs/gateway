@@ -23,7 +23,7 @@ class CommunicationChannel < ApplicationCable::Channel
   end
 
   def self.broadcast_unread
-    ActionCable.server.broadcast "inbox", { unread: Communication.incoming.where(is_unread: true).count }
+    ActionCable.server.broadcast "inbox", { unread: Communication.incoming.unread.count }
   end
 
   private

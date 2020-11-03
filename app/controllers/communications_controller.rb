@@ -40,10 +40,6 @@ class CommunicationsController < ApplicationController
     render json: { ok: true }
   end
 
-  # mark read/unread
-  def update
-  end
-
   private
 
   def find_person
