@@ -1,7 +1,7 @@
 import consumer from './consumer'
 import { notifications } from '../stores'
 
-const DISPLAY_TIME = 5
+const DISPLAY_TIME = 10
 
 // FIXME: Move timeout and remove logic to store?
 export default consumer.subscriptions.create('NotificationChannel', {
