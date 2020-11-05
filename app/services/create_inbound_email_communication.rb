@@ -53,11 +53,11 @@ class CreateInboundEmailCommunication
       end
     end
 
-    if text.blank? && html.present?
-      text = ActionController::Base.helpers.strip_tags(html)
-    end
+    text = html if text.blank? && html.present?
+    text = ActionController::Base.helpers.strip_tags(text)
+    text = text.encode(Encoding.find("UTF-8"), { invalid: :replace, undef: :replace, replace: "" })
 
-    text = EmailReplyTrimmer.trim(text.force_encoding("UTF-8"))
+    EmailReplyTrimmer.trim(text)
   end
 
   def from_email
