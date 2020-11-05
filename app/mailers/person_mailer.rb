@@ -55,7 +55,7 @@ class PersonMailer < ApplicationMailer
     # re-encode without attachement before storing.
     email = mail.has_attachments? ? Mail.new(mail.encoded).without_attachments! : mail
 
-    Communication.outgoing.email.create(
+    communication = Communication.outgoing.email.create(
       person: @person,
       subject: email.subject,
       body: sanitize_html(email.body),
@@ -66,6 +66,8 @@ class PersonMailer < ApplicationMailer
         mail: email.encoded,
       },
     )
+
+    CommunicationChannel.broadcast_communication(communication)
   end
 
   def sanitize_html(doc)

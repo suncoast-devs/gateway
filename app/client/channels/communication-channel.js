@@ -5,7 +5,7 @@ export default consumer.subscriptions.create('CommunicationChannel', {
   received(data) {
     if (data.unread) {
       unreadMessageCount.set(data.unread)
-    } else {
+    } else if (data.id) {
       communications.update((c) => [data, ...c])
     }
   },

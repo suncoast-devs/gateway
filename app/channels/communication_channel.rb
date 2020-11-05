@@ -26,6 +26,23 @@ class CommunicationChannel < ApplicationCable::Channel
     ActionCable.server.broadcast "inbox", { unread: Communication.incoming.unread.count }
   end
 
+  def self.broadcast_communication(communication)
+    CommunicationChannel.broadcast_unread if communication.incoming?
+
+    rendered_message = ApplicationController.render(
+      partial: "communications/message",
+      locals: { communication: communication },
+    )
+
+    # FIXME: EW...
+    camelized = OliveBranch::Transformations.transform(
+      JSON.parse(rendered_message),
+      OliveBranch::Transformations.method(:camelize)
+    )
+
+    CommunicationChannel.broadcast_to(communication.person, camelized)
+  end
+
   private
 
   def stream_inbox

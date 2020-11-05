@@ -19,20 +19,7 @@ class CreateInboundEmailCommunication
     )
 
     sender.update last_communication: communication
-    CommunicationChannel.broadcast_unread if communication.incoming?
-
-    rendered_message = ApplicationController.render(
-      partial: "communications/message",
-      locals: { communication: communication },
-    )
-
-    # FIXME: EW...
-    camelized = OliveBranch::Transformations.transform(
-      JSON.parse(rendered_message),
-      OliveBranch::Transformations.method(:camelize)
-    )
-
-    CommunicationChannel.broadcast_to(sender, camelized)
+    CommunicationChannel.broadcast_communication(communication)
     ActiveSupport::Notifications.instrument "communication_received.gateway", [communication]
   end
 

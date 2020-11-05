@@ -27,6 +27,20 @@
         communicationChannel.unfollow()
       }
     }
+
+    if ($communications.length > 0) {
+      const mostRecentMessageId = $communications[0].id
+      if (recentMessageId !== mostRecentMessageId) {
+        recentMessageId = mostRecentMessageId
+        setTimeout(scrollToBottom, 0)
+      }
+
+      // Set default subject in Compose view to last received email's subject
+      const lastIncomingEmail = $communications.find(
+        (m) => m.media === 'email' && !m.isOutgoing
+      )
+      if (lastIncomingEmail) lastSubject = lastIncomingEmail.subject
+    }
   })
 
   onDestroy(() => {
@@ -41,19 +55,6 @@
       nextPage = next
       person = data.person
       $communications = data.communications
-      if ($communications.length > 0) {
-        const mostRecentMessageId = $communications[0].id
-        if (recentMessageId !== mostRecentMessageId) {
-          recentMessageId = mostRecentMessageId
-          setTimeout(scrollToBottom, 0)
-        }
-
-        // Set default subject in Compose view to last received email's subject
-        const lastIncomingEmail = $communications.find(
-          (m) => m.media === 'email' && !m.isOutgoing
-        )
-        if (lastIncomingEmail) lastSubject = lastIncomingEmail.subject
-      }
     }
   }
 

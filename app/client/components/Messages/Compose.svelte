@@ -44,13 +44,13 @@
 
   async function handleSubmit() {
     subject = subject || prefilledSubject
-    const response = await post('/communications', {
+    const { data: ok } = await post('/communications', {
       personId,
       isSMS,
       subject,
       body,
     })
-    if (response.ok) {
+    if (ok) {
       selectedTemplate = null
       body = ''
     }
