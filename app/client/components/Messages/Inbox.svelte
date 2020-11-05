@@ -1,9 +1,9 @@
 <script>
   import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
-
   import { debounce } from 'lodash'
   import { get } from '../../utils/api-fetch'
+  import { unreadMessageCount } from '../../stores'
   import Icon from '../Icon.svelte'
   import Spinner from '../Spinner'
   import Summary from './Summary'
@@ -19,19 +19,27 @@
       data: { people },
     } = await get(`/communications`, { q: query })
     if (people) conversationSummaries = people
-    selectedConversation = people[0]
     isLoading = false
   }
+
+  function reset() {
+    query = ''
+    loadPeople()
+  }
+
+  unreadMessageCount.subscribe(() => {
+    loadPeople()
+  })
 
   onMount(loadPeople)
 </script>
 
 <div class="absolute inset-0 flex flex-col border-gray-300 border-r">
   <header
-    class="p-4 border-gray-200 border-b bg-white"
+    class="px-4 py-3 border-gray-200 border-b bg-white"
     on:click={() => (selectedConversation = null)}>
     <div class="flex items-center justify-between">
-      <h1 class="text-lg font-semibold text-gray-900 font-serif italic">
+      <h1 class="pr-4 text-lg font-semibold text-gray-900 font-serif italic">
         Inbox
       </h1>
       <div class="relative">
@@ -47,7 +55,7 @@
           type="search" />
         {#if query.length > 0}
           <button
-            on:click={() => (query = '')}
+            on:click={reset}
             transition:fade={{ duration: 300 }}
             class="absolute inset-y-0 right-0 pr-3 flex items-center transition duration-300 ease-in-out text-gray-500">
             <Icon name="times-circle" />

@@ -2,10 +2,7 @@
   import Icon from '../Icon'
   import { post } from '../../utils/api-fetch'
 
-  export let personId
-
   export let person = {}
-
   export let lastSubject
 
   $: prefilledSubject = lastSubject ? regarding(lastSubject) : ''
@@ -48,7 +45,7 @@
   async function handleSubmit() {
     subject = subject || prefilledSubject
     const { data: ok } = await post('/communications', {
-      personId,
+      personId: person.id,
       isSMS,
       subject,
       body,
