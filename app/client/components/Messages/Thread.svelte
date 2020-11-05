@@ -6,22 +6,20 @@
   import Spinner from '../Spinner'
   import Message from './Message'
 
-  export let personId = null
-
   // FIXME: Move some of this to a store?
   export let lastSubject
 
-  let person = null
+  export let person
   let lastPersonId
   let recentMessageId
   let scrollPane
   let nextPage
 
   afterUpdate(() => {
-    if (personId !== lastPersonId) {
-      if (personId) {
-        lastPersonId = personId
-        communicationChannel.follow({ id: personId })
+    if (person && person.id !== lastPersonId) {
+      if (person.id) {
+        lastPersonId = person.id
+        communicationChannel.follow({ id: person.id })
         loadMessages()
       } else {
         communicationChannel.unfollow()
@@ -49,7 +47,7 @@
 
   async function loadMessages() {
     const { data, next } = await getPages('/communications', {
-      person_id: personId,
+      person_id: person.id,
     })
     if (data.person) {
       nextPage = next
@@ -87,8 +85,8 @@
 <div
   class="absolute inset-0 overflow-y-auto overflow-x-hidden flex flex-col"
   bind:this={scrollPane}>
-  {#if personId}
-    {#if person}
+  {#if person}
+    {#if person.id}
       <div class="flex flex-col">
         <h3
           class="py-2 pb-8 font-serif text-center italic sticky top-0 bg-gradient-to-b from-gray-100 via-gray-100 to-transparent text-gray-600 z-20">

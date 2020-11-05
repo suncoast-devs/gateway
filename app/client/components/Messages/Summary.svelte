@@ -2,7 +2,7 @@
   import formatTime from '../../utils/format-time'
   import Icon from '../../components/Icon'
 
-  export let personName
+  export let name
   export let subject
   export let summary
   export let time
@@ -27,14 +27,16 @@
         <Icon name="circle" small />
       </div>
     {/if}
-    <h3 class="flex-1 font-bold">{personName}</h3>
-    <time class="text-xs">{formattedTime}</time>
+    <h3 class="flex-1 font-bold">{name}</h3>
+    {#if time}<time class="text-xs">{formattedTime}</time>{/if}
   </div>
   {#if subject}
     <h4 class="font-semibold text-sm text-gray-600">{subject}</h4>
   {/if}
-  <p class="font-serif">
-    <em>{lastSender} said:</em>
-    {@html summary}
-  </p>
+  {#if summary}
+    <p class="font-serif">
+      <em>{lastSender} said:</em>
+      {@html summary}
+    </p>
+  {/if}
 </li>

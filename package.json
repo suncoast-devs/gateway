@@ -9,6 +9,7 @@
     "@rails/webpacker": "5.2.1",
     "@tailwindcss/ui": "^0.6.2",
     "bulma": "^0.9.1",
+    "lodash": "^4.17.20",
     "luxon": "^1.25.0",
     "svelte": "^3.29.4",
     "svelte-loader": "^2.13.6",

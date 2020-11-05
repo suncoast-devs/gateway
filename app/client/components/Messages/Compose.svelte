@@ -3,6 +3,9 @@
   import { post } from '../../utils/api-fetch'
 
   export let personId
+
+  export let person = {}
+
   export let lastSubject
 
   $: prefilledSubject = lastSubject ? regarding(lastSubject) : ''
@@ -74,6 +77,7 @@
         <Icon name="sms" />
       </button>
       <span class="flex-1" />
+      <span class="text-gray-400 text-xs">{person.email}</span>
       <div class="ml-4 w-64 rounded-md">
         <input
           class="py-1 px-2 form-input block w-full transition duration-150 ease-in-out text-sm leading-2 disabled:opacity-50 text-gray-600"

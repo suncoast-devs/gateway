@@ -15,8 +15,11 @@ class CommunicationsController < ApplicationController
       @pagy, @records = pagy(scope)
       render "thread"
     else
-      scope = Person.joins(:last_communication).includes(:last_communication).order('communications.messaged_at': "desc").where.not(last_communication_id: nil)
-      @pagy, @records = pagy(scope)
+      @query = params[:q]
+      scope = Person.left_outer_joins(:last_communication).includes(:last_communication).order(["last_communication_id IS NULL", "communications.messaged_at DESC"])
+      scope = scope.where("full_name ILIKE ?", "%#{@query}%") if @query.present?
+
+      @pagy, @records = pagy(scope, items: 16)
       render "summaries"
     end
   end
