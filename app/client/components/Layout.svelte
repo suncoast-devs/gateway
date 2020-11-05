@@ -53,7 +53,7 @@
       </button>
       <!-- Search -->
       <div class="flex-1 flex justify-between px-4 sm:px-6 lg:px-8">
-        <div class="flex-1 flex">
+        <!-- <div class="flex-1 flex">
           <form class="w-full flex :ml-0" action="#" method="GET">
             <label for="search_field" class="sr-only">Search</label>
             <div
@@ -69,7 +69,7 @@
                 type="search" />
             </div>
           </form>
-        </div>
+        </div> -->
       </div>
       <!-- End Search -->
     </div>

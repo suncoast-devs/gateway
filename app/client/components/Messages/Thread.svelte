@@ -91,7 +91,7 @@
     {#if person}
       <div class="flex flex-col">
         <h3
-          class="py-2 pb-8 font-serif text-center italic sticky top-0 bg-gradient-to-b from-gray-100 via-gray-100 to-transparent text-gray-600">
+          class="py-2 pb-8 font-serif text-center italic sticky top-0 bg-gradient-to-b from-gray-100 via-gray-100 to-transparent text-gray-600 z-20">
           Conversation with
           <strong>{person.name}</strong>
         </h3>
