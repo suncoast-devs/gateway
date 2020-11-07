@@ -19,7 +19,7 @@ module Webhooks
           event.data = @params
         end
 
-        if event.person
+        if calendar_event.person
           @program_enrollment = calendar_event.person.current_program_enrollment
           @program_enrollment&.interviewing!
           calendar_event.person.succeed_contact!
