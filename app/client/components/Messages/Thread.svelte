@@ -3,6 +3,8 @@
   import { getPages } from '../../utils/api-fetch'
   import communicationChannel from '../../channels/communication-channel'
   import { communications } from '../../stores'
+  import SlidePanel from '../SlidePanel'
+  import Icon from '../Icon'
   import Spinner from '../Spinner'
   import Message from './Message'
 
@@ -14,6 +16,8 @@
   let recentMessageId
   let scrollPane
   let nextPage
+
+  let selectedMessageDetail
 
   afterUpdate(() => {
     if (person && person.id !== lastPersonId) {
@@ -102,7 +106,9 @@
         {/if}
         <ul bind:this={messageList} class="flex flex-col-reverse py-1">
           {#each $communications as communication (communication.id)}
-            <Message {...communication} />
+            <Message
+              {...communication}
+              onClick={() => (selectedMessageDetail = communication)} />
           {/each}
         </ul>
       </div>
@@ -115,3 +121,40 @@
     </div>
   {/if}
 </div>
+
+{#if selectedMessageDetail}
+  <SlidePanel
+    title={selectedMessageDetail.subject}
+    onClose={() => (selectedMessageDetail = null)}>
+    <div class="absolute inset-0 flex flex-col px-4">
+      <div class="flex-1">
+        <iframe
+          src={`/communications/${selectedMessageDetail.id}`}
+          title={selectedMessageDetail.subject}
+          class="w-full h-full"
+          frameborder="0" />
+      </div>
+
+      <div class="border-t border-gray-200">
+        <nav class="flex -mb-px">
+          <button
+            class="group inline-flex items-center pt-4 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
+            <span
+              class="-ml-0.5 mr-2 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-600">
+              <Icon name="envelope-open-text" />
+            </span>
+            <span>Full Email</span>
+          </button>
+          <button
+            class="ml-8 group inline-flex items-center pt-4 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
+            <span
+              class="-ml-0.5 mr-2 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-600">
+              <Icon name="code" />
+            </span>
+            <span>RAW</span>
+          </button>
+        </nav>
+      </div>
+    </div>
+  </SlidePanel>
+{/if}

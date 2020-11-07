@@ -26,6 +26,14 @@ class CommunicationsController < ApplicationController
 
   # fully rendered email detail
   def show
+    @communication = Communication.find(params[:id])
+
+    if @communication.email?
+      mail = Mail.new(@communication.data["mail"])
+      render html: mail.body.decoded.html_safe, layout: false
+    else
+      render nothing: true
+    end
   end
 
   # preview template
