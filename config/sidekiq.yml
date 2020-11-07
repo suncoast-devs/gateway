@@ -1,4 +1,5 @@
 ---
+:max_retries: 25
 :concurrency: 1
 production:
   :concurrency: 3
