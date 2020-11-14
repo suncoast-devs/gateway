@@ -21,6 +21,7 @@ section.section
           = form.hidden_field :is_rescinded, value: @program_acceptance.is_rescinded ? false : true
           = form.submit "#{@program_acceptance.is_rescinded ? "Un-rescind" : "Rescind"} Acceptance", class: "button is-warning"
 
-    .box
-      .content
-        = markdown(@program_acceptance.notification_body)
+    - if @program_acceptance.notification_body.present?
+      .box
+        .content
+          = markdown(@program_acceptance.notification_body)
