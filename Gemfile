@@ -29,12 +29,12 @@ gem "sentry-raven"
 gem "sidekiq"
 gem "slim"
 gem "stripe"
+gem "truemail"
 gem "webpacker"
 
 group :development do
   gem "awesome_print"
   gem "byebug"
-  gem "letter_opener"
   gem "listen"
   gem "web-console", ">= 3.3.0"
 end

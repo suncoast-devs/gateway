@@ -121,10 +121,6 @@ GEM
     jmespath (1.4.0)
     json (2.3.1)
     jwt (2.2.2)
-    launchy (2.5.0)
-      addressable (~> 2.7)
-    letter_opener (1.7.0)
-      launchy (~> 2.2)
     liquid (4.0.3)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -241,6 +237,8 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
+    simpleidn (0.1.1)
+      unf (~> 0.1.4)
     slim (4.1.0)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
@@ -256,6 +254,8 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
+    truemail (2.0.1)
+      simpleidn (~> 0.1.1)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unf (0.1.4)
@@ -289,7 +289,6 @@ DEPENDENCIES
   full-name-splitter
   http (~> 4.3)
   jbuilder
-  letter_opener
   liquid
   listen
   mailchimp-api
@@ -308,6 +307,7 @@ DEPENDENCIES
   sidekiq
   slim
   stripe
+  truemail
   web-console (>= 3.3.0)
   webpacker
 

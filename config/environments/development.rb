@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: truef
 
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
@@ -28,7 +28,7 @@ Rails.application.configure do
   logger.formatter = config.log_formatter
   config.logger = ActiveSupport::TaggedLogging.new(logger)
 
-  config.hosts << '.ngrok.io'
+  config.hosts << ".ngrok.io"
 end
 
 Rails.application.routes.default_url_options[:host] = "localhost:#{ENV.fetch("PORT") { 3000 }}"
