@@ -36,7 +36,7 @@ module Webhooks
     def person
       invitee = @params.dig(:payload, :invitee)
       @person ||= Person.where("lower(email_address) = ?", invitee[:email].downcase).first_or_create do |person|
-        given_name, family_name = FullNameSplitter.split(from_name)
+        given_name, family_name = FullNameSplitter.split(invitee[:name])
         person.email_address = invitee[:email]
         person.full_name = invitee[:name]
         person.given_name = invitee[:first_name]
