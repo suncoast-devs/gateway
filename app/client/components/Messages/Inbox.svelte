@@ -82,5 +82,5 @@
           {lastSender} />
       {/each}
     </ul>
-  {:else}{/if}
+  {/if}
 </div>
