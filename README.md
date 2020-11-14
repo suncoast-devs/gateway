@@ -11,3 +11,4 @@ This app manages student's admission applications to the Academy at Suncoast Dev
 - [ ] Move Program Acceptance ownership/creation from Application to Enrollment
 - [ ] Re-add tracking of visits to student status page.
 - [ ] Upgrade to [sentry-ruby](https://github.com/getsentry/sentry-ruby/issues/1029) when ready. Use `sentry-sidekiq`, etc.
+- [ ] Should we only check email against Truemail when created or changed?
