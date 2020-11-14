@@ -7,11 +7,11 @@ module API
     #   {
     #     "id": 46,
     #     "name": "20",
-    #     "is_enrolling": true,
-    #     "begins_on": "2020-12-04",
-    #     "ends_on": "2021-03-18",
-    #     "created_at": "2020-10-14T14:02:59.423Z",
-    #     "updated_at": "2020-10-14T14:07:02.516Z",
+    #     "isEnrolling": true,
+    #     "beginsOn": "2020-12-04",
+    #     "endsOn": "2021-03-18",
+    #     "createdAt": "2020-10-14T14:02:59.423Z",
+    #     "updatedAt": "2020-10-14T14:07:02.516Z",
     #     "format": "Immersive",
     #     "note": ".NET",
     #     "delivery": "In-person"
