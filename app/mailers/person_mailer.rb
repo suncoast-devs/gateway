@@ -33,13 +33,13 @@ class PersonMailer < ApplicationMailer
       attachments["Program Catalog.pdf"] = File.read(Rails.root.join("app/assets/CATALOG.pdf"))
     end
 
-    if Truemail.valid? @person.email_address
-      mail(to: "#{@person.full_name} <#{@person.email_address}>",
-           subject: subject,
-           track_opens: "true") do |format|
-        format.html { render layout: @communication_template.media, html: body }
-      end
+    # if Truemail.valid? @person.email_address
+    mail(to: "#{@person.full_name} <#{@person.email_address}>",
+         subject: subject,
+         track_opens: "true") do |format|
+      format.html { render layout: @communication_template.media, html: body }
     end
+    # end
   end
 
   # private
