@@ -22,6 +22,7 @@ class SendLeadToClose
   }
 
   COHORT_FIELD = "lcf_C6wG4HgXpRWz455SDezi3eHiNNaRMdtyRUfGoO5aZIZ"
+  GATEWAY_FIELD = "lcf_GD5hdf9Z4k5poQVTw7wrbRe1ogeZgDxFJwxFjG6II1g"
 
   def initialize(person)
     @person = person
@@ -55,51 +56,21 @@ class SendLeadToClose
   private
 
   def create_lead_params
-    params = {
-      "contacts": [
-        {
-          "name": @person.full_name,
-          "emails": [
-            {
-              "email": @person.email_address,
-            },
-          ],
-          "phones": [
-            {
-              "phone": @person.phone_number,
-            },
-          ],
-          "status_id": LEAD_STATUS[status_keys.last],
-        },
-      ],
-    }
-
-    if @person.current_program_enrollment && @person.current_program_enrollment.cohort
-      params["custom.#{COHORT_FIELD}"] = @person.current_program_enrollment.cohort.name
-    end
-
+    params = update_lead_params
+    params["contacts"] = [update_contact_params]
     params
   end
 
   def create_opportunity_params
-    status = OPPORTUNITY_STATUSES[status_keys.first]
-    params = {
-      "lead_id": @person.close_lead,
-      "status_id": status,
-      "value": 14_900 * 100,
-      "value_period": "one_time",
-    }
-
-    if status == "Enrolled" && @person.current_program_enrollment
-      params["date_won"] = @person.current_program_enrollment.cohort&.begins_on
-    end
-
+    params = update_opportunity_params
+    params["lead_id"] = @person.close_lead
     params
   end
 
   def update_lead_params
     params = {
       "status_id": LEAD_STATUS[status_keys.last],
+      "custom.#{GATEWAY_FIELD}": @person.id,
     }
 
     if @person.current_program_enrollment
@@ -154,7 +125,7 @@ class SendLeadToClose
       else return ["Prospecting", "Potential"]
       end
     elsif pe.won?
-      ["Enrolled", "Customer"]
+      return ["Enrolled", "Customer"]
     elsif pe.lost?
       case pe.stage
       when "applied" then return ["Lost", "Interested"]
