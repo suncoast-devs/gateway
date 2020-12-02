@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_01_004054) do
+ActiveRecord::Schema.define(version: 2020_12_01_161101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -218,6 +218,8 @@ ActiveRecord::Schema.define(version: 2020_11_01_004054) do
     t.string "client_ip_address"
     t.bigint "last_contact_disposition_id"
     t.bigint "last_communication_id"
+    t.string "close_lead"
+    t.string "close_contact"
     t.index ["last_communication_id"], name: "index_people_on_last_communication_id"
     t.index ["last_contact_disposition_id"], name: "index_people_on_last_contact_disposition_id"
   end
@@ -280,6 +282,7 @@ ActiveRecord::Schema.define(version: 2020_11_01_004054) do
     t.string "student_status_url"
     t.boolean "academic_signoff"
     t.boolean "administrative_signoff"
+    t.string "close_opportunity"
     t.index ["cohort_id"], name: "index_program_enrollments_on_cohort_id"
     t.index ["deposit_invoice_id"], name: "index_program_enrollments_on_deposit_invoice_id"
     t.index ["person_id"], name: "index_program_enrollments_on_person_id"
