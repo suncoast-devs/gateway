@@ -4,7 +4,7 @@ class SendSMSMessage
   attr :lead_id, :contact_id, :phone_number, :message
 
   def initialize(lead_id, contact_id, phone_number, message)
-    @lead_id, lead_id
+    @lead_id = lead_id
     @contact_id = contact_id
     @phone_number = phone_number
     @message = message
