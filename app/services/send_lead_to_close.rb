@@ -74,7 +74,7 @@ class SendLeadToClose
       ],
     }
 
-    if @person.current_program_enrollment
+    if @person.current_program_enrollment && @person.current_program_enrollment.cohort
       params["custom.#{COHORT_FIELD}"] = @person.current_program_enrollment.cohort.name
     end
 
