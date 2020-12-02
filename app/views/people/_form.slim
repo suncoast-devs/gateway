@@ -26,6 +26,14 @@
 
   .field.is-horizontal
     .field-label.is-normal
+      = form.label :full_name, class: "label"
+    .field-body
+      .field
+        .control
+          = form.text_field :full_name, class: "input"
+  
+  .field.is-horizontal
+    .field-label.is-normal
       = form.label :email_address, class: "label"
     .field-body
       .field
