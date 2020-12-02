@@ -21,8 +21,9 @@ class ApplyController < ApplicationController
       person.client_ip_address = request.remote_ip
       person.source = "Web Development Program Application"
     end
-    @program_application = @person.program_applications.create! create_params    
-    render json: {id: @program_application.id}
+    @program_application = @person.program_applications.create! create_params
+    SendLeadToClose.call_later(@person)
+    render json: { id: @program_application.id }
   end
 
   # PATCH /apply/:idea
@@ -40,7 +41,8 @@ class ApplyController < ApplicationController
       CreateProgramEnrollment.call_later(@program_application)
       publish_event :complete_application, @program_application
     end
-    render json: {ok: true}
+    SendLeadToClose.call_later(@program_application.person)
+    render json: { ok: true }
   end
 
   def continue

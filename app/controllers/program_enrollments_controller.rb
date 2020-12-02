@@ -37,6 +37,7 @@ class ProgramEnrollmentsController < ApplicationController
 
   def update
     @program_enrollment.update program_enrollment_params
+    SendLeadToClose.call_later(@program_enrollment.person)
     redirect_to @program_enrollment.person
   end
 

@@ -32,6 +32,7 @@ class PeopleController < ApplicationController
     @person = Person.new(person_params)
 
     if @person.save
+      SendLeadToClose.call_later(@person)
       redirect_to @person, notice: "#{@person.full_name} created."
     else
       render :new
@@ -40,6 +41,7 @@ class PeopleController < ApplicationController
 
   def update
     if @person.update(person_params)
+      SendLeadToClose.call_later(@person)
       redirect_to @person, notice: "#{@person.full_name} updated."
     else
       render :edit

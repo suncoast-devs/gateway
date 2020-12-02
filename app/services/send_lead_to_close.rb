@@ -29,7 +29,7 @@ class SendLeadToClose
   end
 
   def call
-    # return unless Rails.env.production?
+    return unless Rails.env.production?
     unless @person.close_lead.present?
       lead = CloseAPI.post("lead", create_lead_params)
       if lead["id"]

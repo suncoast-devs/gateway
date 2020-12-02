@@ -32,6 +32,8 @@ class CreateLead
   def call
     return unless Rails.env.production?
 
+    SendLeadToClose.call_later(@person)
+
     # if Truemail.valid? @email
     mailchimp = Mailchimp::API.new(Rails.application.credentials.mailchimp_api_key)
     mailchimp.lists.subscribe("3d4e0699f1",

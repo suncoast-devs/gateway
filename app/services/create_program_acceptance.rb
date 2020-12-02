@@ -34,5 +34,6 @@ class CreateProgramAcceptance
     mail = CommunicationTemplate.by_key('acceptance-letter')&.send_to(@person)
     @program_acceptance.update sent_at: Time.now, message_id: mail.message_id
     @program_enrollment.accepted!
+    SendLeadToClose.call_later(@person)
   end
 end
