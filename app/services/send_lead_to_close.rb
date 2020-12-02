@@ -49,7 +49,9 @@ class SendLeadToClose
     else
       CloseAPI.put("lead/#{@person.close_lead}", update_lead_params)
       CloseAPI.put("contact/#{@person.close_contact}", update_contact_params)
-      CloseAPI.put("opportunity/#{@person.current_program_enrollment.close_opportunity}", update_opportunity_params)
+      if @person.current_program_enrollment
+        CloseAPI.put("opportunity/#{@person.current_program_enrollment.close_opportunity}", update_opportunity_params)
+      end
     end
   end
 
@@ -73,7 +75,7 @@ class SendLeadToClose
       "custom.#{GATEWAY_FIELD}": @person.id,
     }
 
-    if @person.current_program_enrollment
+    if @person.current_program_enrollment && @person.current_program_enrollment.cohort
       params["custom.#{COHORT_FIELD}"] = @person.current_program_enrollment.cohort.name
     end
 
