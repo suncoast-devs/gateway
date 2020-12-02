@@ -5,7 +5,7 @@ require "json"
 module CloseAPI
   def self.get(path, params = nil)
     path = normalize(path)
-    path += URI.encode_www_form(params) if params
+    path += "?" + URI.encode_www_form(params) if params
     request = Net::HTTP::Get.new(path)
     request.basic_auth(Rails.application.credentials.close_api_key, "")
     response = Net::HTTP.start("api.close.com", 443, { use_ssl: true }) { |http| http.request(request) }
