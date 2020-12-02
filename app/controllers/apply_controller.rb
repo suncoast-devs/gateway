@@ -27,7 +27,7 @@ class ApplyController < ApplicationController
   end
 
   # PATCH /apply/:idea
-  # { 
+  # {
   #   "question_responses": {
   #     "What color is the sky?": "Blue!"
   #   }
@@ -37,7 +37,7 @@ class ApplyController < ApplicationController
     @program_application.update update_params
     @program_application.person.update(contact_params)
 
-    if update_params[:application_status] == 'complete' && @program_application.program == "web-development"
+    if update_params[:application_status] == "complete" && @program_application.program == "web-development"
       CreateProgramEnrollment.call_later(@program_application)
       publish_event :complete_application, @program_application
     end
@@ -51,11 +51,11 @@ class ApplyController < ApplicationController
     render json: {
       token: @program_application.id,
       responses: @program_application.question_responses,
-      contact: {given_name: @program_application.person.given_name,
-                middle_name: @program_application.person.middle_name,
-                family_name: @program_application.person.family_name,
-                email_address: @program_application.person.email_address,
-                phone_number: @program_application.person.phone_number},
+      contact: { given_name: @program_application.person.given_name,
+                 middle_name: @program_application.person.middle_name,
+                 family_name: @program_application.person.family_name,
+                 email_address: @program_application.person.email_address,
+                 phone_number: @program_application.person.phone_number },
     }
   end
 

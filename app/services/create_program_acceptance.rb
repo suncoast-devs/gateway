@@ -22,7 +22,7 @@ class CreateProgramAcceptance
       due_date = [@cohort.tuition_due_date, 1.day.from_now].max
       @invoice = @person.invoices.create(due_on: due_date,
                                          invoice_items_attributes: [
-                                           {description: "Tuition Deposit", quantity: 1, amount: 1000},
+                                           { description: "Tuition Deposit", quantity: 1, amount: 1000 },
                                          ])
       CreateInvoice.call(@invoice.id)
       @invoice.reload
@@ -30,8 +30,8 @@ class CreateProgramAcceptance
     else
       @invoice = @program_enrollment.deposit_invoice
     end
-    
-    mail = CommunicationTemplate.by_key('acceptance-letter')&.send_to(@person)
+
+    mail = CommunicationTemplate.by_key("acceptance-letter")&.send_to(@person)
     @program_acceptance.update sent_at: Time.now, message_id: mail.message_id
     @program_enrollment.accepted!
     SendLeadToClose.call_later(@person)
