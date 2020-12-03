@@ -5,4 +5,10 @@ namespace :close do
       SendLeadToClose.call_later(person)
     end
   end
+
+  task notes: :environment do
+    Note.all.each do |note|
+      SendNoteToClose.call_later(note)
+    end
+  end
 end

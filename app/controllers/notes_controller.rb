@@ -11,6 +11,7 @@ class NotesController < ApplicationController
       note.user = current_user
     end
 
+    SendNoteToClose.call_later @note
     publish_event :create_note, @note
 
     redirect_back fallback_location: @person, notice: "Note created."

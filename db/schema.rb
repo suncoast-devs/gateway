@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_01_161101) do
+ActiveRecord::Schema.define(version: 2020_12_02_192204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -186,6 +186,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_161101) do
     t.jsonb "data", default: "{}", null: false
     t.text "note_type"
     t.bigint "notable_id"
+    t.string "close_note"
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
@@ -312,6 +313,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_161101) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_notifiable", default: false, null: false
+    t.string "close_user"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
