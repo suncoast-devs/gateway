@@ -11,6 +11,7 @@ class PersonMailer < ApplicationMailer
     @invoice = @course_registration.invoice
 
     mail(to: "#{@person.full_name} <#{@person.email_address}>",
+         bcc: Rails.application.credentials.close_email,
          subject: "You're registered for #{@course.name} with Suncoast Developers Guild",
          track_opens: "true")
   end
@@ -35,6 +36,7 @@ class PersonMailer < ApplicationMailer
 
     # if Truemail.valid? @person.email_address
     mail(to: "#{@person.full_name} <#{@person.email_address}>",
+         bcc: Rails.application.credentials.close_email,
          subject: subject,
          track_opens: "true") do |format|
       format.html { render layout: @communication_template.media, html: body }
@@ -42,7 +44,7 @@ class PersonMailer < ApplicationMailer
     # end
   end
 
-  # private
+  private
 
   def replied_message_id(person, subject)
     original_subject = subject.sub(/^(Re|Fwd): ?/i, "")
