@@ -1,4 +1,3 @@
-
 # Provides a service for creating an enrollment agreement with the Eversign API
 class CreateCourseRegistrationInvoice
   include Callable
@@ -15,7 +14,7 @@ class CreateCourseRegistrationInvoice
                                       invoice_items_attributes: [
                                         { description: "#{@course.name} (#{@course.session})", quantity: 1, amount: @course_registration.fee },
                                       ])
-    registration.update(invoice: invoice)
+    @course_registration.update(invoice: invoice)
     CreateInvoice.call(invoice.id)
     invoice.reload
     PersonMailer.with(course_registration: @course_registration).part_time_registration_email.deliver_later
