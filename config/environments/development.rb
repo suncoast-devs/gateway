@@ -29,6 +29,10 @@ Rails.application.configure do
   config.logger = ActiveSupport::TaggedLogging.new(logger)
 
   config.hosts << ".ngrok.io"
+
+  if ENV["DOCKERIZED"] == "true"
+    config.web_console.whitelisted_ips = ENV["DOCKER_HOST_IP"]
+  end
 end
 
 Rails.application.routes.default_url_options[:host] = "localhost:#{ENV.fetch("PORT") { 3000 }}"

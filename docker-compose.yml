@@ -1,0 +1,39 @@
+version: '3.9'
+
+x-base: &base
+  image: gateway
+  environment:
+    DATABASE_URL: postgresql://postgres:hunter2@postgres:5432/gateway
+    REDIS_URL: redis://redis:6379/12
+  depends_on:
+    - postgres
+    - redis
+  volumes:
+    - .:/usr/src/app
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: hunter2
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+  rails:
+    build: .
+    command: bundle exec rails server -b 0.0.0.0 -P 3000
+    entrypoint: bin/docker-entrypoint.sh
+    ports:
+      - '3000:3000'
+    <<: *base
+  sidekiq:
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    <<: *base
+  webpack:
+    command: ./bin/webpack-dev-server --listen-host 0.0.0.0
+    ports:
+      - '3035:3035'
+    <<: *base
+  redis:
+    image: redis:6-alpine
+volumes:
+  pg-data:
