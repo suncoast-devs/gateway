@@ -2,15 +2,11 @@
 
 class HomeController < ApplicationController
   include Pagy::Backend
-  
+
   def index
     if signed_in?
       @pagy, @events = pagy(Event.order(created_at: :desc))
       @calendar_events = CalendarEvent.upcoming
     end
-  end
-
-  def client
-    render html: nil, layout: 'client'
   end
 end

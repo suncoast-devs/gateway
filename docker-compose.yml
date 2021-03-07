@@ -28,11 +28,6 @@ services:
   sidekiq:
     command: bundle exec sidekiq -C config/sidekiq.yml
     <<: *base
-  webpack:
-    command: ./bin/webpack-dev-server --listen-host 0.0.0.0
-    ports:
-      - '3035:3035'
-    <<: *base
   redis:
     image: redis:6-alpine
 volumes:

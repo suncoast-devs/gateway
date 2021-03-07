@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-Rails.application.configure do  
-  config.webpacker.check_yarn_integrity = false
+Rails.application.configure do
   config.cache_classes = true
   config.eager_load = true
   config.consider_all_requests_local = false
@@ -15,7 +14,7 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
   config.force_ssl = true
   config.action_mailer.show_previews = true
-  
+
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter

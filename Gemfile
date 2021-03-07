@@ -2,9 +2,9 @@
 
 source "https://rubygems.org"
 
-ruby "2.6.5"
+ruby "3.0.0"
 
-gem "rails", "~> 6.0"
+gem "rails", "~> 6.1"
 gem "pg"
 gem "puma"
 gem "rack-cors"
@@ -21,6 +21,7 @@ gem "mailchimp-api", require: "mailchimp"
 gem "olive_branch"
 gem "omniauth"
 gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
 gem "pagy"
 gem "phony_rails"
 gem "postmark-rails"
@@ -30,7 +31,6 @@ gem "sidekiq"
 gem "slim"
 gem "stripe"
 gem "truemail"
-gem "webpacker"
 
 group :development do
   gem "awesome_print"
