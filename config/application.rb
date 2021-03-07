@@ -11,6 +11,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_mailbox/engine"
+require "sprockets/railtie"
 
 Bundler.require(*Rails.groups)
 
@@ -19,7 +20,7 @@ module Gateway
   class Application < Rails::Application
     RAILS_ROUTES = ->(env) { env["PATH_INFO"].match(/^\/rails/) }
 
-    config.load_defaults 6.0
+    config.load_defaults 6.1
     config.active_job.queue_adapter = :sidekiq
     config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
     config.time_zone = "Eastern Time (US & Canada)"

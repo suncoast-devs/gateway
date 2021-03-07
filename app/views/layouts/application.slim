@@ -5,7 +5,7 @@ html
     meta name="viewport" content="width=device-width, initial-scale=1"
     title = content_for?(:title) ? yield(:title) + ' - Gateway' : 'Gateway'
     script src="https://kit.fontawesome.com/175595d43c.js" crossorigin="anonymous"
-    = stylesheet_link_tag 
+    = stylesheet_link_tag "application", media: "all"
   body
     nav.navbar.is-light aria-label="main navigation" role="navigation"
       .container
@@ -25,7 +25,6 @@ html
                   - Cohort.enrolling.each do |cohort|
                     = link_to cohort.alt_display_name, cohort, class: 'navbar-item'
               = link_to "Weekend", course_registrations_path, class: "navbar-item #{current_controller? 'course_registrations'}"
-              = link_to "Messages", "/app/messages", class: "navbar-item"
               .navbar-item.has-dropdown.is-hoverable
                 a.navbar-link Admin
                 .navbar-dropdown

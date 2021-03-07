@@ -14,4 +14,6 @@ elsif Rails.env.development?
   }
 end
 
-Rails::MailersController.before_action -> { redirect_to :sign_in unless Person.exists? session[:user_id] }
+Rails.application.reloader.to_prepare do
+  Rails::MailersController.before_action -> { redirect_to :sign_in unless Person.exists? session[:user_id] }
+end

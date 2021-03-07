@@ -83,6 +83,8 @@ GEM
     bootsnap (1.7.2)
       msgpack (~> 1.0)
     builder (3.2.4)
+    bulma-rails (0.9.1)
+      sassc (~> 2.0)
     byebug (11.1.3)
     commonmarker (0.21.2)
       ruby-enum (~> 0.5)
@@ -243,6 +245,16 @@ GEM
     ruby-enum (0.9.0)
       i18n
     ruby2_keywords (0.0.4)
+    sass-rails (6.0.0)
+      sassc-rails (~> 2.1, >= 2.1.1)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     sentry-raven (3.1.1)
       faraday (>= 1.0)
     sidekiq (6.1.3)
@@ -289,6 +301,7 @@ DEPENDENCIES
   awesome_print
   aws-sdk-s3
   bootsnap (>= 1.1.0)
+  bulma-rails
   byebug
   commonmarker
   email_reply_trimmer
@@ -310,9 +323,11 @@ DEPENDENCIES
   puma
   rack-cors
   rails (~> 6.1)
+  sass-rails
   sentry-raven
   sidekiq
   slim
+  sprockets
   stripe
   truemail
   web-console (>= 3.3.0)

@@ -10,6 +10,9 @@ x-base: &base
     - redis
   volumes:
     - .:/usr/src/app
+    - log:/usr/src/app/log
+    - tmp:/usr/src/app/tmp
+    - storage:/usr/src/app/storage
 
 services:
   postgres:
@@ -20,7 +23,7 @@ services:
       - pg-data:/var/lib/postgresql/data
   rails:
     build: .
-    command: bundle exec rails server -b 0.0.0.0 -P 3000
+    command: bundle exec rails server -b 0.0.0.0
     entrypoint: bin/docker-entrypoint.sh
     ports:
       - '3000:3000'
@@ -32,3 +35,6 @@ services:
     image: redis:6-alpine
 volumes:
   pg-data:
+  log:
+  tmp:
+  storage:

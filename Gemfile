@@ -11,6 +11,7 @@ gem "rack-cors"
 
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.1.0", require: false
+gem "bulma-rails"
 gem "commonmarker"
 gem "email_reply_trimmer"
 gem "full-name-splitter"
@@ -26,9 +27,11 @@ gem "pagy"
 gem "phony_rails"
 gem "postmark-rails"
 gem "premailer-rails"
+gem "sass-rails"
 gem "sentry-raven"
 gem "sidekiq"
 gem "slim"
+gem "sprockets"
 gem "stripe"
 gem "truemail"
 
