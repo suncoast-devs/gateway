@@ -8,7 +8,7 @@ module Webhooks
     }
 
     def initialize(webhook_event)
-      @service = HANDLERS[webhook_event.name.to_sym]
+      @service = HANDLERS[webhook_event.name]
       raise "Unhandled Webhook: #{webhook_event.name}" unless @service
       @payload = webhook_event.payload.with_indifferent_access
     end
