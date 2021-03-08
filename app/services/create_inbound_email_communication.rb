@@ -19,7 +19,6 @@ class CreateInboundEmailCommunication
     )
 
     sender.update last_communication: communication
-    CommunicationChannel.broadcast_communication(communication)
     ActiveSupport::Notifications.instrument "communication_received.gateway", [communication]
   end
 

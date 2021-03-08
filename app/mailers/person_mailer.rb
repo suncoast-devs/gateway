@@ -70,8 +70,6 @@ class PersonMailer < ApplicationMailer
         mail: email.encoded,
       },
     )
-
-    CommunicationChannel.broadcast_communication(communication)
   end
 
   def sanitize_html(doc)
