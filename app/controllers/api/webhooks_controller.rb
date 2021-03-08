@@ -7,7 +7,8 @@ module API
     #   ...
     # }
     def index
-      "Webhooks::#{params[:webhook].camelize}".constantize.call_later(request.request_parameters)
+      @webhook_event = WebhookEvent.create!(name: params[:name], payload: request.request_parameters)
+      Webhooks::EventHandler.call_later(@webhook_event)
       head :ok
     end
   end

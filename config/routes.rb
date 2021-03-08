@@ -44,7 +44,7 @@ Rails.application.routes.draw do
       post "register", to: "registration#create"
       get "cohorts", to: "public#cohorts"
 
-      post "webhooks/:webhook", to: "webhooks#index"
+      post "webhooks/:name", to: "webhooks#index"
     end
 
     resources :communications, only: %i[index show new create]
