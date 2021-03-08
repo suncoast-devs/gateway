@@ -44,7 +44,7 @@ html
                     = link_to "Sign Out", sign_out_path, class: "button is-primary"
                 - elsif controller.controller_name != 'student'
                   p.control
-                    = form_tag("/auth/developer", method: :post) do
+                    = form_tag(sign_in_path, method: :post) do
                       button.button.is-primary[type="submit"] Sign In
 
     - if notice.present?

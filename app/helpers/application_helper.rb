@@ -58,4 +58,8 @@ module ApplicationHelper
   def markdown(markdown)
     CommonMarker.render_html(markdown, :DEFAULT).html_safe
   end
+
+  def sign_in_path
+    "/auth/#{Rails.env.production? ? :google_oauth2 : :developer}"
+  end
 end
