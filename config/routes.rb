@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :cohorts
   resources :communication_templates
   resources :courses
+  resources :webhook_events, only: %i[index show]
 
   # Authentication
   get "sign_out", to: "sessions#destroy"

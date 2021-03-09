@@ -32,6 +32,7 @@ html
                   = link_to "Cohorts", cohorts_path, class: "navbar-item #{current_controller? 'cohorts'}"
                   = link_to "People", people_path, class: "navbar-item #{current_controller? 'people'}"
                   = link_to "Communication Templates", communication_templates_path, class: "navbar-item #{current_controller? 'communication_templates'}"
+                  = link_to "Webhook Events", webhook_events_path, class: "navbar-item #{current_controller? 'webhook_events'}"
                   = link_to "Sidekiq Queue", "/sidekiq", class: "navbar-item"
 
           .navbar-end

@@ -1,0 +1,19 @@
+section.section
+  .container
+    h1.title = title "Webhook Events"
+
+    table.table.is-bordered.is-striped.is-fullwidth
+      thead
+        tr
+          th Name
+          th Time
+
+      tbody
+        - @webhook_events.each do |webhook_event|
+          tr
+            td = link_to webhook_event.name.humanize, webhook_event
+            td.has-text-centered
+              = time_tag(webhook_event.created_at) { time_ago_in_words(webhook_event.created_at) }
+              |  ago
+
+    == pagy_bulma_nav(@pagy)
