@@ -308,6 +308,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_023725) do
 
   create_table "users", force: :cascade do |t|
     t.string "uid"
+
     t.string "name"
     t.string "email"
     t.datetime "created_at", null: false
