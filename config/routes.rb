@@ -36,10 +36,6 @@ Rails.application.routes.draw do
     get "apply/:id", to: "apply#continue"
     post "lead", to: "hooks#lead"
 
-    ["stripe", "postmark", "slack"].each do |hook|
-      post "/hooks/#{hook}", to: "hooks##{hook}"
-    end
-
     namespace :api do
       post "register", to: "registration#create"
       get "cohorts", to: "public#cohorts"

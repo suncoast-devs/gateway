@@ -5,6 +5,8 @@ module Webhooks
     HANDLERS = {
       "calendly" => Calendly,
       "esignatures" => Esignatures,
+      "postmark" => Postmark,
+      "stripe" => Stripe,
     }
 
     def initialize(webhook_event)

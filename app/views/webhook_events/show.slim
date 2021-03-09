@@ -3,6 +3,5 @@ section.section
     h1.title = title "#{@webhook_event.name.titleize} Webhook Event"
     h2.subtitle = @webhook_event.created_at
 
-
     pre 
       code = JSON.pretty_generate(@webhook_event.payload)
