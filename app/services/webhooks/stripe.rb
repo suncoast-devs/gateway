@@ -2,6 +2,8 @@ module Webhooks
   class Stripe
     include Callable
 
+    attr_reader :params
+
     def initialize(params)
       @params = params.with_indifferent_access
     end

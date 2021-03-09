@@ -2,6 +2,8 @@ module Webhooks
   class Postmark
     include Callable
 
+    attr_reader :params
+
     def initialize(params)
       @params = params.with_indifferent_access
     end

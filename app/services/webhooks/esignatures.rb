@@ -1,4 +1,4 @@
-require 'open-uri'
+require "open-uri"
 
 module Webhooks
   class Esignatures
@@ -15,7 +15,7 @@ module Webhooks
         program_acceptance.person.notes.create note_type: "other-event", message: "Student Enrollment Agreement is complete.", data: @params
         program_acceptance.program_enrollment.update(enrollment_agreement_complete: true)
         document = program_acceptance.person.documents.new(label: "Student Enrollment Agreement")
-        document.file.attach(io: open(@params.dig(:data, :contract_pdf_url)), filename: 'student-enrollment-agreement.pdf', content_type: 'application/pdf')
+        document.file.attach(io: open(@params.dig(:data, :contract_pdf_url)), filename: "student-enrollment-agreement.pdf", content_type: "application/pdf")
         document.save
         program_acceptance.person.succeed_contact!
       else
