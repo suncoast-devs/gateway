@@ -18,7 +18,7 @@ module Webhooks
           when "Open" then "Acceptance email opened."
           when "Click" then "Link clicked in acceptance email."
           end
-        @program_acceptance.person.notes.create note_type: "email-event", message: note, data: request.request_parameters
+        @program_acceptance.person.notes.create note_type: "email-event", message: note, data: params
       end
     end
   end
