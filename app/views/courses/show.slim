@@ -1,0 +1,87 @@
+- title @course.display_name
+
+section.section
+  .container
+
+    .columns
+      .column
+        h1.title.is-2 = @course.display_name
+      
+        h2.title.is-3 Registrations
+
+        table.table.is-bordered.is-striped.is-fullwidth
+          thead
+            tr
+              th Name
+              th Email
+              th Phone Number
+              th.has-text-centered $
+          tbody
+            - @course.course_registrations.each do |registration|
+              tr
+                td = link_to registration.person.full_name, registration.person
+                td = registration.person.email_address
+                td = registration.person.phone_number
+                td.has-text-centered
+                  - if registration.invoice&.is_paid?
+                    span.icon.has-text-success
+                      i.fas.fa-check-circle
+                  - else
+                    span.icon.has-text-warning
+                      i.fas.fa-ban
+      
+      .column.is-one-third
+        nav.panel.contact-information
+          p.panel-heading Course Information
+          .panel-block
+            nav.level.is-flex-grow-1
+              .level-left
+                .level-item Identifier
+              .level-right
+                .level-item
+                  code = @course.identifier
+          .panel-block
+            nav.level.is-flex-grow-1
+              .level-left
+                .level-item Name
+              .level-right
+                .level-item = @course.name
+          .panel-block
+            nav.level.is-flex-grow-1
+              .level-left
+                .level-item Session
+              .level-right
+                .level-item = @course.session
+          .panel-block
+            nav.level.is-flex-grow-1
+              .level-left
+                .level-item Starts
+              .level-right
+                .level-item = @course.starts_on
+          .panel-block
+            nav.level.is-flex-grow-1
+              .level-left
+                .level-item Ends
+              .level-right
+                .level-item = @course.ends_on
+          .panel-block
+            nav.level.is-flex-grow-1
+              .level-left
+                .level-item Days
+              .level-right
+                .level-item = @course.days
+          .panel-block
+            nav.level.is-flex-grow-1
+              .level-left
+                .level-item Time
+              .level-right
+                .level-item = @course.time
+
+          .panel-block
+            nav.level.is-flex-grow-1
+              .level-left
+              .level-right
+                .level-item
+                  p = link_to [:edit, @course] do
+                    span.icon
+                      i.fas.fa-edit

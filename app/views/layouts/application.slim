@@ -24,7 +24,7 @@ html
                 .navbar-dropdown
                   - Cohort.enrolling.each do |cohort|
                     = link_to cohort.alt_display_name, cohort, class: 'navbar-item'
-              = link_to "Weekend", course_registrations_path, class: "navbar-item #{current_controller? 'course_registrations'}"
+              = link_to "Weekend", courses_path, class: "navbar-item #{current_controller? 'courses'}"
               .navbar-item.has-dropdown.is-hoverable
                 a.navbar-link Admin
                 .navbar-dropdown

@@ -1,0 +1,13 @@
+section.section
+  .container
+    nav.level
+      .level-left
+        .div
+          h1.title = title "Edit Course"
+      .level-right
+        .level-item
+          .buttons
+            = form_for(@course, :html => { :method => :delete }) do |f|
+              = f.button "Delete", class: "button is-warning"
+
+    = render partial: 'form', locals: { course: @course }

@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   resources :invoices, only: %i[index show new create]
   resources :cohorts
   resources :communication_templates
-  resources :course_registrations, only: %i[index]
+  resources :courses
 
   # Authentication
   get "sign_out", to: "sessions#destroy"
