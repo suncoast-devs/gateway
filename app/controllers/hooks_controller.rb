@@ -18,20 +18,6 @@ class HooksController < ApplicationController
     head :ok
   end
 
-  def stripe
-    @invoice = Invoice.where(stripe_id: params[:data][:object][:id]).first
-    if @invoice
-      case params[:type]
-      when "invoice.payment_succeeded"
-        @invoice.notes.create note_type: "invoice-event", message: "Payment suceeded.", data: request.request_parameters
-        InvoicePaymentHandler.call_later(@invoice)
-      when "invoice.payment_failed"
-        @invoice.notes.create note_type: "invoice-event", message: "Payment failed.", data: request.request_parameters
-      end
-    end
-    head :ok
-  end
-
   # TODO: Possible refactor for generic email message model is required?
   def postmark
     @program_acceptance = ProgramAcceptance.where(message_id: params[:MessageID]).first
