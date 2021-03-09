@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def authenticate!
-    redirect_to :sign_in unless signed_in?
+    redirect_to :root, notice: "Authentication Required" unless signed_in?
   end
 
   def current_user
