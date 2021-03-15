@@ -5,6 +5,8 @@ class WebhookEvent < ApplicationRecord
       [payload.dig("event", "object_type"), payload.dig("event", "action")].join("/")
     when "calendly"
       payload.dig("event")
+    when "postmark"
+      payload.dig("record_type")
     end
   end
 end
