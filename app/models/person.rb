@@ -3,6 +3,7 @@
 # The Person model represents a potential student
 class Person < ApplicationRecord
   include Taggable
+  include Discard::Model
 
   has_many :invoices
   has_many :program_applications
@@ -14,6 +15,7 @@ class Person < ApplicationRecord
   has_many :communications
   belongs_to :last_contact_disposition, class_name: "ContactDisposition", optional: true
   belongs_to :last_communication, class_name: "Communication", optional: true
+  belongs_to :merged_person, class_name: "Person", optional: true
 
   delegate :current_program_acceptance, to: :current_program_enrollment, allow_nil: true
 

@@ -21,7 +21,11 @@ Rails.application.routes.draw do
   resources :cohorts
   resources :communication_templates
   resources :courses
-  resources :webhook_events, only: %i[index show]
+  resources :webhook_events, only: %i[index show] do
+    member do
+      post "replay"
+    end
+  end
 
   # Authentication
   get "sign_out", to: "sessions#destroy"
@@ -40,7 +44,7 @@ Rails.application.routes.draw do
       post "register", to: "registration#create"
       get "cohorts", to: "public#cohorts"
 
-      post "webhooks/:name", to: "webhooks#index"
+      post "webhooks/:name", to: "webhooks#index", as: "webhooks"
     end
 
     resources :communications, only: %i[index show new create]

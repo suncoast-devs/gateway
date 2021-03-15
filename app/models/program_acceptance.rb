@@ -1,4 +1,5 @@
 class ProgramAcceptance < ApplicationRecord
+  include Discard::Model
   belongs_to :cohort
   belongs_to :program_enrollment
 

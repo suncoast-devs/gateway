@@ -18,7 +18,7 @@ Bundler.require(*Rails.groups)
 module Gateway
   # :nodoc:
   class Application < Rails::Application
-    RAILS_ROUTES = ->(env) { env["PATH_INFO"].match(/^\/rails/) }
+    excluded_routes = ->(env) { !env["PATH_INFO"].match(%r{^/api}) }
 
     config.load_defaults 6.1
     config.active_job.queue_adapter = :sidekiq
@@ -26,8 +26,8 @@ module Gateway
     config.time_zone = "Eastern Time (US & Canada)"
     config.middleware.use OliveBranch::Middleware,
       inflection: "camel",
-      exclude_params: RAILS_ROUTES,
-      exclude_response: RAILS_ROUTES
+      exclude_params: excluded_routes,
+      exclude_response: excluded_routes
     config.action_mailbox.ingress = :postmark
   end
 end

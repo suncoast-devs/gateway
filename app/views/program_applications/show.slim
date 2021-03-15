@@ -3,11 +3,17 @@ section.section
   .container
     .columns
       .column.is-three-quarters
-        .question-responses
-          h1.title= link_to @program_application.person.full_name, @program_application.person
-          h2.subtitle
-            = @program_application.program.titleize
-            |  Application
+        header.is-flex.is-justify-content-space-between
+          div
+            h1.title= link_to @program_application.person.full_name, @program_application.person
+            h2.subtitle
+              = @program_application.program.titleize
+              |  Application
+          - if @program_application.person.close_lead.present?
+            div
+              a.button href="closeio://app.close.com/lead/#{@program_application.person.close_lead}/" 
+                span.icon
+                  = image_tag "close.svg", size: "24x24"
       .column
         nav.panel.contact-information
           p.panel-heading Contact Information
@@ -57,91 +63,3 @@ section.section
           .content
             h4.title.is-4= question
             = format_answer answer
-    .columns
-      .column.is-three-quarters
-        .notes
-          - @program_application.person.notes.where(note_type: 'interview-note').order(created_at: :asc).each do |note|
-            article.media
-              figure.media-left
-                p.image.is-64x64
-                  = gravatar_for note.user
-              .media-content
-                .content
-                  p
-                    strong= note.user.name
-                    small
-                      | wrote #{time_tag(note.created_at) { time_ago_in_words(note.created_at) }} ago:
-                  = simple_format(note.message)
-              - if note.user_id == current_user.id
-                .media-right
-                  = form_for([@program_application.person, note], :html => { :method => :delete }) do |f|
-                    = f.button class: "delete"
-          article.media
-            figure.media-left
-              p.image.is-64x64
-                = gravatar_for current_user
-            .media-content
-              = form_for [@program_application.person, Note.new] do |f|
-                = f.hidden_field :note_type, value: 'interview-note'
-                .field
-                  p.control
-                    = f.text_area :message, class: "textarea", placeholder: "Add a note..."
-                = f.submit class: "button is-info"
-      - if @program_application.program_enrollment
-        .column.sign-offs
-          .card
-            header.card-header
-              p.card-header-title
-                | Administrative Sign-off
-            footer.card-footer
-              - if @program_application.program_enrollment.administrative_signoff.nil?
-                .card-footer-item
-                  = form_for @program_application.program_enrollment do |f|
-                    = f.hidden_field :administrative_signoff, value: true
-                    = f.button type: "submit", class: "button is-success" do
-                      span.icon
-                        i.fas.fa-check-circle
-                      span Accept
-                .card-footer-item
-                  = form_for @program_application.program_enrollment do |f|
-                    = f.hidden_field :administrative_signoff, value: false
-                    = f.button type: "submit", class: "button is-danger" do
-                      span.icon
-                        i.fas.fa-ban
-                      span Reject
-              - else
-                .card-footer-item
-                  - if @program_application.program_enrollment.administrative_signoff
-                    span.icon.has-text-success.is-medium
-                      i.fas.fa-check-circle.fa-2x
-                  - else
-                    span.icon.has-text-danger.is-medium
-                      i.fas.fa-ban.fa-2x
-          .card
-            header.card-header
-              p.card-header-title
-                | Academic Sign-off
-            footer.card-footer
-              - if @program_application.program_enrollment.academic_signoff.nil?
-                .card-footer-item
-                  = form_for @program_application.program_enrollment do |f|
-                    = f.hidden_field :academic_signoff, value: true
-                    = f.button type: "submit", class: "button is-success" do
-                      span.icon
-                        i.fas.fa-check-circle
-                      span Accept
-                .card-footer-item
-                  = form_for @program_application.program_enrollment do |f|
-                    = f.hidden_field :academic_signoff, value: false
-                    = f.button type: "submit", class: "button is-danger" do
-                      span.icon
-                        i.fas.fa-ban
-                      span Reject
-              - else
-                .card-footer-item
-                  - if @program_application.program_enrollment.academic_signoff
-                    span.icon.has-text-success.is-medium
-                      i.fas.fa-check-circle.fa-2x
-                  - else
-                    span.icon.has-text-danger.is-medium
-                      i.fas.fa-ban.fa-2x

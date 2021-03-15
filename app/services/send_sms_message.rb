@@ -11,7 +11,7 @@ class SendSMSMessage
   end
 
   def call
-    CloseAPI.post("activity/sms", {
+    Close::API.post("activity/sms", {
       status: "outbox",
       local_phone: "+17272357925",
       remote_phone: phone_number,

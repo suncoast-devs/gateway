@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_08_023725) do
+ActiveRecord::Schema.define(version: 2021_03_15_030935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -187,6 +187,8 @@ ActiveRecord::Schema.define(version: 2021_03_08_023725) do
     t.text "note_type"
     t.bigint "notable_id"
     t.string "close_note"
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_notes_on_discarded_at"
     t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
@@ -221,8 +223,12 @@ ActiveRecord::Schema.define(version: 2021_03_08_023725) do
     t.bigint "last_communication_id"
     t.string "close_lead"
     t.string "close_contact"
+    t.datetime "discarded_at"
+    t.bigint "merged_person_id"
+    t.index ["discarded_at"], name: "index_people_on_discarded_at"
     t.index ["last_communication_id"], name: "index_people_on_last_communication_id"
     t.index ["last_contact_disposition_id"], name: "index_people_on_last_contact_disposition_id"
+    t.index ["merged_person_id"], name: "index_people_on_merged_person_id"
   end
 
   create_table "program_acceptances", force: :cascade do |t|
@@ -237,11 +243,13 @@ ActiveRecord::Schema.define(version: 2021_03_08_023725) do
     t.bigint "program_enrollment_id"
     t.string "enrollment_agreement_identifier"
     t.boolean "is_rescinded", default: false
+    t.datetime "discarded_at"
     t.index ["cohort_id"], name: "index_program_acceptances_on_cohort_id"
+    t.index ["discarded_at"], name: "index_program_acceptances_on_discarded_at"
     t.index ["program_enrollment_id"], name: "index_program_acceptances_on_program_enrollment_id"
   end
 
-  create_table "program_applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "program_applications", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "question_responses", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -251,6 +259,8 @@ ActiveRecord::Schema.define(version: 2021_03_08_023725) do
     t.bigint "person_id"
     t.bigint "program_enrollment_id"
     t.string "continue_url"
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_program_applications_on_discarded_at"
     t.index ["person_id"], name: "index_program_applications_on_person_id"
     t.index ["program_enrollment_id"], name: "index_program_applications_on_program_enrollment_id"
   end
@@ -278,14 +288,16 @@ ActiveRecord::Schema.define(version: 2021_03_08_023725) do
     t.string "ac_sea_sign_url_field"
     t.string "ac_cohort_start_date_field"
     t.string "ac_cohort_name_field"
-    t.uuid "status_locator", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "status_locator", default: -> { "public.gen_random_uuid()" }, null: false
     t.string "ac_student_status_url_field"
     t.string "student_status_url"
     t.boolean "academic_signoff"
     t.boolean "administrative_signoff"
     t.string "close_opportunity"
+    t.datetime "discarded_at"
     t.index ["cohort_id"], name: "index_program_enrollments_on_cohort_id"
     t.index ["deposit_invoice_id"], name: "index_program_enrollments_on_deposit_invoice_id"
+    t.index ["discarded_at"], name: "index_program_enrollments_on_discarded_at"
     t.index ["person_id"], name: "index_program_enrollments_on_person_id"
   end
 
@@ -308,7 +320,6 @@ ActiveRecord::Schema.define(version: 2021_03_08_023725) do
 
   create_table "users", force: :cascade do |t|
     t.string "uid"
-
     t.string "name"
     t.string "email"
     t.datetime "created_at", null: false
@@ -344,6 +355,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_023725) do
   add_foreign_key "notifications", "users"
   add_foreign_key "people", "communications", column: "last_communication_id"
   add_foreign_key "people", "contact_dispositions", column: "last_contact_disposition_id"
+  add_foreign_key "people", "people", column: "merged_person_id"
   add_foreign_key "program_acceptances", "cohorts"
   add_foreign_key "program_applications", "people"
   add_foreign_key "program_enrollments", "cohorts"

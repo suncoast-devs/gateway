@@ -33,4 +33,4 @@ Rails.application.configure do
   end
 end
 
-Rails.application.routes.default_url_options[:host] = "localhost:#{ENV.fetch("PORT") { 3000 }}"
+Rails.application.routes.default_url_options[:host] = "https://sdg.ngrok.io"

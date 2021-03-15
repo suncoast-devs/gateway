@@ -13,7 +13,7 @@ class SendBulkSMS
     page = 0
 
     loop do
-      response = CloseAPI.get("lead", query: lead_query, _skip: page * size, _limit: size)
+      response = Close::API.get("lead", query: lead_query, _skip: page * size, _limit: size)
 
       response["data"].each do |lead|
         contact_id = lead.dig("contacts", 0, "id")

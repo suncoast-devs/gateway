@@ -3,6 +3,7 @@
 # The ProgramApplication model represents a potential student's
 # application to the Academy.
 class ProgramApplication < ApplicationRecord
+  include Discard::Model
   belongs_to :person
   belongs_to :program_enrollment, optional: true
   has_many :notes, as: :notable

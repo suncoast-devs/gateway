@@ -24,7 +24,7 @@ class SendNoteToClose
       params[:note] = note.message + "\n\nOriginal note from #{note.user.name}."
     end
 
-    response = CloseAPI.post("activity/note", params)
+    response = Close::API.post("activity/note", params)
     note.update(close_note: response["id"])
   end
 end

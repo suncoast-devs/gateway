@@ -11,7 +11,7 @@ section.section
           p.title
             span.has-text-info = @cohort.program_enrollments.active.count + @cohort.program_enrollments.won.count
             span = " + "
-            span.has-text-danger = @cohort.program_enrollments.lost.count + @cohort.program_enrollments.cancelled.count + @cohort.program_enrollments.pending.count
+            span.has-text-danger = @cohort.program_enrollments.lost.count + @cohort.program_enrollments.canceled.count + @cohort.program_enrollments.pending.count
             span = " = "
             = @cohort.program_enrollments.count
 

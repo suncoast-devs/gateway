@@ -20,7 +20,7 @@
             th Date
         tbody
           - program_enrollment.program_acceptances.each do |acceptance|
-            tr[class=("strikeout" if acceptance.is_rescinded?)]
+            tr[class=("strikeout" if acceptance.is_rescinded? || acceptance.discarded?)]
               td = link_to acceptance.cohort.display_name, [program_enrollment, acceptance]
               td = usd(acceptance.tuition_reduction)
               td = acceptance.created_at
@@ -31,8 +31,6 @@
   .column.is-one-third
     nav.panel.contact-information
       p.panel-heading = program_enrollment.program.titleize + " Program Enrollment"
-      .panel-block
-        .panel-item 
       .panel-block
         nav.level.is-flex-grow-1
           .level-left
@@ -59,38 +57,7 @@
             .level-item
               span[class="tag #{intent_for_status(program_enrollment.status)}"]
                 = program_enrollment.status.titleize
-      .panel-block
-        nav.level.is-flex-grow-1
-          .level-left
-            .level-item
-              strong Academic Sign-off
-          .level-right
-            .level-item
-              - if program_enrollment.administrative_signoff.nil?
-                span.icon.has-text-light
-                  i.fas.fa-question-circle
-              - elsif program_enrollment.administrative_signoff
-                span.icon.has-text-success
-                  i.fas.fa-check-circle
-              - else
-                span.icon.has-text-danger
-                  i.fas.fa-ban
-      .panel-block
-        nav.level.is-flex-grow-1
-          .level-left
-            .level-item
-              strong Administrative Sign-off
-          .level-right
-            .level-item
-              - if program_enrollment.academic_signoff.nil?
-                span.icon.has-text-light
-                  i.fas.fa-question-circle
-              - elsif program_enrollment.academic_signoff
-                span.icon.has-text-success
-                  i.fas.fa-check-circle
-              - else
-                span.icon.has-text-danger
-                  i.fas.fa-ban
+
       - if program_enrollment.accepted? || program_enrollment.enrolled? || program_enrollment.enrolling?
         .panel-block
           nav.level.is-flex-grow-1

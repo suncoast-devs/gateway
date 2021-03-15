@@ -93,6 +93,8 @@ GEM
     crass (1.0.6)
     css_parser (1.9.0)
       addressable
+    discard (1.2.0)
+      activerecord (>= 4.2, < 7)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     email_reply_trimmer (0.1.13)
@@ -304,6 +306,7 @@ DEPENDENCIES
   bulma-rails
   byebug
   commonmarker
+  discard
   email_reply_trimmer
   full-name-splitter
   http (~> 4.3)

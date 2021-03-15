@@ -4,6 +4,7 @@ module Webhooks
 
     HANDLERS = {
       "calendly" => Calendly,
+      "close" => Close,
       "esignatures" => Esignatures,
       "postmark" => Postmark,
       "stripe" => Stripe,

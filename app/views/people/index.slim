@@ -49,7 +49,7 @@ section.section
           th Phone Number
       tbody
         - @people.each do |person|
-          tr
+          tr[class=("strikeout" if person.discarded?)]
             td = link_to person.full_name, person
             td = person.email_address
             td = person.phone_number

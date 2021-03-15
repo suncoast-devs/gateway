@@ -13,6 +13,7 @@ gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.1.0", require: false
 gem "bulma-rails"
 gem "commonmarker"
+gem "discard"
 gem "email_reply_trimmer"
 gem "full-name-splitter"
 gem "http", "~> 4.3"

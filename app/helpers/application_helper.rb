@@ -34,9 +34,6 @@ module ApplicationHelper
     number_to_currency amount, unit: "$"
   end
 
-  # enum status: {active: 0, won: 1, lost: 2, cancelled: 3, pending: 4}
-  # enum stage: {applied: 3, interviewing: 4, accepted: 5, enrolled: 6}
-
   def intent_for_stage(stage)
     case stage
     when "applied" then "is-warning"
