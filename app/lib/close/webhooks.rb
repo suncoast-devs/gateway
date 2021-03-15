@@ -2,8 +2,6 @@ module Close
   module Webhooks
     extend self
 
-    WEBHOOK_URL = Rails.application.routes.url_helpers.api_webhooks_url("close")
-
     def subscribe
       events = []
       %w[lead contact opportunity activity.note].each do |object_type|
@@ -15,13 +13,13 @@ module Close
         end
       end
       events << { object_type: "lead", action: "merged" }
-      Close::API.post("webhook", { url: WEBHOOK_URL, events: events })
+      Close::API.post("webhook", { url: Rails.application.routes.url_helpers.api_webhooks_url("close"), events: events })
     end
 
     def unsubscribe
       webhooks = Close::API.get("webhook")
       webhooks["data"].each do |webhook|
-        if webhook["url"] == WEBHOOK_URL
+        if webhook["url"] == Rails.application.routes.url_helpers.api_webhooks_url("close")
           webhooks = Close::API.delete("webhook/#{webhook["id"]}")
         end
       end
