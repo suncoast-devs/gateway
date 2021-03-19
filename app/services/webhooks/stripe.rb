@@ -13,10 +13,10 @@ module Webhooks
       if @invoice
         case params[:type]
         when "invoice.payment_succeeded"
-          @invoice.notes.create note_type: "invoice-event", message: "Payment suceeded.", data: request.request_parameters
+          @invoice.notes.create note_type: "invoice-event", message: "Payment suceeded.", data: @params
           InvoicePaymentHandler.call_later(@invoice)
         when "invoice.payment_failed"
-          @invoice.notes.create note_type: "invoice-event", message: "Payment failed.", data: request.request_parameters
+          @invoice.notes.create note_type: "invoice-event", message: "Payment failed.", data: @params
         end
       end
     end
