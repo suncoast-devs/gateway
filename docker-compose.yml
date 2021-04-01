@@ -5,15 +5,17 @@ x-base: &base
   environment:
     DATABASE_URL: postgresql://postgres:hunter2@postgres:5432/gateway
     REDIS_URL: redis://redis:6379/12
+    NODE_ENV: development
+    RAILS_ENV: development
+    WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
   depends_on:
     - postgres
-    - redis
   volumes:
     - .:/usr/src/app
     - log:/usr/src/app/log
     - tmp:/usr/src/app/tmp
     - storage:/usr/src/app/storage
-
+    - node_modules:/usr/src/app/node_modules
 services:
   postgres:
     image: postgres
@@ -23,20 +25,23 @@ services:
       - "5432:5432"
     volumes:
       - pg-data:/var/lib/postgresql/data
-  redis:
-    image: redis:6-alpine
-  web:
+  rails:
     build: .
     command: bundle exec rails server -b 0.0.0.0
     entrypoint: bin/entrypoint.sh
     ports:
       - "3000:3000"
+    tty: true
+    stdin_open: true
     <<: *base
-  worker:
-    command: bundle exec sidekiq -C config/sidekiq.yml
+  webpack:
+    command: ./bin/webpack-dev-server
+    ports:
+      - "3035:3035"
     <<: *base
 volumes:
-  pg-data:
   log:
-  tmp:
+  node_modules:
+  pg-data:
   storage:
+  tmp:

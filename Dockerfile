@@ -12,6 +12,13 @@ WORKDIR /usr/src/app
 COPY Gemfile* ./
 RUN bundle install
 
+COPY package*.json ./
+RUN yarn install
+
 COPY . .
+
+ENV RAILS_ENV production
+ENV RAILS_LOG_TO_STDOUT true
+ENV RAILS_SERVE_STATIC_FILES true
 
 CMD ["rails", "server"]
