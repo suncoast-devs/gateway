@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 x-base: &base
   image: gateway
@@ -20,21 +20,21 @@ services:
     environment:
       POSTGRES_PASSWORD: hunter2
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - pg-data:/var/lib/postgresql/data
-  rails:
-    build: .
-    command: bundle exec rails server -b 0.0.0.0
-    entrypoint: bin/docker-entrypoint.sh
-    ports:
-      - '3000:3000'
-    <<: *base
-  sidekiq:
-    command: bundle exec sidekiq -C config/sidekiq.yml
-    <<: *base
   redis:
     image: redis:6-alpine
+  web:
+    build: .
+    command: bundle exec rails server -b 0.0.0.0
+    entrypoint: bin/entrypoint.sh
+    ports:
+      - "3000:3000"
+    <<: *base
+  worker:
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    <<: *base
 volumes:
   pg-data:
   log:
