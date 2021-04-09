@@ -25,8 +25,8 @@ class InquiryTest < ActiveSupport::TestCase
                                                                                       question: "How are you?", answer: "Fine, thank you.",
                                                                                     ])
       update.execute
-      assert_equal update.aggregate_root.responses.first[:question], "How are you?"
-      assert_equal update.aggregate_root.contact[:name], "Astrid Rewenig"
+      assert_equal update.aggregate.responses.first[:question], "How are you?"
+      assert_equal update.aggregate.contact[:name], "Astrid Rewenig"
     end
   end
 
@@ -38,8 +38,17 @@ class InquiryTest < ActiveSupport::TestCase
     assert_match /blank/, command.errors[:form].first
   end
 
-  # test "create command generated created event" do
-  #   @events = @create_command.execute
-  #   assert_kind_of Inquiry::Event, @events.first
-  # end
+  test "can complete an inquiry" do
+    Inquiry::Command::Create.new("7ddc083d-9cbb-47cd-82af-821e7b09f7f4", form: "web-development-program-application", contact: {
+                                                                           name: "Astrid Rewenig",
+                                                                           email: "astridr@example.com",
+                                                                           phone: "+15555551234",
+                                                                         },
+                                                                         responses: [
+                                                                           question: "How are you?", answer: "Fine, thank you.",
+                                                                         ]).execute
+    command = Inquiry::Command::Complete.new("7ddc083d-9cbb-47cd-82af-821e7b09f7f4")
+    assert command.execute
+    assert command.aggregate.is_complete
+  end
 end

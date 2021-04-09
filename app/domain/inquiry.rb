@@ -1,6 +1,5 @@
 class Inquiry
   include ActiveModel::Validations
-  include ActiveModel::Attributes
 
   class_attribute :event_handlers, default: ActiveSupport::HashWithIndifferentAccess.new
 
@@ -68,7 +67,7 @@ class Inquiry
   def complete!
     success = false
     Inquiry::Event.transaction do
-      emit(:complete)
+      emit(:completed)
       raise ActiveRecord::Rollback unless valid?(:complete)
       success = true
     end
