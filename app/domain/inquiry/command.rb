@@ -11,5 +11,11 @@ class Inquiry
       @attributes = payload
       assign_attributes @attributes
     end
+
+    def execute
+      events = Inquiry::Event.by_aggregate(@aggregate_root.id)
+      @aggregate_root.replay(events)
+      @aggregate_root.send("#{self.class.name.demodulize.underscore}!", **@attributes)
+    end
   end
 end

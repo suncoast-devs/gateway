@@ -1,20 +1,6 @@
 require "test_helper"
 
 class InquiryTest < ActiveSupport::TestCase
-  setup do
-    #     @create_command = [
-    # ,
-    #       {
-    #         form: "web-development-program-application",
-    #         contact: {
-    #           name: "Astrid Rewenig",
-    #           email: "astridr@example.com",
-    #           phone: "+15555551234",
-    #         }
-    #       }
-    #     ]
-  end
-
   test "can create an inquiry" do
     command = Inquiry::Command::Create.new("7ddc083d-9cbb-47cd-82af-821e7b09f7f4", form: "web-development-program-application", contact: {
                                                                                      name: "Astrid Rewenig",
@@ -23,7 +9,7 @@ class InquiryTest < ActiveSupport::TestCase
                                                                                    })
 
     assert_difference -> { Inquiry::Event.count }, 1 do
-      command.execute
+      assert command.execute
     end
   end
 
@@ -35,15 +21,20 @@ class InquiryTest < ActiveSupport::TestCase
                                                                              phone: "+15555551234",
                                                                            }).execute
 
-      Inquiry::Command::Update.new("7ddc083d-9cbb-47cd-82af-821e7b09f7f4", responses: [
-                                                                             question: "How are you?", answer: "Fine, thank you.",
-                                                                           ]).execute
+      update = Inquiry::Command::Update.new("7ddc083d-9cbb-47cd-82af-821e7b09f7f4", responses: [
+                                                                                      question: "How are you?", answer: "Fine, thank you.",
+                                                                                    ])
+      update.execute
+      assert_equal update.aggregate_root.responses.first[:question], "How are you?"
+      assert_equal update.aggregate_root.contact[:name], "Astrid Rewenig"
     end
   end
 
   test "validates presence of form type on create" do
     command = Inquiry::Command::Create.new("7ddc083d-9cbb-47cd-82af-821e7b09f7f4", form: "")
-    command.execute
+    assert_no_difference -> { Inquiry::Event.count } do
+      refute command.execute
+    end
     assert_match /blank/, command.errors[:form].first
   end
 
