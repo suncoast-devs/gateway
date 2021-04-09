@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_07_020504) do
+ActiveRecord::Schema.define(version: 2021_04_09_051914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -23,6 +23,20 @@ ActiveRecord::Schema.define(version: 2021_04_07_020504) do
     t.jsonb "metadata"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["aggregate"], name: "index_inquiry_events_on_aggregate"
+  end
+
+  create_table "inquiry_forms", force: :cascade do |t|
+    t.uuid "aggregate"
+    t.string "form_title"
+    t.string "contact_name"
+    t.string "contact_email"
+    t.string "contact_phone"
+    t.jsonb "responses"
+    t.boolean "is_complete"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["aggregate"], name: "index_inquiry_forms_on_aggregate"
   end
 
 end

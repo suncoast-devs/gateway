@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 x-base: &base
   image: gateway
@@ -22,7 +22,7 @@ services:
     environment:
       POSTGRES_PASSWORD: hunter2
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - pg-data:/var/lib/postgresql/data
   rails:
@@ -30,14 +30,16 @@ services:
     command: bundle exec rails server -b 0.0.0.0
     entrypoint: bin/entrypoint.sh
     ports:
-      - "3000:3000"
+      - '3000:3000'
     tty: true
     stdin_open: true
     <<: *base
+  redis:
+    image: redis:6-alpine
   webpack:
     command: ./bin/webpack-dev-server
     ports:
-      - "3035:3035"
+      - '3035:3035'
     <<: *base
 volumes:
   log:
