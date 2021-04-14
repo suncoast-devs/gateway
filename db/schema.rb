@@ -13,7 +13,6 @@
 ActiveRecord::Schema.define(version: 2021_04_14_125753) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "event_store_events", id: :serial, force: :cascade do |t|
@@ -37,29 +36,6 @@ ActiveRecord::Schema.define(version: 2021_04_14_125753) do
     t.index ["created_at"], name: "index_event_store_events_in_streams_on_created_at"
     t.index ["stream", "event_id"], name: "index_event_store_events_in_streams_on_stream_and_event_id", unique: true
     t.index ["stream", "position"], name: "index_event_store_events_in_streams_on_stream_and_position", unique: true
-  end
-
-  create_table "inquiry_events", force: :cascade do |t|
-    t.string "type"
-    t.uuid "aggregate"
-    t.jsonb "payload"
-    t.jsonb "metadata"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["aggregate"], name: "index_inquiry_events_on_aggregate"
-  end
-
-  create_table "inquiry_forms", force: :cascade do |t|
-    t.uuid "aggregate"
-    t.string "form_title"
-    t.string "contact_name"
-    t.string "contact_email"
-    t.string "contact_phone"
-    t.jsonb "responses"
-    t.boolean "is_complete"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["aggregate"], name: "index_inquiry_forms_on_aggregate"
   end
 
 end

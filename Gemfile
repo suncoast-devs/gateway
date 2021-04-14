@@ -52,6 +52,13 @@ group :test do
   # Easy installation and use of web drivers to run system tests with browsers
   gem "webdrivers"
   gem "ruby_event_store-rspec"
+  gem "mutant-rspec"
+end
+
+source "https://oss:xvgYUCDZBn8uoj9bBMpla8LfUax4zKfF@gem.mutant.dev" do
+  gem "mutant-license"
 end
 
 gem "rails_event_store", "~> 2.2.0"
+gem "dry-struct"
+gem "dry-types"
