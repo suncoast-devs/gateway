@@ -1,14 +1,14 @@
-class Enrollment::ApplicationProjection
-  def call(event)
-    send event.class.name.demodulize.underscore, event
-  end
-
+class Enrollment::ApplicationProjection < ProjectionJob
   def submitted(event)
     uid = event.data[:id]
-    return if Application.where(uid: uid).exists?
+    return if Application.where(aggregate_root: uid).exists?
+
     Application.create!(
-      uid: uid,
-      state: "Draft",
+      aggregate_root: uid,
+      state: :submitted,
+      contact: event.data[:contact],
+      responses: event.data[:responses],
+      submitted_at: event.data[:submitted_at],
     )
   end
 end

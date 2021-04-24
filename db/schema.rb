@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_125753) do
+ActiveRecord::Schema.define(version: 2021_04_19_221208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "aggregate_root"
+    t.integer "state"
+    t.jsonb "contact"
+    t.jsonb "responses"
+    t.datetime "submitted_at"
+  end
 
   create_table "event_store_events", id: :serial, force: :cascade do |t|
     t.uuid "event_id", null: false
