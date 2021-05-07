@@ -19,6 +19,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'database_cleaner-sequel'
   gem 'guard-rspec', require: false
   gem 'mutant-rspec'
   gem 'rack-test'

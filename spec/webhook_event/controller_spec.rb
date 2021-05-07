@@ -1,3 +1,5 @@
+require 'webhook_event/controller'
+
 describe WebhookEvent::Controller do
   include Rack::Test::Methods
 

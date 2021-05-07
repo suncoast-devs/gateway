@@ -3,6 +3,9 @@
 ENV['APP_ENV'] ||= 'test'
 
 require_relative '../system/application'
+require 'database_cleaner/sequel'
+
+DatabaseCleaner.strategy = :truncation
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -14,6 +17,8 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
+  config.before { DatabaseCleaner.clean }
 end
 
 Application.finalize!
