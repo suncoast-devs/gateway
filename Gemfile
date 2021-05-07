@@ -8,7 +8,6 @@ gem 'rack'
 gem 'rom'
 gem 'rom-http'
 gem 'rom-sql'
-gem 'zeitwerk'
 
 group :development, :test do
   gem 'prettier'

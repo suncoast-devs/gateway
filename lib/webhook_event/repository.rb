@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require 'rom-repository'
-
 module WebhookEvent
   class Repository < ROM::Repository[:webhook_events]
-    include Application.import[container: 'persistence']
+    include Import[container: 'persistence']
 
     commands :create, update: :by_pk
 

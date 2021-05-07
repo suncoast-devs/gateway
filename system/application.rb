@@ -16,15 +16,10 @@ class Application < Dry::System::Container
   configure do |config|
     config.name = 'gateway'
     config.root = File.expand_path('..', __dir__)
-    config.component_dirs.loader = Dry::System::Loader::Autoloading
-    config.component_dirs.add 'lib'
-  end
 
-  def self.import
-    @import ||= Dry.AutoInject(self)
+    # config.component_dirs.loader = Dry::System::Loader::Autoloading
+    config.component_dirs.add 'lib'
   end
 end
 
-loader = Zeitwerk::Loader.new
-loader.push_dir Application.root.join('lib').realpath
-loader.setup
+Import = Application.injector
