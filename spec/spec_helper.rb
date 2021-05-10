@@ -3,7 +3,6 @@
 ENV['APP_ENV'] ||= 'test'
 
 require_relative '../system/application'
-require 'database_cleaner/sequel'
 
 DatabaseCleaner.strategy = :truncation
 

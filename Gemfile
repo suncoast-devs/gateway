@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+ruby '3.0.1'
+
 gem 'dry-system'
 gem 'pg'
 gem 'rack'

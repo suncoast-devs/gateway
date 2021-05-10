@@ -1,0 +1,12 @@
+---
+integration: rspec
+includes:
+  - lib
+  - system
+requires:
+  - application
+  - universe
+matcher:
+  subjects:
+    - Persistence*
+    - WebhookEvent*
