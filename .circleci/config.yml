@@ -12,6 +12,7 @@ jobs:
       - image: circleci/postgres:13.2
         environment:
           POSTGRES_DB: gateway
+          POSTGRES_HOST_AUTH_METHOD: trust
     executor: ruby/default
     steps:
       - checkout
