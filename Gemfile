@@ -26,6 +26,7 @@ group :test do
   gem 'mutant-rspec'
   gem 'rack-test'
   gem 'rspec'
+  gem 'rspec_junit_formatter'
   gem 'simplecov'
 end
 
