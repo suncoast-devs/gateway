@@ -7,8 +7,8 @@ module WebhookEvent
 
     commands :create, update: :by_pk
 
-    def by_id(id)
-      webhook_events.by_pk(id).one!
-    end
+    # def by_id(id)
+    #   webhook_events.by_pk(id).one!
+    # end
   end
 end
