@@ -28,6 +28,7 @@ group :test do
   gem 'rspec'
   gem 'rspec_junit_formatter'
   gem 'simplecov'
+  gem 'simplecov-lcov'
 end
 
 source 'https://oss:xvgYUCDZBn8uoj9bBMpla8LfUax4zKfF@gem.mutant.dev' do

@@ -7,6 +7,8 @@ require_relative '../system/application'
 DatabaseCleaner.strategy = :truncation
 
 SimpleCov.start { add_filter '/spec/' }
+SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
+SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
