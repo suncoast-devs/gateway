@@ -6,6 +6,12 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:3.0.1
+        environment:
+          DATABASE_URL: postgres://ubuntu@localhost:5432/gateway
+          APP_ENV: test
+      - image: circleci/postgres:13.2
+        environment:
+          POSTGRES_DB: gateway
     executor: ruby/default
     steps:
       - checkout
