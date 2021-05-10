@@ -5,7 +5,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/ruby:3.0.1
+      - image: circleci/ruby:3.0.1-node
         environment:
           DATABASE_URL: postgres://postgres@localhost:5432/gateway
           APP_ENV: test
