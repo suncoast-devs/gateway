@@ -26,6 +26,7 @@ group :test do
   gem 'mutant-rspec'
   gem 'rack-test'
   gem 'rspec'
+  gem 'simplecov'
 end
 
 source 'https://oss:xvgYUCDZBn8uoj9bBMpla8LfUax4zKfF@gem.mutant.dev' do
