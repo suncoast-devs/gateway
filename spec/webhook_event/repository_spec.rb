@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'webhook_event/repository'
 
 describe WebhookEvent::Repository do
