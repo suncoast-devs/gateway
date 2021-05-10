@@ -23,4 +23,5 @@ jobs:
           command: bundle exec rake db:migrate
       - ruby/rspec-test
       - ruby/rubocop-check
-      - coveralls/upload
+      - coveralls/upload:
+          path_to_lcov: ./coverage/lcov/project.lcov
