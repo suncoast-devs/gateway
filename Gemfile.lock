@@ -13,10 +13,6 @@ GEM
     benchmark (0.1.1)
     coderay (1.1.3)
     concurrent-ruby (1.1.8)
-    database_cleaner-core (2.0.1)
-    database_cleaner-sequel (2.0.0)
-      database_cleaner-core (~> 2.0.0)
-      sequel
     diff-lcs (1.4.4)
     docile (1.3.5)
     dry-auto_inject (0.7.0)
@@ -228,7 +224,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  database_cleaner-sequel
   dry-system
   guard-rspec
   mutant-license!

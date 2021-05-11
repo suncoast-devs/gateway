@@ -4,8 +4,6 @@ ENV['APP_ENV'] ||= 'test'
 
 require_relative '../system/application'
 
-DatabaseCleaner.strategy = :truncation
-
 SimpleCov.start { add_filter '/spec/' }
 SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
 SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
@@ -20,8 +18,4 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
-
-  config.before { DatabaseCleaner.clean }
 end
-
-Application.finalize!
