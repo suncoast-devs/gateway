@@ -10,6 +10,7 @@ gem 'rack'
 gem 'rom'
 gem 'rom-http'
 gem 'rom-sql'
+gem 'sidekiq'
 
 group :development, :test do
   gem 'prettier'
