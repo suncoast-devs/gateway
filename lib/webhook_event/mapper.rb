@@ -1,4 +1,7 @@
+# frozen_string_literal: true
 module WebhookEvent
+
+  # Map Webhook event entities
   class Mapper < ROM::Transformer
     relation :webhook_events, as: :event_mapper
 
