@@ -1,5 +1,6 @@
-Raven.configure do |config|
+Sentry.init do |config|
   config.dsn = Rails.application.credentials.raven_dsn
-  config.environments = %w(staging production)
+  config.send_default_pii = true
+  config.environments = %w[staging production]
   config.processors -= [Raven::Processor::PostData]
 end
