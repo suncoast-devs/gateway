@@ -7,13 +7,15 @@ class SendLeadToClose
 
   def call
     # return unless Rails.env.production?
-    unless @person.close_lead.present?
-      lead = Close::API.post("lead", create_lead_params)
+    if @person.close_lead.present?
+      Close::API.put("lead/#{@person.close_lead}", lead_params)
+    else
+      lead = Close::API.post("lead", lead_params)
       if lead["id"]
         @person.update({
           close_lead: lead["id"],
           close_contact: lead.dig("contacts", 0, "id"),
-        })
+        })  
       end
     end
 
@@ -33,7 +35,7 @@ class SendLeadToClose
 
   private
 
-  def create_lead_params
+  def lead_params
     params = {
       "custom.#{Close::GATEWAY_FIELD}": @person.id,
       "status_id": Close::LEAD_STATUS[status_keys.last],

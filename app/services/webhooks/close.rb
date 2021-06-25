@@ -123,7 +123,7 @@ module Webhooks
     end
 
     def contact_created
-      person = Person.new
+      person = Person.where(close_contact: event.data.id).first || Person.new
       person.close_contact = event.data.id
       person.close_lead = event.data.lead_id
       person.full_name = event.data.name
