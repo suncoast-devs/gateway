@@ -3,7 +3,7 @@ require "pagy/extras/headers"
 
 # :nodoc:
 class ApplicationController < ActionController::Base
-  before_action :set_raven_context
+  before_action :set_user_context
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def authenticate!
@@ -28,8 +28,8 @@ class ApplicationController < ActionController::Base
     head :ok if params["contactMeOnlyByCarrierPigeon"]
   end
 
-  def set_raven_context
-    Raven.user_context(email: current_user&.email)
+  def set_user_context
+    Sentry.set_user(email: current_user&.email)
   end
 
   def publish_event(name, payload = {})
