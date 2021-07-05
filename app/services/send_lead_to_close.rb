@@ -64,7 +64,6 @@ class SendLeadToClose
     params = {
       "custom.#{Close::GATEWAY_FIELD}": @person.id,
       "status_id": Close::LEAD_STATUS[status_keys.last]
-      }],
     }
     if @person.current_program_enrollment && @person.current_program_enrollment.cohort
       params["custom.#{Close::COHORT_FIELD}"] = @person.current_program_enrollment.cohort.name
