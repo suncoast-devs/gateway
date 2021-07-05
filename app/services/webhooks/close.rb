@@ -53,7 +53,7 @@ module Webhooks
 
     def opportunity_deleted
       program_enrollment = ProgramEnrollment.where(close_opportunity: event.previous_data.id).first
-      program_enrollment.discard
+      program_enrollment.discard if program_enrollment.present?
     end
 
     def activity_note_created

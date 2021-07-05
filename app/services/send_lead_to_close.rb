@@ -22,13 +22,15 @@ class SendLeadToClose
       end
     end
 
-    if @person.current_program_enrollment
-      if @person.current_program_enrollment.close_opportunity.present?
-        Close::API.put("opportunity/#{@person.current_program_enrollment.close_opportunity}", opportunity_params)
+    program_enrollment = @person.current_program_enrollment
+
+    if program_enrollment.present?
+      if program_enrollment.close_opportunity.present?
+        Close::API.put("opportunity/#{program_enrollment.close_opportunity}", opportunity_params)
       else
         opportunity = Close::API.post("opportunity", create_opportunity_params)
         if opportunity["id"]
-          @person.current_program_enrollment.update({
+          program_enrollment.update({
             close_opportunity: opportunity["id"],
           })
         end
