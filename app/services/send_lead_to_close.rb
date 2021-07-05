@@ -9,8 +9,11 @@ class SendLeadToClose
     # return unless Rails.env.production?
     if @person.close_lead.present?
       Close::API.put("lead/#{@person.close_lead}", lead_params)
+      if @person.close_contact.present?
+        Close::API.put("lead/#{@person.close_contact}", contact_params)
+      end
     else
-      lead = Close::API.post("lead", lead_params)
+      lead = Close::API.post("lead", create_lead_params)
       if lead["id"]
         @person.update({
           close_lead: lead["id"],
@@ -19,11 +22,9 @@ class SendLeadToClose
       end
     end
 
-    byebug
-
     if @person.current_program_enrollment
       if @person.current_program_enrollment.close_opportunity.present?
-        Close::API.put("opportunity/#{@person.current_program_enrollment.close_opportunity}", update_opportunity_params)
+        Close::API.put("opportunity/#{@person.current_program_enrollment.close_opportunity}", opportunity_params)
       else
         opportunity = Close::API.post("opportunity", create_opportunity_params)
         if opportunity["id"]
@@ -37,22 +38,32 @@ class SendLeadToClose
 
   private
 
+  def create_lead_params
+    params = lead_params
+    params["contacts"] = [contact_params]
+    params
+  end
+
+  def contact_params
+    {
+      "name": @person.full_name,
+      "emails": [
+        {
+          "email": @person.email_address,
+        },
+      ],
+      "phones": [
+        {
+          "phone": @person.phone_number,
+        },
+      ]
+    }
+  end
+
   def lead_params
     params = {
       "custom.#{Close::GATEWAY_FIELD}": @person.id,
-      "status_id": Close::LEAD_STATUS[status_keys.last],
-      "contacts": [{
-        "name": @person.full_name,
-        "emails": [
-          {
-            "email": @person.email_address,
-          },
-        ],
-        "phones": [
-          {
-            "phone": @person.phone_number,
-          },
-        ],
+      "status_id": Close::LEAD_STATUS[status_keys.last]
       }],
     }
     if @person.current_program_enrollment && @person.current_program_enrollment.cohort
@@ -62,12 +73,12 @@ class SendLeadToClose
   end
 
   def create_opportunity_params
-    params = update_opportunity_params
+    params = opportunity_params
     params["lead_id"] = @person.close_lead
     params
   end
 
-  def update_opportunity_params
+  def opportunity_params
     status = Close::OPPORTUNITY_STATUSES[status_keys.first]
     params = {
       "status_id": status,
