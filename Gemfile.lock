@@ -261,10 +261,9 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sentry-ruby (4.5.1)
-      concurrent-ruby (~> 1.0, >= 1.0.2)
-      faraday (>= 1.0)
-      sentry-ruby-core (= 4.5.1)
+    sentry-rails (4.5.2)
+      railties (>= 5.0)
+      sentry-ruby-core (~> 4.5.0)
     sentry-ruby-core (4.5.1)
       concurrent-ruby
       faraday
@@ -338,7 +337,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 6.1)
   sass-rails
-  sentry-ruby
+  sentry-rails
   sentry-sidekiq
   sidekiq
   slim

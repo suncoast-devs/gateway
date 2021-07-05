@@ -1,7 +1,7 @@
 version: '3.9'
 
 x-base: &base
-  image: gateway
+  build: .
   environment:
     DATABASE_URL: postgresql://postgres:hunter2@postgres:5432/gateway
     REDIS_URL: redis://redis:6379/12
@@ -24,7 +24,6 @@ services:
     volumes:
       - pg-data:/var/lib/postgresql/data
   rails:
-    build: .
     command: bundle exec rails server -b 0.0.0.0
     entrypoint: bin/docker-entrypoint.sh
     ports:
