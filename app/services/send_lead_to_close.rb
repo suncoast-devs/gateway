@@ -19,6 +19,8 @@ class SendLeadToClose
       end
     end
 
+    byebug
+
     if @person.current_program_enrollment
       if @person.current_program_enrollment.close_opportunity.present?
         Close::API.put("opportunity/#{@person.current_program_enrollment.close_opportunity}", update_opportunity_params)
@@ -39,7 +41,7 @@ class SendLeadToClose
     params = {
       "custom.#{Close::GATEWAY_FIELD}": @person.id,
       "status_id": Close::LEAD_STATUS[status_keys.last],
-      "contacts": {
+      "contacts": [{
         "name": @person.full_name,
         "emails": [
           {
@@ -51,7 +53,7 @@ class SendLeadToClose
             "phone": @person.phone_number,
           },
         ],
-      },
+      }],
     }
     if @person.current_program_enrollment && @person.current_program_enrollment.cohort
       params["custom.#{Close::COHORT_FIELD}"] = @person.current_program_enrollment.cohort.name
