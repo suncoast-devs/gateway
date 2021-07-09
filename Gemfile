@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.0.1'
+ruby '3.0.2'
 
 gem 'rails', '~> 6.1'
 
@@ -43,4 +43,16 @@ group :development do
   gem 'byebug'
   gem 'listen'
   gem 'web-console', '>= 3.3.0'
+end
+
+group :test do
+  # gem 'mutant-rspec'
+  gem 'rspec'
+  gem 'rspec_junit_formatter'
+  gem 'simplecov'
+  gem 'simplecov-lcov'
+end
+
+source 'https://oss:xvgYUCDZBn8uoj9bBMpla8LfUax4zKfF@gem.mutant.dev' do
+  gem 'mutant-license'
 end
