@@ -1,26 +1,28 @@
 version: 2.1
 orbs:
-  ruby: circleci/ruby@1.1.3
+  ruby: circleci/ruby@1.1.4
   coveralls: coveralls/coveralls@1.0.6
 
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/ruby:3.0.2-node
-        environment:
-          DATABASE_URL: postgres://postgres@localhost:5432/gateway
-          RAILS_ENV: test
       - image: circleci/postgres:13.2
         environment:
           POSTGRES_DB: gateway
           POSTGRES_HOST_AUTH_METHOD: trust
-    executor: ruby/default
+    environment:
+      DATABASE_URL: postgres://postgres@localhost:5432/gateway
+      RAILS_ENV: test
     steps:
       - checkout
       - ruby/install-deps
       - run:
-          name: Database Migrations
-          command: bin/rails db:migrate
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Database Setup
+          command: bundle exec rails db:schema:load --trace
       - ruby/rspec-test
       - ruby/rubocop-check
       - coveralls/upload:
