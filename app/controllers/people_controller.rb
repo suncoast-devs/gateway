@@ -49,6 +49,7 @@ class PeopleController < ApplicationController
   end
 
   def destroy
+    @person.update(close_lead: nil, close_contact: nil)
     @person.discard
     redirect_to @person, notice: "#{@person.full_name} discarded."
   end
