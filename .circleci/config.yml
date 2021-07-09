@@ -1,0 +1,27 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@1.1.3
+  coveralls: coveralls/coveralls@1.0.6
+
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:3.0.2-node
+        environment:
+          DATABASE_URL: postgres://postgres@localhost:5432/gateway
+          RAILS_ENV: test
+      - image: circleci/postgres:13.2
+        environment:
+          POSTGRES_DB: gateway
+          POSTGRES_HOST_AUTH_METHOD: trust
+    executor: ruby/default
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run:
+          name: Database Migrations
+          command: bin/rails db:migrate
+      - ruby/rspec-test
+      - ruby/rubocop-check
+      - coveralls/upload:
+          path_to_lcov: ./coverage/lcov/app.lcov
