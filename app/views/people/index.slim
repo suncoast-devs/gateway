@@ -73,6 +73,7 @@ section.section
             td
               - if person.current_program_enrollment.present?
                     .tags
+                      span.tag = person.current_program_enrollment.cohort&.display_name
                       span[class="tag #{intent_for_stage(person.current_program_enrollment.stage)}"] = person.current_program_enrollment.stage.titleize
                       span[class="tag #{intent_for_status(person.current_program_enrollment.status)}"] = person.current_program_enrollment.status.titleize
             td
