@@ -22,7 +22,7 @@ html
               .navbar-item.has-dropdown.is-hoverable
                 = link_to "Enrollment", program_enrollments_path, class: "navbar-link #{current_controller? 'program_enrollments'}"
                 .navbar-dropdown
-                  - Cohort.enrolling.each do |cohort|
+                  - Cohort.enrolling_and_future.each do |cohort|
                     = link_to cohort.alt_display_name, cohort, class: 'navbar-item'
               = link_to "Weekend", courses_path, class: "navbar-item #{current_controller? 'courses'}"
               .navbar-item.has-dropdown.is-hoverable
