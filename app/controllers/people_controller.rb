@@ -10,6 +10,7 @@ class PeopleController < ApplicationController
   def index
     @query = params[:q]
     scope = Person.order(created_at: :desc)
+    scope = params[:all] ? scope.all : scope.kept
     scope = scope.where("full_name ILIKE ?", "%#{@query}%") if @query.present?
 
     if params[:t].present?
@@ -51,7 +52,8 @@ class PeopleController < ApplicationController
   def destroy
     @person.update(close_lead: nil, close_contact: nil)
     @person.discard
-    redirect_to @person, notice: "#{@person.full_name} discarded."
+
+    redirect_back(fallback_location: @person, notice: "#{@person.full_name} discarded.")
   end
 
   private
