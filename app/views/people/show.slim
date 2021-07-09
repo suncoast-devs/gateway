@@ -30,7 +30,15 @@ section.section
 
       .column.is-one-third
         nav.panel.contact-information
-          p.panel-heading Contact Information
+          .panel-heading
+            .level
+              .level-left
+                .level-item Contact Information
+              .level-right
+                .level-item
+                  = link_to [:edit, @person] do
+                    span.icon
+                      i.fas.fa-edit
           .panel-block
             nav.level.is-flex-grow-1
               .level-left
