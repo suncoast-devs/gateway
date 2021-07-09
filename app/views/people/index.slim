@@ -50,9 +50,9 @@ section.section
           th Name
           th Email
           th Phone Number
-          th App
+          th.has-text-centered App
           th Enrollment
-          th Close
+          th.has-text-centered Close
           th
       tbody
         - @people.each do |person|
@@ -77,15 +77,19 @@ section.section
                       span.tag = person.current_program_enrollment.cohort&.display_name
                       span[class="tag #{intent_for_stage(person.current_program_enrollment.stage)}"] = person.current_program_enrollment.stage.titleize
                       span[class="tag #{intent_for_status(person.current_program_enrollment.status)}"] = person.current_program_enrollment.status.titleize
-            td
+            td.has-text-centered
               - if person.close_lead.present?
                 a.button.is-small href="closeio://app.close.com/lead/#{person.close_lead}/" 
                   span.icon
                     = image_tag "close.svg", size: "24x24"
             td
-              = form_for(person, :html => { :method => :delete }) do |f|
-                = f.button class: "button is-small is-danger" do
-                  span.icon.is-small
-                    i.fas.fa-trash
+              .level
+                .level-item
+                  = form_for(person, :html => { :method => :delete }) do |f|
+                    = f.button class: "button is-small is-danger" do
+                      span.icon.is-small
+                        i.fas.fa-trash
+                .level-item
+                  code = person.id
 
     == pagy_bulma_nav(@pagy)
