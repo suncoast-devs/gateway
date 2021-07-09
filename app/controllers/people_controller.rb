@@ -48,7 +48,10 @@ class PeopleController < ApplicationController
     end
   end
 
-  def destroy; end
+  def destroy
+    @person.discard
+    redirect_to @person, notice: "#{@person.full_name} discarded."
+  end
 
   private
 

@@ -14,6 +14,14 @@ section.section
 
       .field.is-horizontal
         .field-label.is-normal
+          = form.label :person_id, class: "label"
+        .field-body
+          .field
+            .control
+              = form.text_field :person_id, class: "input"
+
+      .field.is-horizontal
+        .field-label.is-normal
           = form.label :cohort_id, class: "label"
         .field-body
           .field

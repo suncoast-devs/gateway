@@ -36,7 +36,11 @@ class ProgramEnrollmentsController < ApplicationController
   def edit; end
 
   def update
-    @program_enrollment.update program_enrollment_params
+    if program_enrollment_params[:person_id] != @program_enrollment.person_id
+      @program_enrollment.program_applications.update_all(person_id: program_enrollment_params[:person_id])
+    end
+    @program_enrollment.update program_enrollment_params 
+
     SendLeadToClose.call_later(@program_enrollment.person)
     redirect_to @program_enrollment.person
   end
@@ -48,6 +52,6 @@ class ProgramEnrollmentsController < ApplicationController
   end
 
   def program_enrollment_params
-    params.require(:program_enrollment).permit(:cohort_id, :stage, :status, :deposit_required, :deposit_paid, :enrollment_agreement_complete, :financial_clearance, :lost_reason, :academic_signoff, :administrative_signoff)
+    params.require(:program_enrollment).permit(:person_id, :cohort_id, :stage, :status, :deposit_required, :deposit_paid, :enrollment_agreement_complete, :financial_clearance, :lost_reason, :academic_signoff, :administrative_signoff)
   end
 end

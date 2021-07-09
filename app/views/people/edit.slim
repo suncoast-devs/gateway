@@ -1,5 +1,13 @@
 section.section
   .container
-    h1.title Editing #{@person.full_name}
+    nav.level
+      .level-left
+        .div
+          h1.title Editing #{@person.full_name}
+      .level-right
+        .level-item
+          .buttons
+            = form_for(@person, :html => { :method => :delete }) do |f|
+              = f.button "Delete", class: "button is-warning"
 
     = render partial: 'form', locals: { person: @person }
