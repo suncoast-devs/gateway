@@ -1,8 +1,12 @@
-- title "Cohort #{@cohort.name} Enrollment"
-
 section.section
   .container
-    h1.title Cohort #{@cohort.name} Enrollment
+    .level
+      .level-left
+        h1.title = title "#{@cohort.display_name} Enrollment"
+      .level-right
+        .level-item
+          .buttons
+            = link_to "Edit", [:edit, @cohort], class: 'button'
 
     nav.level
       .level-item.has-text-centered

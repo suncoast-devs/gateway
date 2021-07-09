@@ -24,7 +24,7 @@ section.section
       tbody
         - @cohorts.each do |cohort|
           tr
-            td = link_to cohort.name, [:edit, cohort]
+            td = link_to cohort.name, cohort
             td = cohort.begins_on
             td = cohort.ends_on
             td = cohort.format
