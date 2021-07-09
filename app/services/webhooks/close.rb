@@ -113,7 +113,7 @@ module Webhooks
 
     def lead_deleted
       person = Person.where(close_lead: event.previous_data.id).first
-      person.discard
+      person.discard if person.present?
     end
 
     def lead_merged
@@ -142,7 +142,7 @@ module Webhooks
 
     def contact_deleted
       person = Person.where(close_contact: event.previous_data.id).first
-      person.discard
+      person.discard if person.present?
     end
   end
 end
