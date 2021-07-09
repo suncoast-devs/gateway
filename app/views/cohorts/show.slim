@@ -56,7 +56,7 @@ section.section
             span.icon title="Last Contacted"
               i.fas.fa-stopwatch
       tbody
-        - @cohort.program_enrollments.eager_load(person: :last_contact_disposition).order(Arel.sql("status ASC, stage=5, stage=6, stage=7, stage=3, stage=4")).each do |enrollment|
+        - @cohort.program_enrollments.kept.eager_load(person: :last_contact_disposition).order(Arel.sql("status ASC, stage=5, stage=6, stage=7, stage=3, stage=4")).each do |enrollment|
           tr
             td = link_to enrollment.person.full_name, enrollment.person
             td
