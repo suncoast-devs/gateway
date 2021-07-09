@@ -50,9 +50,13 @@ class PeopleController < ApplicationController
   end
 
   def destroy
-    @person.update(close_lead: nil, close_contact: nil)
-    @person.discard
-
+    unless @person.discarded?
+      @person.update(close_lead: nil, close_contact: nil)
+      @person.discard
+    else 
+      @person.undiscard!
+    end
+    
     redirect_back(fallback_location: @person, notice: "#{@person.full_name} discarded.")
   end
 
