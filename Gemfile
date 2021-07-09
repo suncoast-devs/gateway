@@ -46,13 +46,9 @@ group :development do
 end
 
 group :test do
-  # gem 'mutant-rspec'
   gem 'rspec'
+  gem 'rspec-rails'
   gem 'rspec_junit_formatter'
-  gem 'simplecov'
+  gem 'simplecov', require: false
   gem 'simplecov-lcov'
-end
-
-source 'https://oss:xvgYUCDZBn8uoj9bBMpla8LfUax4zKfF@gem.mutant.dev' do
-  gem 'mutant-license'
 end
