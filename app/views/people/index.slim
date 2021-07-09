@@ -62,13 +62,14 @@ section.section
             td = person.phone_number
             td.has-text-centered
               - person.program_applications.each do |program_application|
-                - case program_application.application_status
-                - when "incomplete"
-                  span.icon.has-text-light[title=program_application.program]
-                    i.fas.fa-question-circle
-                - when "complete"
-                  span.icon.has-text-success[title=program_application.program]
-                    i.fas.fa-check-circle
+                = link_to program_application do
+                  - case program_application.application_status
+                  - when "incomplete"
+                    span.icon.has-text-light[title=program_application.program]
+                      i.fas.fa-question-circle
+                  - when "complete"
+                    span.icon.has-text-success[title=program_application.program]
+                      i.fas.fa-check-circle
 
             td
               - if person.current_program_enrollment.present?

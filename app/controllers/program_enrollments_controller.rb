@@ -52,6 +52,6 @@ class ProgramEnrollmentsController < ApplicationController
   end
 
   def program_enrollment_params
-    params.require(:program_enrollment).permit(:person_id, :cohort_id, :stage, :status, :deposit_required, :deposit_paid, :enrollment_agreement_complete, :financial_clearance, :lost_reason, :academic_signoff, :administrative_signoff)
+    params.require(:program_enrollment).permit(:person_id, :cohort_id, :stage, :status, :deposit_required, :deposit_paid, :enrollment_agreement_complete, :financial_clearance, :lost_reason, :academic_signoff, :administrative_signoff, :close_opportunity)
   end
 end
