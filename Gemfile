@@ -49,6 +49,6 @@ group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
-  gem 'simplecov', require: false
+  gem 'simplecov'
   gem 'simplecov-lcov'
 end
