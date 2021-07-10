@@ -46,6 +46,7 @@ group :development do
 end
 
 group :test do
+  gem 'mutant-rspec'
   gem 'rspec'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails'
@@ -58,4 +59,8 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+end
+
+source 'https://oss:xvgYUCDZBn8uoj9bBMpla8LfUax4zKfF@gem.mutant.dev' do
+  gem 'mutant-license'
 end
