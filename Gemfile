@@ -42,6 +42,10 @@ group :development do
   gem 'awesome_print'
   gem 'byebug'
   gem 'listen'
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
+  gem 'prettier'
   gem 'web-console', '>= 3.3.0'
 end
 
