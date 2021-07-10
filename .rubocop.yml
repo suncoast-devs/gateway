@@ -3,6 +3,10 @@ inherit_from: .rubocop_todo.yml
 inherit_gem:
   prettier: rubocop.yml
 
+inherit_mode:
+  merge:
+    - Exclude
+
 require:
   - rubocop-rails
   - rubocop-rspec
@@ -10,5 +14,4 @@ require:
 AllCops:
   NewCops: enable
   Exclude:
-    - 'bin/**'
-    - 'db/**/*.rb'
+    - 'db/**/*'
