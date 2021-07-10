@@ -26,4 +26,4 @@ jobs:
       - ruby/rspec-test
       - ruby/rubocop-check
       - coveralls/upload:
-          path_to_lcov: ./coverage/lcov/app.lcov
+          path_to_lcov: ./coverage/lcov/project.lcov
