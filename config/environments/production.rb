@@ -14,6 +14,7 @@ Rails.application.configure do
   config.log_formatter = ::Logger::Formatter.new
   config.force_ssl = true
   config.action_mailer.show_previews = true
+  config.assets.compile = false
 
   if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger = ActiveSupport::Logger.new($stdout)
