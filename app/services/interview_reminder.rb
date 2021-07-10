@@ -9,8 +9,6 @@ class InterviewReminder
   end
 
   def call
-    if @program_enrollment.active? && @program_enrollment.applied?
-      CommunicationTemplate.by_key('schedule-interview')&.send_to(@person)
-    end
+    CommunicationTemplate.by_key('schedule-interview')&.send_to(@person) if @program_enrollment.active? && @program_enrollment.applied?
   end
 end

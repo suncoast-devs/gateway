@@ -66,9 +66,7 @@ class SendLeadToClose
       "custom.#{Close::GATEWAY_FIELD}": @person.id,
       status_id: Close::LEAD_STATUS[status_keys.last]
     }
-    if @person.current_program_enrollment&.cohort
-      params["custom.#{Close::COHORT_FIELD}"] = @person.current_program_enrollment.cohort.name
-    end
+    params["custom.#{Close::COHORT_FIELD}"] = @person.current_program_enrollment.cohort.name if @person.current_program_enrollment&.cohort
     params
   end
 
@@ -86,9 +84,7 @@ class SendLeadToClose
       value_period: 'one_time',
     }
 
-    if status == 'Enrolled' && @person.current_program_enrollment
-      params['date_won'] = @person.current_program_enrollment.cohort&.begins_on
-    end
+    params['date_won'] = @person.current_program_enrollment.cohort&.begins_on if status == 'Enrolled' && @person.current_program_enrollment
 
     params
   end

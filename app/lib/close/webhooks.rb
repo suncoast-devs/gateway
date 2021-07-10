@@ -21,9 +21,7 @@ module Close
     def unsubscribe
       webhooks = Close::API.get('webhook')
       webhooks['data'].each do |webhook|
-        if webhook['url'] == Rails.application.routes.url_helpers.api_webhooks_url('close')
-          webhooks = Close::API.delete("webhook/#{webhook['id']}")
-        end
+        webhooks = Close::API.delete("webhook/#{webhook['id']}") if webhook['url'] == Rails.application.routes.url_helpers.api_webhooks_url('close')
       end
     end
   end
