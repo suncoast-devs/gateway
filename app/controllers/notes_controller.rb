@@ -7,9 +7,7 @@ class NotesController < ApplicationController
   before_action :find_note, only: %i[update destroy]
 
   def create
-    @note = @person.notes.create(note_params) do |note|
-      note.user = current_user
-    end
+    @note = @person.notes.create(note_params) { |note| note.user = current_user }
 
     SendNoteToClose.call_later @note
     publish_event :create_note, @note

@@ -6,10 +6,7 @@ class CreateOutboundEmailCommunication
 
   def initialize(person, subject, body)
     @person = person
-    @communication_template = CommunicationTemplate.simple_email.new({
-      title: subject,
-      body: body,
-    })
+    @communication_template = CommunicationTemplate.simple_email.new({ title: subject, body: body })
   end
 
   def call

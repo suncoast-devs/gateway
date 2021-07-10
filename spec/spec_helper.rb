@@ -6,7 +6,6 @@ SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
 SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
 
 RSpec.configure do |config|
-
   # TODO: Remove Rspec 4 defaults after updating to Rspec 4
 
   # = begin
@@ -19,6 +18,7 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
   # = end
 
   config.disable_monkey_patching!

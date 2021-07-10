@@ -8,9 +8,9 @@ class PersonTemplateRenderer
 
   def render
     rendered_template = @template.render(params)
-    
+
     if @markdown
-      document = CommonMarker.render_doc(rendered_template, [:DEFAULT, :FOOTNOTES])
+      document = CommonMarker.render_doc(rendered_template, %i[DEFAULT FOOTNOTES])
       document.to_html(:DEFAULT).html_safe
     else
       rendered_template
@@ -28,7 +28,7 @@ class PersonTemplateRenderer
       'person' => @person,
       'cohort' => cohort,
       'enrollment' => program_enrollment,
-      'acceptance' => program_acceptance
+      'acceptance' => program_acceptance,
     }
   end
 end

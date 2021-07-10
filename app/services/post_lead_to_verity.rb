@@ -34,7 +34,7 @@ class PostLeadToVerity
       'schoolname' => 'Suncoast Developers Guild',
       'campus' => 'St. Petersburg',
       'program' => 'Web Development',
-      'leadsource' => @person.source&.titleize || ''
+      'leadsource' => @person.source&.titleize || '',
     }
 
     HTTP.post(API_ENDPOINT, form: params)

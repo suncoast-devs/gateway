@@ -25,8 +25,12 @@ class EventFormatter
     when Person
       ["#{note.user.first_name} made a comment on #{notable.full_name}.", note.message, person_url(notable), true]
     when ProgramApplication
-      ["#{note.user.first_name} left interview notes on #{notable.full_name}'s application.", note.message, 
-program_application_url(notable), true]
+      [
+        "#{note.user.first_name} left interview notes on #{notable.full_name}'s application.",
+        note.message,
+        program_application_url(notable),
+        true,
+      ]
     when Invoice
       ["#{notable.persons.full_name}'s invoice was updated.", note.message, invoice_url(notable), true]
     else
@@ -36,14 +40,22 @@ program_application_url(notable), true]
 
   def complete_application
     program_application = payload
-    ["An application has been submitted by #{program_application.person.full_name}.", '', 
-program_application_url(program_application), true]
+    [
+      "An application has been submitted by #{program_application.person.full_name}.",
+      '',
+      program_application_url(program_application),
+      true,
+    ]
   end
 
   def course_registration
     course_registration = payload
-    ['New weekend course registration.', 
-"#{course_registration.person.full_name} has registered for #{course_registration.course.display_name}.", person_url(course_registration.person), true]
+    [
+      'New weekend course registration.',
+      "#{course_registration.person.full_name} has registered for #{course_registration.course.display_name}.",
+      person_url(course_registration.person),
+      true,
+    ]
   end
 
   def interview_scheduled
@@ -69,14 +81,23 @@ program_application_url(program_application), true]
   def communication_received
     communication = payload
     person = communication.person
+
     # TODO: Actual routes for client paths?
-    ["New message from #{person.full_name}.", communication.body.truncate(200), root_url + "app/messages/#{person.id}", 
-true]
+    [
+      "New message from #{person.full_name}.",
+      communication.body.truncate(200),
+      root_url + "app/messages/#{person.id}",
+      true,
+    ]
   end
 
   def unhandled_event_format
-    ['An unhandled event notification has occured.', 
-"This `#{@name}` event does not have a formatter implemented. See the `EventFormatter` class.", root_url, false]
+    [
+      'An unhandled event notification has occured.',
+      "This `#{@name}` event does not have a formatter implemented. See the `EventFormatter` class.",
+      root_url,
+      false,
+    ]
   end
 
   class << self

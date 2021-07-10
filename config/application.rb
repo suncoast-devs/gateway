@@ -25,9 +25,9 @@ module Gateway
     config.action_mailer.preview_path = "#{Rails.root}/app/mailers/previews"
     config.time_zone = 'Eastern Time (US & Canada)'
     config.middleware.use OliveBranch::Middleware,
-      inflection: 'camel',
-      exclude_params: excluded_routes,
-      exclude_response: excluded_routes
+                          inflection: 'camel',
+                          exclude_params: excluded_routes,
+                          exclude_response: excluded_routes
     config.action_mailbox.ingress = :postmark
   end
 end

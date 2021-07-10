@@ -11,14 +11,15 @@ class ProgramApplication < ApplicationRecord
   scope :visible, -> { where(is_hidden: false) }
   scope :hidden, -> { where(is_hidden: true) }
 
-  enum application_status: {incomplete: 0, complete: 1}, _prefix: 'application'
+  enum application_status: { incomplete: 0, complete: 1 }, _prefix: 'application'
 
   def ac_continue_application_url_value
-    continue_url || begin
-      url = "https://suncoast.io/academy/apply?continue=#{id}"
-      short_url = ShortURL.generate("Continue Application for #{person.full_name}", url)
-      update(continue_url: short_url)
-      short_url
-    end
+    continue_url ||
+      begin
+        url = "https://suncoast.io/academy/apply?continue=#{id}"
+        short_url = ShortURL.generate("Continue Application for #{person.full_name}", url)
+        update(continue_url: short_url)
+        short_url
+      end
   end
 end

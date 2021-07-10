@@ -5,7 +5,7 @@ class CohortsController < ApplicationController
   include Pagy::Backend
 
   before_action :authenticate!
-  before_action :find_cohort, only: [:show, :edit, :update, :destroy]
+  before_action :find_cohort, only: %i[show edit update destroy]
 
   def index
     scope = Cohort.order(begins_on: :asc)

@@ -14,12 +14,15 @@ class CreateProgramEnrollment
       if @program_application.person.program_enrollments.count.positive?
         @program_application.update(program_enrollment: @program_application.person.current_program_enrollment)
       else
-        enrollment = ProgramEnrollment.create!({
-          cohort: Cohort.where(name: program_start).first,
-          person: @program_application.person,
-          program: 'web-development',
-          program_applications: [@program_application],
-        })
+        enrollment =
+          ProgramEnrollment.create!(
+            {
+              cohort: Cohort.where(name: program_start).first,
+              person: @program_application.person,
+              program: 'web-development',
+              program_applications: [@program_application],
+            },
+          )
 
         CommunicationTemplate.by_key('application-received')&.send_to @program_application.person
         InterviewReminder.call_in 2.days, @program_application.person

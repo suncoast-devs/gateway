@@ -11,11 +11,13 @@ class CreateCourseRegistrationInvoice
 
   def call
     due_date = [@course_registration.course.starts_on - 7, 1.day.from_now].max
-    invoice = @person.invoices.create(due_on: due_date,
-                                      invoice_items_attributes: [
-                                        { description: "#{@course.name} (#{@course.session})", quantity: 1, 
-amount: @course_registration.fee },
-                                      ])
+    invoice =
+      @person.invoices.create(
+        due_on: due_date,
+        invoice_items_attributes: [
+          { description: "#{@course.name} (#{@course.session})", quantity: 1, amount: @course_registration.fee },
+        ],
+      )
     @course_registration.update(invoice: invoice)
     CreateInvoice.call(invoice.id)
     invoice.reload

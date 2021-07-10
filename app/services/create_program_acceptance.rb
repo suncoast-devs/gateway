@@ -22,10 +22,11 @@ class CreateProgramAcceptance
     else
       # Deposit Invoice
       due_date = [@cohort.tuition_due_date, 1.day.from_now].max
-      @invoice = @person.invoices.create(due_on: due_date,
-                                         invoice_items_attributes: [
-                                           { description: 'Tuition Deposit', quantity: 1, amount: 1000 },
-                                         ])
+      @invoice =
+        @person.invoices.create(
+          due_on: due_date,
+          invoice_items_attributes: [{ description: 'Tuition Deposit', quantity: 1, amount: 1000 }],
+        )
       CreateInvoice.call(@invoice.id)
       @invoice.reload
       @program_enrollment.update(deposit_invoice: @invoice)

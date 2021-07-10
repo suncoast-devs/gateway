@@ -5,7 +5,7 @@ class CommunicationTemplatesController < ApplicationController
   include Pagy::Backend
 
   before_action :authenticate!
-  before_action :find_communication_template, only: [:show, :edit, :update, :destroy]
+  before_action :find_communication_template, only: %i[show edit update destroy]
 
   def index
     scope = CommunicationTemplate.order(name: :asc)
@@ -13,7 +13,12 @@ class CommunicationTemplatesController < ApplicationController
   end
 
   def show
-    @person = params[:person] ? Person.find(params[:person]) : Person.where(email_address: current_user.email).first || Person.first
+    @person =
+      if params[:person]
+        Person.find(params[:person])
+      else
+        Person.where(email_address: current_user.email).first || Person.first
+      end
   end
 
   def new
@@ -21,9 +26,8 @@ class CommunicationTemplatesController < ApplicationController
   end
 
   def create
-    @communication_template = CommunicationTemplate.new(communication_template_params) do |template|
-      template.user = current_user
-    end
+    @communication_template =
+      CommunicationTemplate.new(communication_template_params) { |template| template.user = current_user }
 
     if @communication_template.save
       redirect_to @communication_template, notice: 'Communication Template created.'

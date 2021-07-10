@@ -8,10 +8,13 @@ class EventHandler
 
   def call
     if @event.save! && @event.is_notifiable?
-      User.notifiable.where.not(id: @event.instigator&.id).each do |user|
-        notification = user.notifications.create!(event: @event)
-        DeliverNotification.call_in(1.minute, notification)
-      end
+      User
+        .notifiable
+        .where.not(id: @event.instigator&.id)
+        .each do |user|
+          notification = user.notifications.create!(event: @event)
+          DeliverNotification.call_in(1.minute, notification)
+        end
     end
   end
 end

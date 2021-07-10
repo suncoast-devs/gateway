@@ -19,8 +19,10 @@ module ApplicationHelper
 
   def format_answer(answer)
     case answer
-    when true then 'Yes'
-    when false then 'No'
+    when true
+      'Yes'
+    when false
+      'No'
     else
       simple_format answer.to_s
     end
@@ -36,19 +38,27 @@ module ApplicationHelper
 
   def intent_for_stage(stage)
     case stage
-    when 'applied' then 'is-warning'
-    when 'interviewing' then 'is-info'
-    when 'accepted' then 'is-primary'
-    when 'enrolled' then 'is-success'
-    when 'enrolling' then 'is-success lighten'
+    when 'applied'
+      'is-warning'
+    when 'interviewing'
+      'is-info'
+    when 'accepted'
+      'is-primary'
+    when 'enrolled'
+      'is-success'
+    when 'enrolling'
+      'is-success lighten'
     end
   end
 
   def intent_for_status(status)
     case status
-    when 'active' then 'is-info'
-    when 'lost' then 'is-danger'
-    when 'won' then 'is-success'
+    when 'active'
+      'is-info'
+    when 'lost'
+      'is-danger'
+    when 'won'
+      'is-success'
     end
   end
 

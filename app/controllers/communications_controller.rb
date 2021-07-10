@@ -5,7 +5,7 @@ class CommunicationsController < ApplicationController
   layout false
 
   before_action :authenticate!
-  before_action :find_person, only: [:index, :new, :create]
+  before_action :find_person, only: %i[index new create]
   skip_before_action :verify_authenticity_token
 
   # Message Summaries & Threads
@@ -16,8 +16,11 @@ class CommunicationsController < ApplicationController
       render 'thread'
     else
       @query = params[:q]
-      scope = Person.left_outer_joins(:last_communication).includes(:last_communication).order([
-'last_communication_id IS NULL', 'communications.messaged_at DESC'])
+      scope =
+        Person
+          .left_outer_joins(:last_communication)
+          .includes(:last_communication)
+          .order(['last_communication_id IS NULL', 'communications.messaged_at DESC'])
       scope = scope.where('full_name ILIKE ?', "%#{@query}%") if @query.present?
 
       @pagy, @records = pagy(scope, items: 16)
@@ -44,6 +47,7 @@ class CommunicationsController < ApplicationController
   def create
     body = params[:body]
     if params[:is_sms]
+
     else
       subject = params[:subject]
       CreateOutboundEmailCommunication.call_later @person, subject, body

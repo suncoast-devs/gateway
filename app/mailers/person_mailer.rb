@@ -11,10 +11,12 @@ class PersonMailer < ApplicationMailer
     @person = @course_registration.person
     @invoice = @course_registration.invoice
 
-    mail(to: "#{@person.full_name} <#{@person.email_address}>",
-         bcc: Rails.application.credentials.close_email,
-         subject: "You're registered for #{@course.name} with Suncoast Developers Guild",
-         track_opens: 'true')
+    mail(
+      to: "#{@person.full_name} <#{@person.email_address}>",
+      bcc: Rails.application.credentials.close_email,
+      subject: "You're registered for #{@course.name} with Suncoast Developers Guild",
+      track_opens: 'true',
+    )
   end
 
   def communication_template_email
@@ -29,15 +31,16 @@ class PersonMailer < ApplicationMailer
     headers({ 'References' => message_id, 'In-Reply-To' => message_id }) if message_id
 
     # FIXME: This is kind of a hack, is there better way to do this in communication template maybe?
-    attachments['Program Catalog.pdf'] = File.read(Rails.root.join('app/assets/CATALOG.pdf')) if @communication_template.key === 'acceptance-letter'
+    attachments['Program Catalog.pdf'] = File.read(Rails.root.join('app/assets/CATALOG.pdf')) if @communication_template
+      .key === 'acceptance-letter'
 
     # if Truemail.valid? @person.email_address
-    mail(to: "#{@person.full_name} <#{@person.email_address}>",
-         bcc: Rails.application.credentials.close_email,
-         subject: subject,
-         track_opens: 'true') do |format|
-      format.html { render layout: @communication_template.media, html: body }
-    end
+    mail(
+      to: "#{@person.full_name} <#{@person.email_address}>",
+      bcc: Rails.application.credentials.close_email,
+      subject: subject,
+      track_opens: 'true',
+    ) { |format| format.html { render layout: @communication_template.media, html: body } }
     # end
   end
 
@@ -56,17 +59,18 @@ class PersonMailer < ApplicationMailer
     # re-encode without attachement before storing.
     email = mail.has_attachments? ? Mail.new(mail.encoded).without_attachments! : mail
 
-    communication = Communication.outgoing.email.create(
-      person: @person,
-      subject: email.subject,
-      body: sanitize_html(email.body),
-      messaged_at: Time.zone.now,
-      data: {
-        had_attachments: mail.has_attachments?,
-        template_key: @communication_template&.key,
-        mail: email.encoded,
-      },
-    )
+    communication =
+      Communication.outgoing.email.create(
+        person: @person,
+        subject: email.subject,
+        body: sanitize_html(email.body),
+        messaged_at: Time.zone.now,
+        data: {
+          had_attachments: mail.has_attachments?,
+          template_key: @communication_template&.key,
+          mail: email.encoded,
+        },
+      )
   end
 
   def sanitize_html(doc)

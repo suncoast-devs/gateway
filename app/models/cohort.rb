@@ -8,16 +8,16 @@ class Cohort < ApplicationRecord
   end
 
   def alt_display_name
-    if name == 'Future'
-      display_name
-    else
-      "#{name} (#{begins_on ? begins_on.strftime('%B %Y') : 'TBD'})"
-    end
+    name == 'Future' ? display_name : "#{display_name} (#{display_date})"
   end
 
   def tuition_due_date
     days_before = (begins_on.wday + 1) % 5 + 1
     begins_on - days_before
+  end
+
+  def display_date
+    begins_on ? begins_on.strftime('%B %Y') : 'TBD'
   end
 
   def to_liquid

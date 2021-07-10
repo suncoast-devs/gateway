@@ -12,15 +12,18 @@ class ApplyController < ApplicationController
   #   "phone_number": "(727) 555-1234"
   # }
   def create
-    @person = Person.where('lower(email_address) = ?', params[:email_address].downcase).first_or_create do |person|
-      person.email_address = params[:email_address]
-      person.phone_number = params[:phone_number]
-      person.given_name = params[:given_name]
-      person.middle_name = params[:middle_name]
-      person.family_name = params[:family_name]
-      person.client_ip_address = request.remote_ip
-      person.source = 'Web Development Program Application'
-    end
+    @person =
+      Person
+        .where('lower(email_address) = ?', params[:email_address].downcase)
+        .first_or_create do |person|
+          person.email_address = params[:email_address]
+          person.phone_number = params[:phone_number]
+          person.given_name = params[:given_name]
+          person.middle_name = params[:middle_name]
+          person.family_name = params[:family_name]
+          person.client_ip_address = request.remote_ip
+          person.source = 'Web Development Program Application'
+        end
     @program_application = @person.program_applications.create! create_params
     render json: { id: @program_application.id }
   end
@@ -40,7 +43,7 @@ class ApplyController < ApplicationController
       CreateProgramEnrollment.call_later(@program_application)
       publish_event :complete_application, @program_application
     end
-    
+
     render json: { ok: true }
   end
 
@@ -48,14 +51,16 @@ class ApplyController < ApplicationController
     @program_application = ProgramApplication.find params[:id]
 
     render json: {
-      token: @program_application.id,
-      responses: @program_application.question_responses,
-      contact: { given_name: @program_application.person.given_name,
-                 middle_name: @program_application.person.middle_name,
-                 family_name: @program_application.person.family_name,
-                 email_address: @program_application.person.email_address,
-                 phone_number: @program_application.person.phone_number },
-    }
+             token: @program_application.id,
+             responses: @program_application.question_responses,
+             contact: {
+               given_name: @program_application.person.given_name,
+               middle_name: @program_application.person.middle_name,
+               family_name: @program_application.person.family_name,
+               email_address: @program_application.person.email_address,
+               phone_number: @program_application.person.phone_number,
+             },
+           }
   end
 
   private

@@ -5,7 +5,7 @@ class PeopleController < ApplicationController
   include Pagy::Backend
 
   before_action :authenticate!
-  before_action :find_person, only: [:show, :edit, :update, :destroy]
+  before_action :find_person, only: %i[show edit update destroy]
 
   def index
     @query = params[:q]
@@ -50,13 +50,13 @@ class PeopleController < ApplicationController
   end
 
   def destroy
-    if @person.discarded? 
+    if @person.discarded?
       @person.undiscard!
     else
       @person.update(close_lead: nil, close_contact: nil)
       @person.discard
     end
-    
+
     redirect_back(fallback_location: @person, notice: "#{@person.full_name} discarded.")
   end
 
@@ -67,7 +67,20 @@ class PeopleController < ApplicationController
   end
 
   def person_params
-    params.require(:person).permit(:given_name, :family_name, :full_name, :email_address, :phone_number, :source, 
-:preferred_communication, :shirt_size, :dietary_note, :close_lead, :close_contact)
+    params
+      .require(:person)
+      .permit(
+        :given_name,
+        :family_name,
+        :full_name,
+        :email_address,
+        :phone_number,
+        :source,
+        :preferred_communication,
+        :shirt_size,
+        :dietary_note,
+        :close_lead,
+        :close_contact,
+      )
   end
 end

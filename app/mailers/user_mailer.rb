@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class UserMailer < ApplicationMailer
-
   def notification_email
     @notification = params[:notification]
     @event = @notification.event

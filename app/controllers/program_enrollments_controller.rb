@@ -19,11 +19,12 @@ class ProgramEnrollmentsController < ApplicationController
     scope = scope.where(stage: @stage.split(',')) if @stage.present?
 
     unless @cohort.nil?
-      scope = if @cohort.blank?
-        scope.where(cohort_id: nil)
-      else
-        scope.joins(:cohort).merge(Cohort.where(name: @cohort.split(',')))
-              end
+      scope =
+        if @cohort.blank?
+          scope.where(cohort_id: nil)
+        else
+          scope.joins(:cohort).merge(Cohort.where(name: @cohort.split(',')))
+        end
     end
 
     @pagy, @program_enrollments = pagy(scope)
@@ -39,7 +40,7 @@ class ProgramEnrollmentsController < ApplicationController
     if program_enrollment_params[:person_id] != @program_enrollment.person_id
       @program_enrollment.program_applications.update_all(person_id: program_enrollment_params[:person_id])
     end
-    @program_enrollment.update program_enrollment_params 
+    @program_enrollment.update program_enrollment_params
 
     SendLeadToClose.call_later(@program_enrollment.person)
     redirect_to @program_enrollment.person
@@ -52,7 +53,21 @@ class ProgramEnrollmentsController < ApplicationController
   end
 
   def program_enrollment_params
-    params.require(:program_enrollment).permit(:person_id, :cohort_id, :stage, :status, :deposit_required, 
-:deposit_paid, :enrollment_agreement_complete, :financial_clearance, :lost_reason, :academic_signoff, :administrative_signoff, :close_opportunity)
+    params
+      .require(:program_enrollment)
+      .permit(
+        :person_id,
+        :cohort_id,
+        :stage,
+        :status,
+        :deposit_required,
+        :deposit_paid,
+        :enrollment_agreement_complete,
+        :financial_clearance,
+        :lost_reason,
+        :academic_signoff,
+        :administrative_signoff,
+        :close_opportunity,
+      )
   end
 end

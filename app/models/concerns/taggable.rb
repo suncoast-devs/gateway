@@ -12,18 +12,14 @@ module Taggable
   end
 
   def tag_list=(names)
-    self.tags = names.split(',').map do |name|
-      Tag.where(name: name.strip).first_or_create!
-    end
+    self.tags = names.split(',').map { |name| Tag.where(name: name.strip).first_or_create! }
   end
 
   def merge_tags(new_names)
     tag_names = tags.map(&:name)
     new_names = names.split(',')
 
-    self.tags = (tag_names + new_names).uniq.map do |name|
-      Tag.where(name: name.strip).first_or_create!
-    end
+    self.tags = (tag_names + new_names).uniq.map { |name| Tag.where(name: name.strip).first_or_create! }
   end
 
   module ClassMethods

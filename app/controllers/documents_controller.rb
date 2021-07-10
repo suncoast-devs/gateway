@@ -6,8 +6,8 @@ class DocumentsController < ApplicationController
 
   before_action :authenticate!
   before_action :find_person
-  before_action :find_document, only: [:show, :edit, :update, :destroy]
-  
+  before_action :find_document, only: %i[show edit update destroy]
+
   def show; end
 
   def edit; end
@@ -17,9 +17,7 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    @document = @person.documents.create(document_params) do |document|
-      document.user = current_user
-    end
+    @document = @person.documents.create(document_params) { |document| document.user = current_user }
 
     if @document.save
       redirect_to [@person, @document], notice: 'Document uploaded.'

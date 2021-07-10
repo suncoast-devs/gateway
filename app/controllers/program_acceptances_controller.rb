@@ -6,7 +6,7 @@ class ProgramAcceptancesController < ApplicationController
 
   before_action :authenticate!
   before_action :find_program_enrollment
-  before_action :find_program_acceptance, only: [:show, :edit, :update, :deliver]
+  before_action :find_program_acceptance, only: %i[show edit update deliver]
 
   def new
     @program_acceptance = @program_enrollment.program_acceptances.new

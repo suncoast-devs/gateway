@@ -36,6 +36,6 @@ class InvoicesController < ApplicationController
   private
 
   def invoice_params
-    params.require(:invoice).permit(:person_id, :due_on, invoice_items_attributes: [:description, :quantity, :amount])
+    params.require(:invoice).permit(:person_id, :due_on, invoice_items_attributes: %i[description quantity amount])
   end
 end

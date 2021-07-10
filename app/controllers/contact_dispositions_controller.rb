@@ -5,9 +5,10 @@ class ContactDispositionsController < ApplicationController
   before_action :find_person
 
   def create
-    @contact_disposition = @person.contact_dispositions.create(contact_disposition_params) do |contact_disposition|
-      contact_disposition.user = current_user
-    end
+    @contact_disposition =
+      @person
+        .contact_dispositions
+        .create(contact_disposition_params) { |contact_disposition| contact_disposition.user = current_user }
 
     redirect_back fallback_location: @person, notice: 'Contact disposition recorded.'
   end

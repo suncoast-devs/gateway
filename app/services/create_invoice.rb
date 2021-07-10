@@ -19,11 +19,12 @@ class CreateInvoice
         description: item.description,
       )
     end
-    invoice = Stripe::Invoice.create(
-      customer: customer_id,
-      billing: 'send_invoice',
-      due_date: @invoice.due_on.future? ? @invoice.due_on.to_time.to_i : 7.days.from_now.to_i,
-    ).send_invoice
+    invoice =
+      Stripe::Invoice.create(
+        customer: customer_id,
+        billing: 'send_invoice',
+        due_date: @invoice.due_on.future? ? @invoice.due_on.to_time.to_i : 7.days.from_now.to_i,
+      ).send_invoice
     @invoice.update(stripe_id: invoice.id, payment_url: invoice.hosted_invoice_url)
   end
 
@@ -33,13 +34,11 @@ class CreateInvoice
     return @customer_id if @customer_id
 
     customers = Stripe::Customer.list(email: @invoice.person.email_address)
-    @customer_id = if customers.data.empty?
-                     Stripe::Customer.create(
-                       email: @invoice.person.email_address,
-                       description: @invoice.person.full_name,
-                     ).id
-                   else
-                     customers.data.first.id
-                   end
+    @customer_id =
+      if customers.data.empty?
+        Stripe::Customer.create(email: @invoice.person.email_address, description: @invoice.person.full_name).id
+      else
+        customers.data.first.id
+      end
   end
 end

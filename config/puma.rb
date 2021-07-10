@@ -10,6 +10,4 @@ pidfile ENV.fetch('PIDFILE', 'tmp/pids/server.pid')
 
 preload_app!
 
-on_worker_boot do
-  ActiveRecord::Base.establish_connection
-end
+on_worker_boot { ActiveRecord::Base.establish_connection }

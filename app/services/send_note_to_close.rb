@@ -13,11 +13,7 @@ class SendNoteToClose
     return if note.close_note.present?
     return unless person.present? && person.close_lead.present?
 
-    params = {
-      note: note.message,
-      lead_id: person.close_lead,
-      date_created: note.created_at.iso8601,
-    }
+    params = { note: note.message, lead_id: person.close_lead, date_created: note.created_at.iso8601 }
 
     if note.user.close_user.present?
       params[:user_id] = note.user.close_user

@@ -5,7 +5,7 @@ class CoursesController < ApplicationController
   include Pagy::Backend
 
   before_action :authenticate!
-  before_action :find_course, only: [:show, :edit, :update, :destroy]
+  before_action :find_course, only: %i[show edit update destroy]
 
   def index
     scope = Course.order(starts_on: :desc)
