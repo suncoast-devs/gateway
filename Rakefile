@@ -7,9 +7,11 @@ require_relative 'config/application'
 
 Rails.application.load_tasks
 
-require 'rubocop/rake_task'
+unless Rails.env.production?
+  require 'rubocop/rake_task'
 
-RuboCop::RakeTask.new do |task|
-  task.requires << 'rubocop-rails'
-  task.requires << 'rubocop-rspec'
+  RuboCop::RakeTask.new do |task|
+    task.requires << 'rubocop-rails'
+    task.requires << 'rubocop-rspec'
+  end
 end
