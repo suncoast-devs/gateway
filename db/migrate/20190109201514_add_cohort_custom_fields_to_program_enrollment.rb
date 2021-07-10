@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddCohortCustomFieldsToProgramEnrollment < ActiveRecord::Migration[5.2]
   def change
     add_column :program_enrollments, :ac_cohort_start_date_field, :string

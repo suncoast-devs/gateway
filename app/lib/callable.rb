@@ -10,11 +10,11 @@ module Callable
     end
 
     def call_later(*args)
-      AsyncServiceJob.perform_later(self.name, *args)
+      AsyncServiceJob.perform_later(name, *args)
     end
 
     def call_in(period, *args)
-      AsyncServiceJob.set(wait: period).perform_later(self.name, *args)
+      AsyncServiceJob.set(wait: period).perform_later(name, *args)
     end
   end
 end

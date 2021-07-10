@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PersonMailerPreview < ActionMailer::Preview
   def communication_template_email
     person = Person.find(params[:person_id])

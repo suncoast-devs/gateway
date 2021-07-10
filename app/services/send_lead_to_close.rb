@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class SendLeadToClose
   include Callable
 
@@ -9,15 +10,13 @@ class SendLeadToClose
     # return unless Rails.env.production?
     if @person.close_lead.present?
       Close::API.put("lead/#{@person.close_lead}", lead_params)
-      if @person.close_contact.present?
-        Close::API.put("lead/#{@person.close_contact}", contact_params)
-      end
+      Close::API.put("lead/#{@person.close_contact}", contact_params) if @person.close_contact.present?
     else
-      lead = Close::API.post("lead", create_lead_params)
-      if lead["id"]
+      lead = Close::API.post('lead', create_lead_params)
+      if lead['id']
         @person.update({
-          close_lead: lead["id"],
-          close_contact: lead.dig("contacts", 0, "id"),
+          close_lead: lead['id'],
+          close_contact: lead.dig('contacts', 0, 'id'),
         })  
       end
     end
@@ -28,10 +27,10 @@ class SendLeadToClose
       if program_enrollment.close_opportunity.present?
         Close::API.put("opportunity/#{program_enrollment.close_opportunity}", opportunity_params)
       else
-        opportunity = Close::API.post("opportunity", create_opportunity_params)
-        if opportunity["id"]
+        opportunity = Close::API.post('opportunity', create_opportunity_params)
+        if opportunity['id']
           program_enrollment.update({
-            close_opportunity: opportunity["id"],
+            close_opportunity: opportunity['id'],
           })
         end
       end
@@ -42,7 +41,7 @@ class SendLeadToClose
 
   def create_lead_params
     params = lead_params
-    params["contacts"] = [contact_params]
+    params['contacts'] = [contact_params]
     params
   end
 
@@ -67,7 +66,7 @@ class SendLeadToClose
       "custom.#{Close::GATEWAY_FIELD}": @person.id,
       "status_id": Close::LEAD_STATUS[status_keys.last]
     }
-    if @person.current_program_enrollment && @person.current_program_enrollment.cohort
+    if @person.current_program_enrollment&.cohort
       params["custom.#{Close::COHORT_FIELD}"] = @person.current_program_enrollment.cohort.name
     end
     params
@@ -75,7 +74,7 @@ class SendLeadToClose
 
   def create_opportunity_params
     params = opportunity_params
-    params["lead_id"] = @person.close_lead
+    params['lead_id'] = @person.close_lead
     params
   end
 
@@ -84,11 +83,11 @@ class SendLeadToClose
     params = {
       "status_id": status,
       "value": 14_900 * 100,
-      "value_period": "one_time",
+      "value_period": 'one_time',
     }
 
-    if status == "Enrolled" && @person.current_program_enrollment
-      params["date_won"] = @person.current_program_enrollment.cohort&.begins_on
+    if status == 'Enrolled' && @person.current_program_enrollment
+      params['date_won'] = @person.current_program_enrollment.cohort&.begins_on
     end
 
     params
@@ -96,29 +95,29 @@ class SendLeadToClose
 
   def status_keys
     pe = @person.current_program_enrollment
-    return ["Prospecting", "Potential"] unless pe
+    return ['Prospecting', 'Potential'] unless pe
 
     if pe.active?
       case pe.stage
-      when "applied" then return ["Applied", "Interested"]
-      when "interviewing" then return ["Interviewing", "Interested"]
-      when "accepted" then return ["Accepted", "Qualified"]
-      when "enrolling" then return ["Enrolling", "Qualified"]
-      when "enrolled" then return ["Enrolling", "Qualified"]
-      else return ["Prospecting", "Potential"]
+      when 'applied' then return ['Applied', 'Interested']
+      when 'interviewing' then return ['Interviewing', 'Interested']
+      when 'accepted' then return ['Accepted', 'Qualified']
+      when 'enrolling' then return ['Enrolling', 'Qualified']
+      when 'enrolled' then return ['Enrolling', 'Qualified']
+      else return ['Prospecting', 'Potential']
       end
     elsif pe.won?
-      return ["Enrolled", "Customer"]
+      return ['Enrolled', 'Customer']
     elsif pe.lost?
       case pe.stage
-      when "applied" then return ["Lost", "Interested"]
-      when "interviewing" then return ["Lost", "Interested"]
-      when "accepted" then return ["Lost", "Qualified"]
-      when "enrolling" then return ["Lost", "Qualified"]
-      when "enrolled" then return ["Lost", "Qualified"]
-      else return ["Lost", "Potential"]
+      when 'applied' then return ['Lost', 'Interested']
+      when 'interviewing' then return ['Lost', 'Interested']
+      when 'accepted' then return ['Lost', 'Qualified']
+      when 'enrolling' then return ['Lost', 'Qualified']
+      when 'enrolled' then return ['Lost', 'Qualified']
+      else return ['Lost', 'Potential']
       end
     end
-    return ["Prospecting", "Potential"]
+    ['Prospecting', 'Potential']
   end
 end

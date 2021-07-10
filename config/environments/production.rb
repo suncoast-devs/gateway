@@ -5,7 +5,7 @@ Rails.application.configure do
   config.eager_load = true
   config.consider_all_requests_local = false
   config.action_controller.perform_caching = true
-  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
   config.active_storage.service = :amazon
   config.log_level = :debug
   config.log_tags = [:request_id]
@@ -15,8 +15,8 @@ Rails.application.configure do
   config.force_ssl = true
   config.action_mailer.show_previews = true
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger = ActiveSupport::Logger.new(STDOUT)
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
+    logger = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
@@ -24,4 +24,4 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 end
 
-Rails.application.routes.default_url_options[:host] = "gateway.suncoast.io"
+Rails.application.routes.default_url_options[:host] = 'gateway.suncoast.io'

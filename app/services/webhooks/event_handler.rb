@@ -1,14 +1,15 @@
+# frozen_string_literal: true
 module Webhooks
   class EventHandler
     include Callable
 
     HANDLERS = {
-      "calendly" => Calendly,
-      "close" => Close,
-      "esignatures" => Esignatures,
-      "postmark" => Postmark,
-      "stripe" => Stripe,
-    }
+      'calendly' => Calendly,
+      'close' => Close,
+      'esignatures' => Esignatures,
+      'postmark' => Postmark,
+      'stripe' => Stripe,
+    }.freeze
 
     def initialize(webhook_event)
       @webhook_event = webhook_event
@@ -19,7 +20,7 @@ module Webhooks
 
     def call
       @service.call(@payload)
-      @webhook_event.update(executed_at: Time.now)
+      @webhook_event.update(executed_at: Time.zone.now)
     end
   end
 end

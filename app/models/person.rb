@@ -13,13 +13,13 @@ class Person < ApplicationRecord
   has_many :documents
   has_many :contact_dispositions
   has_many :communications
-  belongs_to :last_contact_disposition, class_name: "ContactDisposition", optional: true
-  belongs_to :last_communication, class_name: "Communication", optional: true
-  belongs_to :merged_person, class_name: "Person", optional: true
+  belongs_to :last_contact_disposition, class_name: 'ContactDisposition', optional: true
+  belongs_to :last_communication, class_name: 'Communication', optional: true
+  belongs_to :merged_person, class_name: 'Person', optional: true
 
   delegate :current_program_acceptance, to: :current_program_enrollment, allow_nil: true
 
-  phony_normalize :phone_number, default_country_code: "US", normalize_when_valid: true
+  phony_normalize :phone_number, default_country_code: 'US', normalize_when_valid: true
 
   before_save :update_full_name
 
@@ -33,16 +33,16 @@ class Person < ApplicationRecord
   end
 
   def attempt_contact!
-    contact_dispositions.attempted.create! contacted_at: Time.now
+    contact_dispositions.attempted.create! contacted_at: Time.zone.now
   end
 
   def succeed_contact!
-    contact_dispositions.succeeded.create! contacted_at: Time.now
+    contact_dispositions.succeeded.create! contacted_at: Time.zone.now
   end
 
   private
 
   def update_full_name
-    self.full_name ||= [given_name, middle_name, family_name].join(" ").squeeze(" ")
+    self.full_name ||= [given_name, middle_name, family_name].join(' ').squeeze(' ')
   end
 end

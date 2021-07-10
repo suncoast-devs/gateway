@@ -17,6 +17,6 @@ class WebhookEventsController < ApplicationController
   def replay
     @webhook_event = WebhookEvent.find(params[:id])
     Webhooks::EventHandler.call_later(@webhook_event)
-    redirect_to @webhook_event, notice: "Replayed Webhook Event"
+    redirect_to @webhook_event, notice: 'Replayed Webhook Event'
   end
 end

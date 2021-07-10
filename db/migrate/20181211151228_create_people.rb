@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreatePeople < ActiveRecord::Migration[5.2]
   def change
     create_table :people do |t|
@@ -16,7 +17,7 @@ class CreatePeople < ActiveRecord::Migration[5.2]
     ProgramApplication.reset_column_information
     Person.reset_column_information
 
-    say "Migrating existing program applications."
+    say 'Migrating existing program applications.'
 
     ProgramApplication.all.each do |program_application|
       say program_application.full_name, :subitem

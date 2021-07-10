@@ -12,8 +12,7 @@ class CohortsController < ApplicationController
     @pagy, @cohorts = pagy(scope)
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @cohort = Cohort.new
@@ -23,7 +22,7 @@ class CohortsController < ApplicationController
     @cohort = Cohort.new(cohort_params)
 
     if @cohort.save
-      redirect_to cohorts_path, notice: "Cohort created."
+      redirect_to cohorts_path, notice: 'Cohort created.'
     else
       render :new
     end
@@ -31,7 +30,7 @@ class CohortsController < ApplicationController
 
   def update
     if @cohort.update(cohort_params)
-      redirect_to cohorts_path, notice: "Cohort updated."
+      redirect_to cohorts_path, notice: 'Cohort updated.'
     else
       render :edit
     end
@@ -39,7 +38,7 @@ class CohortsController < ApplicationController
 
   def destroy
     @cohort.destroy
-    redirect_to cohorts_path, notice: "Cohort destroyed."
+    redirect_to cohorts_path, notice: 'Cohort destroyed.'
   end
 
   private

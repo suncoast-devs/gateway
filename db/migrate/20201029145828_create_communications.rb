@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateCommunications < ActiveRecord::Migration[6.0]
   def change
     create_table :communications do |t|
@@ -7,7 +8,7 @@ class CreateCommunications < ActiveRecord::Migration[6.0]
       t.boolean :is_unread, null: false, default: true
       t.text :subject
       t.text :body
-      t.jsonb :data, default: "{}", null: false
+      t.jsonb :data, default: '{}', null: false
       t.timestamp :messaged_at
 
       t.timestamps

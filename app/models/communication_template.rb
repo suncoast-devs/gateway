@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 class CommunicationTemplate < ApplicationRecord
   belongs_to :user
-  enum media: %i[simple_email branded_email sms]
+  enum media: {simple_email: 0, branded_email: 1, sms: 2}
 
   validates :name, presence: true
   validates :body, presence: true
@@ -19,7 +20,8 @@ class CommunicationTemplate < ApplicationRecord
     mail = PersonMailer.with(communication_template: self, person: person).communication_template_email.deliver
 
     if persisted?
-      person.notes.create note_type: "email-event", message: "Sent #{name} email to #{person.given_name}.", data: { communication_template_id: self.id }
+      person.notes.create note_type: 'email-event', message: "Sent #{name} email to #{person.given_name}.", 
+data: { communication_template_id: id }
     end
 
     person.attempt_contact!

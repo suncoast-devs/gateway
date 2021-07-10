@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Webhooks
   class Stripe
     include Callable
@@ -12,11 +13,11 @@ module Webhooks
       @invoice = Invoice.where(stripe_id: params[:data][:object][:id]).first
       if @invoice
         case params[:type]
-        when "invoice.payment_succeeded"
-          @invoice.notes.create note_type: "invoice-event", message: "Payment suceeded.", data: @params
+        when 'invoice.payment_succeeded'
+          @invoice.notes.create note_type: 'invoice-event', message: 'Payment suceeded.', data: @params
           InvoicePaymentHandler.call_later(@invoice)
-        when "invoice.payment_failed"
-          @invoice.notes.create note_type: "invoice-event", message: "Payment failed.", data: @params
+        when 'invoice.payment_failed'
+          @invoice.notes.create note_type: 'invoice-event', message: 'Payment failed.', data: @params
         end
       end
     end

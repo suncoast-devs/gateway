@@ -14,7 +14,7 @@ class NotesController < ApplicationController
     SendNoteToClose.call_later @note
     publish_event :create_note, @note
 
-    redirect_back fallback_location: @person, notice: "Note created."
+    redirect_back fallback_location: @person, notice: 'Note created.'
   end
 
   def update
@@ -24,7 +24,7 @@ class NotesController < ApplicationController
 
   def destroy
     @note.destroy
-    redirect_back fallback_location: @person, notice: "Note destroyed."
+    redirect_back fallback_location: @person, notice: 'Note destroyed.'
   end
 
   private

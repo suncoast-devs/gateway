@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'simplecov'
 require 'simplecov-lcov'
 SimpleCov.start { add_filter '/spec/' }
@@ -21,14 +22,12 @@ RSpec.configure do |config|
   # = end
 
   config.disable_monkey_patching!
-  config.example_status_persistence_file_path = "spec/examples.txt"
+  config.example_status_persistence_file_path = 'spec/examples.txt'
   config.filter_run_when_matching :focus
   config.order = :random
   config.profile_examples = 10
 
-  if config.files_to_run.one?
-    config.default_formatter = "doc"
-  end
+  config.default_formatter = 'doc' if config.files_to_run.one?
 
   Kernel.srand config.seed
 end

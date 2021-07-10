@@ -11,7 +11,7 @@ class ProgramApplication < ApplicationRecord
   scope :visible, -> { where(is_hidden: false) }
   scope :hidden, -> { where(is_hidden: true) }
 
-  enum application_status: %i[incomplete complete], _prefix: "application"
+  enum application_status: {incomplete: 0, complete: 1}, _prefix: 'application'
 
   def ac_continue_application_url_value
     continue_url || begin

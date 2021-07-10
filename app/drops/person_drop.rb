@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PersonDrop < Liquid::Drop
   
   delegate :full_name, :email_address, :phone_number,

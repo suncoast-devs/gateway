@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CohortDrop < Liquid::Drop
   
   delegate :name, :display_name, :is_enrolling, :tuition_due_date,

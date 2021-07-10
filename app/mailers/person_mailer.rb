@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 class PersonMailer < ApplicationMailer
-  layout "branded_email"
+  layout 'branded_email'
 
   after_action :record_communication
 
@@ -13,7 +14,7 @@ class PersonMailer < ApplicationMailer
     mail(to: "#{@person.full_name} <#{@person.email_address}>",
          bcc: Rails.application.credentials.close_email,
          subject: "You're registered for #{@course.name} with Suncoast Developers Guild",
-         track_opens: "true")
+         track_opens: 'true')
   end
 
   def communication_template_email
@@ -25,20 +26,18 @@ class PersonMailer < ApplicationMailer
 
     message_id = replied_message_id(@person, subject)
 
-    if message_id
-      headers({ "References" => message_id, "In-Reply-To" => message_id })
-    end
+    headers({ 'References' => message_id, 'In-Reply-To' => message_id }) if message_id
 
     # FIXME: This is kind of a hack, is there better way to do this in communication template maybe?
-    if @communication_template.key === "acceptance-letter"
-      attachments["Program Catalog.pdf"] = File.read(Rails.root.join("app/assets/CATALOG.pdf"))
+    if @communication_template.key === 'acceptance-letter'
+      attachments['Program Catalog.pdf'] = File.read(Rails.root.join('app/assets/CATALOG.pdf'))
     end
 
     # if Truemail.valid? @person.email_address
     mail(to: "#{@person.full_name} <#{@person.email_address}>",
          bcc: Rails.application.credentials.close_email,
          subject: subject,
-         track_opens: "true") do |format|
+         track_opens: 'true') do |format|
       format.html { render layout: @communication_template.media, html: body }
     end
     # end
@@ -47,11 +46,11 @@ class PersonMailer < ApplicationMailer
   private
 
   def replied_message_id(person, subject)
-    original_subject = subject.sub(/^(Re|Fwd): ?/i, "")
+    original_subject = subject.sub(/^(Re|Fwd): ?/i, '')
     communication = person.communications.email.where(subject: [original_subject, subject].uniq).recent.first
     if communication.present?
-      previous_mail = Mail.new(communication.data["mail"])
-      return previous_mail.message_id
+      previous_mail = Mail.new(communication.data['mail'])
+      previous_mail.message_id
     end
   end
 
@@ -63,7 +62,7 @@ class PersonMailer < ApplicationMailer
       person: @person,
       subject: email.subject,
       body: sanitize_html(email.body),
-      messaged_at: Time.now,
+      messaged_at: Time.zone.now,
       data: {
         had_attachments: mail.has_attachments?,
         template_key: @communication_template&.key,
@@ -73,6 +72,6 @@ class PersonMailer < ApplicationMailer
   end
 
   def sanitize_html(doc)
-    ActionController::Base.helpers.strip_tags(doc.to_s.gsub(/<title>.*<\/title>/, "")).squish
+    ActionController::Base.helpers.strip_tags(doc.to_s.gsub(%r{<title>.*</title>}, '')).squish
   end
 end

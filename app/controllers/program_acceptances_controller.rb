@@ -27,8 +27,7 @@ class ProgramAcceptancesController < ApplicationController
     redirect_to @program_enrollment.person
   end
 
-  def show
-  end
+  def show; end
 
   private
 

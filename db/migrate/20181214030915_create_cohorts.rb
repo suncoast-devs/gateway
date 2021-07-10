@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateCohorts < ActiveRecord::Migration[5.2]
   def change
     create_table :cohorts do |t|

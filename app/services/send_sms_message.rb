@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class SendSMSMessage
   include Callable
 
@@ -11,9 +12,9 @@ class SendSMSMessage
   end
 
   def call
-    Close::API.post("activity/sms", {
-      status: "outbox",
-      local_phone: "+17272357925",
+    Close::API.post('activity/sms', {
+      status: 'outbox',
+      local_phone: '+17272357925',
       remote_phone: phone_number,
       text: message,
       contact_id: contact_id,

@@ -42,17 +42,17 @@ group :development do
   gem 'awesome_print'
   gem 'byebug'
   gem 'listen'
+  gem 'prettier'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
-  gem 'prettier'
   gem 'web-console', '>= 3.3.0'
 end
 
 group :test do
   gem 'rspec'
-  gem 'rspec-rails'
   gem 'rspec_junit_formatter'
+  gem 'rspec-rails'
   gem 'simplecov'
   gem 'simplecov-lcov'
 end

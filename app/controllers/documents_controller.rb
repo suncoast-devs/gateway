@@ -8,11 +8,9 @@ class DocumentsController < ApplicationController
   before_action :find_person
   before_action :find_document, only: [:show, :edit, :update, :destroy]
   
-  def show
-  end
+  def show; end
 
-  def edit
-  end
+  def edit; end
 
   def new
     @document = @person.documents.new
@@ -24,7 +22,7 @@ class DocumentsController < ApplicationController
     end
 
     if @document.save
-      redirect_to [@person, @document], notice: "Document uploaded."
+      redirect_to [@person, @document], notice: 'Document uploaded.'
     else
       render :new
     end
@@ -32,12 +30,12 @@ class DocumentsController < ApplicationController
 
   def update
     @document.update document_params
-    redirect_to [@person, @document], notice: "Document updated."
+    redirect_to [@person, @document], notice: 'Document updated.'
   end
 
   def destroy
     @document.destroy
-    redirect_to @person, notice: "Document destroyed."
+    redirect_to @person, notice: 'Document destroyed.'
   end
 
   private

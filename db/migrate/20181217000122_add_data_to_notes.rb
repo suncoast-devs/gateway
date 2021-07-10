@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddDataToNotes < ActiveRecord::Migration[5.2]
   def change
     add_column :notes, :data, :jsonb, null: false, default: '{}'

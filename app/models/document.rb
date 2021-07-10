@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Document < ApplicationRecord
   belongs_to :person
   belongs_to :user, optional: true

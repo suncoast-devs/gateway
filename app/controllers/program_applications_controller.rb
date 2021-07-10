@@ -12,12 +12,12 @@ class ProgramApplicationsController < ApplicationController
 
     scope = ProgramApplication.joins(:person).order(created_at: :desc)
 
-    if @query.present?
-      scope = scope.where("people.full_name ILIKE ?", "%#{@query}%")
+    scope = if @query.present?
+      scope.where('people.full_name ILIKE ?', "%#{@query}%")
     else
       # Only use this scope if search query isn't present (i.e., allow searching hidden applications)
-      scope = params[:hidden] ? scope.hidden : scope.visible
-    end
+      params[:hidden] ? scope.hidden : scope.visible
+            end
 
     @pagy, @program_applications = pagy(scope)
   end

@@ -12,8 +12,7 @@ class CoursesController < ApplicationController
     @pagy, @courses = pagy(scope)
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @course = Course.new
@@ -23,7 +22,7 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
-      redirect_to courses_path, notice: "Course created."
+      redirect_to courses_path, notice: 'Course created.'
     else
       render :new
     end
@@ -31,7 +30,7 @@ class CoursesController < ApplicationController
 
   def update
     if @course.update(course_params)
-      redirect_to courses_path, notice: "Course updated."
+      redirect_to courses_path, notice: 'Course updated.'
     else
       render :edit
     end
@@ -39,7 +38,7 @@ class CoursesController < ApplicationController
 
   def destroy
     @course.destroy
-    redirect_to courses_path, notice: "Course destroyed."
+    redirect_to courses_path, notice: 'Course destroyed.'
   end
 
   private

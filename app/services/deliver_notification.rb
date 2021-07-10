@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DeliverNotification
   include Callable
 
@@ -7,8 +8,6 @@ class DeliverNotification
 
   # TODO: Slack notifications, etc.
   def call
-    unless @notification.acknowledged_at
-      UserMailer.with(notification: @notification).notification_email.deliver_later
-    end
+    UserMailer.with(notification: @notification).notification_email.deliver_later unless @notification.acknowledged_at
   end
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Cohort < ApplicationRecord
   scope :enrolling, -> { where(is_enrolling: true).order(begins_on: :asc) }
   has_many :program_enrollments
@@ -7,10 +8,10 @@ class Cohort < ApplicationRecord
   end
 
   def alt_display_name
-    if name == "Future"
+    if name == 'Future'
       display_name
     else
-      "#{name} (#{begins_on ? begins_on.strftime("%B %Y") : "TBD"})"
+      "#{name} (#{begins_on ? begins_on.strftime('%B %Y') : 'TBD'})"
     end
   end
 

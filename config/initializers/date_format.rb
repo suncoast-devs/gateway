@@ -1,5 +1,6 @@
-SDG_DATE_FORMAT = "%a, %m/%d"
-SDG_TIME_FORMAT = "%a, %m/%d @ %l:%M %P"
+# frozen_string_literal: true
+SDG_DATE_FORMAT = '%a, %m/%d'
+SDG_TIME_FORMAT = '%a, %m/%d @ %l:%M %P'
 
 Time::DATE_FORMATS[:sdg_time] = SDG_TIME_FORMAT
 Time::DATE_FORMATS[:sdg_date] = SDG_DATE_FORMAT

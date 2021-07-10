@@ -27,7 +27,7 @@ class InvoicesController < ApplicationController
 
     if @invoice.save
       CreateInvoice.call_later @invoice.id
-      redirect_to @invoice, notice: "Invoice created."
+      redirect_to @invoice, notice: 'Invoice created.'
     else
       render :new
     end

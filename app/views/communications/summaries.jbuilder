@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 json.people @records do |person|
   communication = person.last_communication
 
@@ -14,9 +15,9 @@ json.people @records do |person|
 
     if communication.outgoing?
       if communication.user.present?
-        json.last_sender communication.user == current_user ? "You" : communication.user.first_name
+        json.last_sender communication.user == current_user ? 'You' : communication.user.first_name
       else
-        json.last_sender "SDG"
+        json.last_sender 'SDG'
       end
     else
       json.last_sender person.given_name

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ProgramEnrollmentDrop < Liquid::Drop
   
   delegate :program, :status_locator, :enrollment_agreement_complete?,

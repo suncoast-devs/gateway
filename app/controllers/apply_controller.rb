@@ -12,14 +12,14 @@ class ApplyController < ApplicationController
   #   "phone_number": "(727) 555-1234"
   # }
   def create
-    @person = Person.where("lower(email_address) = ?", params[:email_address].downcase).first_or_create do |person|
+    @person = Person.where('lower(email_address) = ?', params[:email_address].downcase).first_or_create do |person|
       person.email_address = params[:email_address]
       person.phone_number = params[:phone_number]
       person.given_name = params[:given_name]
       person.middle_name = params[:middle_name]
       person.family_name = params[:family_name]
       person.client_ip_address = request.remote_ip
-      person.source = "Web Development Program Application"
+      person.source = 'Web Development Program Application'
     end
     @program_application = @person.program_applications.create! create_params
     render json: { id: @program_application.id }
@@ -36,7 +36,7 @@ class ApplyController < ApplicationController
     @program_application.update update_params
     @program_application.person.update(contact_params)
 
-    if update_params[:application_status] == "complete" && @program_application.program == "web-development"
+    if update_params[:application_status] == 'complete' && @program_application.program == 'web-development'
       CreateProgramEnrollment.call_later(@program_application)
       publish_event :complete_application, @program_application
     end

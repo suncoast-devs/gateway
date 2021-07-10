@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 class ProgramEnrollment < ApplicationRecord
   include Discard::Model
   belongs_to :person
   belongs_to :cohort, optional: true
-  belongs_to :deposit_invoice, class_name: "Invoice", optional: true
+  belongs_to :deposit_invoice, class_name: 'Invoice', optional: true
   has_many :program_applications
   has_many :program_acceptances
 

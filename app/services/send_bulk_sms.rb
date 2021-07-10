@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class SendBulkSMS
   include Callable
 
@@ -13,16 +14,16 @@ class SendBulkSMS
     page = 0
 
     loop do
-      response = Close::API.get("lead", query: lead_query, _skip: page * size, _limit: size)
+      response = Close::API.get('lead', query: lead_query, _skip: page * size, _limit: size)
 
-      response["data"].each do |lead|
-        contact_id = lead.dig("contacts", 0, "id")
-        phone_number = lead.dig("contacts", 0, "phones", 0, "phone")
-        SendSMSMessage.call_later(lead["id"], contact_id, phone_number, message)
+      response['data'].each do |lead|
+        contact_id = lead.dig('contacts', 0, 'id')
+        phone_number = lead.dig('contacts', 0, 'phones', 0, 'phone')
+        SendSMSMessage.call_later(lead['id'], contact_id, phone_number, message)
       end
 
       page += 1
-      break unless response["has_more"]
+      break unless response['has_more']
     end
   end
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 json.id communication.id
 json.subject communication.subject
 json.body communication.body.truncate(500)

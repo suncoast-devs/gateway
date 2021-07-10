@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PersonTemplateRenderer
   def initialize(person, template, options = {})
     @template = Liquid::Template.parse(template)
@@ -24,10 +25,10 @@ class PersonTemplateRenderer
     program_acceptance = @person.current_program_acceptance
     cohort = program_enrollment&.cohort
     @params = {
-      "person" => @person,
-      "cohort" => cohort,
-      "enrollment" => program_enrollment,
-      "acceptance" => program_acceptance
+      'person' => @person,
+      'cohort' => cohort,
+      'enrollment' => program_enrollment,
+      'acceptance' => program_acceptance
     }
   end
 end

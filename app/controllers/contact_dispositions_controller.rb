@@ -9,13 +9,13 @@ class ContactDispositionsController < ApplicationController
       contact_disposition.user = current_user
     end
 
-    redirect_back fallback_location: @person, notice: "Contact disposition recorded."
+    redirect_back fallback_location: @person, notice: 'Contact disposition recorded.'
   end
 
   def destroy
     @contact_disposition = @person.contact_dispositions.find(params[:id])
     @contact_disposition.destroy
-    redirect_back fallback_location: @person, notice: "Contact disposition removed."
+    redirect_back fallback_location: @person, notice: 'Contact disposition removed.'
   end
 
   private

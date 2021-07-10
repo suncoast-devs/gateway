@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CourseRegistration < ApplicationRecord
   belongs_to :person
   belongs_to :course

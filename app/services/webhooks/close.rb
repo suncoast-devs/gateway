@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Webhooks
   class Close
     include Callable
@@ -14,14 +15,14 @@ module Webhooks
       action = event.action
       object_type = event.object_type
 
-      [object_type.parameterize.underscore, action].join("_")
+      [object_type.parameterize.underscore, action].join('_')
     end
 
     def call
       if respond_to? event_method
         send event_method
       else
-        raise "Unhandled Close event"
+        raise 'Unhandled Close event'
       end
     end
 
@@ -31,22 +32,22 @@ module Webhooks
 
     def opportunity_updated
       program_enrollment = ProgramEnrollment.where(close_opportunity: event.data.id).first
-      if event.changed_fields.include? "status_label"
+      if event.changed_fields.include? 'status_label'
         case event.data.status_label
-        when "Prospecting"
+        when 'Prospecting'
           # noop?
-        when "Applied"
+        when 'Applied'
           program_enrollment.applied!
-        when "Interviewing"
+        when 'Interviewing'
           program_enrollment.interviewing!
-        when "Accepted"
+        when 'Accepted'
           program_enrollment.accepted!
-        when "Enrolling"
+        when 'Enrolling'
           program_enrollment.enrolling!
-        when "Enrolled"
+        when 'Enrolled'
           program_enrollment.won!
           program_enrollment.enrolled!
-        when "Lost" then program_enrollment.lost!
+        when 'Lost' then program_enrollment.lost!
         end
       end
     end
@@ -60,7 +61,7 @@ module Webhooks
       user = User.where(close_user: event.data.user_id).first
       person = Person.where(close_lead: event.data.lead_id).first
       person.notes.create!({ user: user,
-                             note_type: "comment",
+                             note_type: 'comment',
                              message: event.data.note,
                              close_note: event.data.id })
     end
@@ -81,26 +82,27 @@ module Webhooks
 
     def lead_updated
       person = Person.where(close_lead: event.data.id).first
-      person.full_name = event.data.name if event.changed_fields.include? "name"
+      person.full_name = event.data.name if event.changed_fields.include? 'name'
 
       if person.current_program_enrollment.present?
         if event.changed_fields.include? "custom.#{::Close::COHORT_FIELD}"
-          cohort_name = @params.dig(:event, :data, "custom.lcf_c6w_g4_hg_xp_r_wz455_s_dezi3e_hi_n_na_r_mdty_r_uf_go_o5a_ziz", 0)
+          cohort_name = @params.dig(:event, :data, 
+'custom.lcf_c6w_g4_hg_xp_r_wz455_s_dezi3e_hi_n_na_r_mdty_r_uf_go_o5a_ziz', 0)
           cohort = Cohort.where(name: cohort_name).first
           person.current_program_enrollment.update(cohort: cohort) if cohort
         end
 
-        if event.changed_fields.include? "status_label"
+        if event.changed_fields.include? 'status_label'
           case event.data.status_label
-          when "Bad Fit", "Not Interested"
+          when 'Bad Fit', 'Not Interested'
             person.current_program_enrollment.lost!
-          when "Canceled"
+          when 'Canceled'
             person.current_program_enrollment.canceled!
-          when "Potential"
-          when "Qualified"
-          when "Interested"
+          when 'Potential'
+          when 'Qualified'
+          when 'Interested'
             person.current_program_enrollment.active!
-          when "Customer"
+          when 'Customer'
             person.current_program_enrollment.won!
           end
           # Send any changes here back to close (to update the opportunity).
@@ -134,9 +136,9 @@ module Webhooks
 
     def contact_updated
       person = Person.where(close_contact: event.data.id).first
-      person.full_name = event.data.name if event.changed_fields.include? "name"
-      person.email_address = event.data.emails.first.email if event.changed_fields.include? "emails"
-      person.phone_number = event.data.phones.first.phone if event.changed_fields.include? "phones"
+      person.full_name = event.data.name if event.changed_fields.include? 'name'
+      person.email_address = event.data.emails.first.email if event.changed_fields.include? 'emails'
+      person.phone_number = event.data.phones.first.phone if event.changed_fields.include? 'phones'
       person.save
     end
 

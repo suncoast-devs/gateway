@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateProgramEnrollments < ActiveRecord::Migration[5.2]
   def change
     create_table :program_enrollments do |t|
@@ -26,24 +27,23 @@ class CreateProgramEnrollments < ActiveRecord::Migration[5.2]
     ProgramEnrollment.reset_column_information
 
     ProgramApplication.all.each do |app|
-      if app.program == "web-development"
-        say "Creating enrollment record for #{app.person.full_name}"
-        enrollment = ProgramEnrollment.new
-        enrollment.person = app.person
-        enrollment.program = app.program
+      next unless app.program == 'web-development'
+      say "Creating enrollment record for #{app.person.full_name}"
+      enrollment = ProgramEnrollment.new
+      enrollment.person = app.person
+      enrollment.program = app.program
 
-        if app.acceptance_sent?
-          enrollment.stage = 5
-        elsif app.interview_scheduled?
-          enrollment.stage = 4
-        else
-          enrollment.stage = 3
-        end
+      enrollment.stage = if app.acceptance_sent?
+        5
+      elsif app.interview_scheduled?
+        4
+      else
+        3
+                         end
 
-        if enrollment.save!
-          app.update(program_enrollment: enrollment)
-          app.program_acceptance.update(program_enrollment: enrollment) if app.program_acceptance
-        end
+      if enrollment.save!
+        app.update(program_enrollment: enrollment)
+        app.program_acceptance&.update(program_enrollment: enrollment)
       end
     end
   end

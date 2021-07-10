@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateProgramAcceptances < ActiveRecord::Migration[5.2]
   def change
     create_table :program_acceptances do |t|

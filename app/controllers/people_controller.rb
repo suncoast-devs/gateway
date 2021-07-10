@@ -11,7 +11,7 @@ class PeopleController < ApplicationController
     @query = params[:q]
     scope = Person.order(created_at: :desc)
     scope = params[:all] ? scope.all : scope.kept
-    scope = scope.where("full_name ILIKE ?", "%#{@query}%") if @query.present?
+    scope = scope.where('full_name ILIKE ?', "%#{@query}%") if @query.present?
 
     if params[:t].present?
       @tag = Tag.find(params[:t])
@@ -50,11 +50,11 @@ class PeopleController < ApplicationController
   end
 
   def destroy
-    unless @person.discarded?
+    if @person.discarded? 
+      @person.undiscard!
+    else
       @person.update(close_lead: nil, close_contact: nil)
       @person.discard
-    else 
-      @person.undiscard!
     end
     
     redirect_back(fallback_location: @person, notice: "#{@person.full_name} discarded.")
@@ -67,6 +67,7 @@ class PeopleController < ApplicationController
   end
 
   def person_params
-    params.require(:person).permit(:given_name, :family_name, :full_name, :email_address, :phone_number, :source, :preferred_communication, :shirt_size, :dietary_note, :close_lead, :close_contact)
+    params.require(:person).permit(:given_name, :family_name, :full_name, :email_address, :phone_number, :source, 
+:preferred_communication, :shirt_size, :dietary_note, :close_lead, :close_contact)
   end
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddExpandedNamesToPeople < ActiveRecord::Migration[5.2]
   def change
     add_column :people, :given_name, :string
@@ -15,7 +16,7 @@ class AddExpandedNamesToPeople < ActiveRecord::Migration[5.2]
         given_name: given_name,
         family_name: family_name,
         middle_name: middle_name,
-        client_ip_address: "127.0.0.1"
+        client_ip_address: '127.0.0.1'
       })
     end
   end

@@ -12,27 +12,27 @@ class CreateProgramAcceptance
   end
 
   def call
-    unless @program_acceptance.enrollment_agreement_url.present?
+    if @program_acceptance.enrollment_agreement_url.blank?
       CreateEnrollmentAgreement.call(@program_acceptance)
       @program_acceptance.reload
     end
 
-    unless @program_enrollment.deposit_invoice.present?
+    if @program_enrollment.deposit_invoice.present?
+      @invoice = @program_enrollment.deposit_invoice
+    else
       # Deposit Invoice
       due_date = [@cohort.tuition_due_date, 1.day.from_now].max
       @invoice = @person.invoices.create(due_on: due_date,
                                          invoice_items_attributes: [
-                                           { description: "Tuition Deposit", quantity: 1, amount: 1000 },
+                                           { description: 'Tuition Deposit', quantity: 1, amount: 1000 },
                                          ])
       CreateInvoice.call(@invoice.id)
       @invoice.reload
       @program_enrollment.update(deposit_invoice: @invoice)
-    else
-      @invoice = @program_enrollment.deposit_invoice
     end
 
-    mail = CommunicationTemplate.by_key("acceptance-letter")&.send_to(@person)
-    @program_acceptance.update sent_at: Time.now, message_id: mail.message_id
+    mail = CommunicationTemplate.by_key('acceptance-letter')&.send_to(@person)
+    @program_acceptance.update sent_at: Time.zone.now, message_id: mail.message_id
     @program_enrollment.accepted!
     SendLeadToClose.call_later(@person)
   end

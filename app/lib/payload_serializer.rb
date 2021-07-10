@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PayloadSerializer
   def self.dump(payload)
     ActiveJob::Arguments.serialize(Array(payload))

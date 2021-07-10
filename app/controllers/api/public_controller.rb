@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module API
   class PublicController < ApplicationController
     skip_before_action :verify_authenticity_token
@@ -18,7 +19,7 @@ module API
     #   }
     # ]
     def cohorts
-      @cohorts = Cohort.where "ends_on > ?", Date.today
+      @cohorts = Cohort.where 'ends_on > ?', Date.today
       render json: @cohorts
     end
   end

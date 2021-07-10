@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Provides a service for creating an enrollment agreement with the Eversign API
 class CreateCourseRegistrationInvoice
   include Callable
@@ -12,7 +13,8 @@ class CreateCourseRegistrationInvoice
     due_date = [@course_registration.course.starts_on - 7, 1.day.from_now].max
     invoice = @person.invoices.create(due_on: due_date,
                                       invoice_items_attributes: [
-                                        { description: "#{@course.name} (#{@course.session})", quantity: 1, amount: @course_registration.fee },
+                                        { description: "#{@course.name} (#{@course.session})", quantity: 1, 
+amount: @course_registration.fee },
                                       ])
     @course_registration.update(invoice: invoice)
     CreateInvoice.call(invoice.id)

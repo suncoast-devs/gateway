@@ -13,14 +13,15 @@ class CommunicationsController < ApplicationController
     if @person
       scope = @person.communications.order(messaged_at: :desc)
       @pagy, @records = pagy(scope)
-      render "thread"
+      render 'thread'
     else
       @query = params[:q]
-      scope = Person.left_outer_joins(:last_communication).includes(:last_communication).order(["last_communication_id IS NULL", "communications.messaged_at DESC"])
-      scope = scope.where("full_name ILIKE ?", "%#{@query}%") if @query.present?
+      scope = Person.left_outer_joins(:last_communication).includes(:last_communication).order([
+'last_communication_id IS NULL', 'communications.messaged_at DESC'])
+      scope = scope.where('full_name ILIKE ?', "%#{@query}%") if @query.present?
 
       @pagy, @records = pagy(scope, items: 16)
-      render "summaries"
+      render 'summaries'
     end
   end
 
@@ -29,7 +30,7 @@ class CommunicationsController < ApplicationController
     @communication = Communication.find(params[:id])
 
     if @communication.email?
-      mail = Mail.new(@communication.data["mail"])
+      mail = Mail.new(@communication.data['mail'])
       render html: mail.body.decoded.html_safe, layout: false
     else
       render nothing: true
@@ -37,8 +38,7 @@ class CommunicationsController < ApplicationController
   end
 
   # preview template
-  def new
-  end
+  def new; end
 
   # send message
   def create

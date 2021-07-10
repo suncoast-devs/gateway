@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class InvoiceItem < ApplicationRecord
   belongs_to :invoice
   validates :description, presence: true

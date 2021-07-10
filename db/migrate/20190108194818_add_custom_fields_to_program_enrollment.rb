@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddCustomFieldsToProgramEnrollment < ActiveRecord::Migration[5.2]
   def change
     add_column :program_enrollments, :ac_deposit_outstanding_field, :string

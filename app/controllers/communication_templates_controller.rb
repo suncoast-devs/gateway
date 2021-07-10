@@ -26,7 +26,7 @@ class CommunicationTemplatesController < ApplicationController
     end
 
     if @communication_template.save
-      redirect_to @communication_template, notice: "Communication Template created."
+      redirect_to @communication_template, notice: 'Communication Template created.'
     else
       render :new
     end
@@ -34,7 +34,7 @@ class CommunicationTemplatesController < ApplicationController
 
   def update
     if @communication_template.update(communication_template_params)
-      redirect_to @communication_template, notice: "Communication Template updated."
+      redirect_to @communication_template, notice: 'Communication Template updated.'
     else
       render :edit
     end
@@ -42,7 +42,7 @@ class CommunicationTemplatesController < ApplicationController
 
   def destroy
     @communication_template.destroy
-    redirect_to communication_templates_path, notice: "Communication Template destroyed."
+    redirect_to communication_templates_path, notice: 'Communication Template destroyed.'
   end
 
   private

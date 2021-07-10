@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ProgramAcceptance < ApplicationRecord
   include Discard::Model
   belongs_to :cohort

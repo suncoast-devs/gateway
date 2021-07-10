@@ -1,12 +1,12 @@
 # frozen_string_literal: true
-require "sidekiq/web"
+require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  resources :program_applications, only: %i[index show edit update], path: "apps"
-  resources :program_enrollments, only: %i[index show edit update], path: "enrollments" do
+  resources :program_applications, only: %i[index show edit update], path: 'apps'
+  resources :program_enrollments, only: %i[index show edit update], path: 'enrollments' do
     resources :program_acceptances, except: %i[index edit destroy] do
       member do
-        patch "deliver"
+        patch 'deliver'
       end
     end
   end
@@ -23,34 +23,34 @@ Rails.application.routes.draw do
   resources :courses
   resources :webhook_events, only: %i[index show] do
     member do
-      post "replay"
+      post 'replay'
     end
   end
 
   # Authentication
-  get "sign_out", to: "sessions#destroy"
-  get "auth/failure", to: redirect("/")
-  match "auth/:provider/callback", to: "sessions#create", via: %i[get post]
+  get 'sign_out', to: 'sessions#destroy'
+  get 'auth/failure', to: redirect('/')
+  match 'auth/:provider/callback', to: 'sessions#create', via: %i[get post]
 
-  mount Sidekiq::Web => "/sidekiq", constraints: lambda { |request| User.exists?(request.session[:user_id]) }
+  mount Sidekiq::Web => '/sidekiq', constraints: lambda { |request| User.exists?(request.session[:user_id]) }
 
   defaults format: :json do
-    post "apply", to: "apply#create"
-    patch "apply/:id", to: "apply#update"
-    get "apply/:id", to: "apply#continue"
-    post "lead", to: "hooks#lead"
+    post 'apply', to: 'apply#create'
+    patch 'apply/:id', to: 'apply#update'
+    get 'apply/:id', to: 'apply#continue'
+    post 'lead', to: 'hooks#lead'
 
     namespace :api do
-      post "register", to: "registration#create"
-      get "cohorts", to: "public#cohorts"
+      post 'register', to: 'registration#create'
+      get 'cohorts', to: 'public#cohorts'
 
-      post "webhooks/:name", to: "webhooks#index", as: "webhooks"
+      post 'webhooks/:name', to: 'webhooks#index', as: 'webhooks'
     end
 
     resources :communications, only: %i[index show new create]
   end
 
-  get "s/:locator", to: "student#status", as: :student_status
+  get 's/:locator', to: 'student#status', as: :student_status
 
-  root to: "home#index"
+  root to: 'home#index'
 end

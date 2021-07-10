@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class SendNoteToClose
   include Callable
 
@@ -24,7 +25,7 @@ class SendNoteToClose
       params[:note] = note.message + "\n\nOriginal note from #{note.user.name}."
     end
 
-    response = Close::API.post("activity/note", params)
-    note.update(close_note: response["id"])
+    response = Close::API.post('activity/note', params)
+    note.update(close_note: response['id'])
   end
 end

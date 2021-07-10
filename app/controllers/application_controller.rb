@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "pagy/extras/headers"
+require 'pagy/extras/headers'
 
 # :nodoc:
 class ApplicationController < ActionController::Base
@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   after_action { pagy_headers_merge(@pagy) if @pagy }
 
   def authenticate!
-    redirect_to :root, notice: "Authentication Required" unless signed_in?
+    redirect_to :root, notice: 'Authentication Required' unless signed_in?
   end
 
   def current_user
@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   helper_method :signed_in?
 
   def honey_pot
-    head :ok if params["contactMeOnlyByCarrierPigeon"]
+    head :ok if params['contactMeOnlyByCarrierPigeon']
   end
 
   def set_user_context
