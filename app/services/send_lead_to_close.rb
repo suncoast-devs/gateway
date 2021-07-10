@@ -47,15 +47,15 @@ class SendLeadToClose
 
   def contact_params
     {
-      "name": @person.full_name,
-      "emails": [
+      name: @person.full_name,
+      emails: [
         {
-          "email": @person.email_address,
+          email: @person.email_address,
         },
       ],
-      "phones": [
+      phones: [
         {
-          "phone": @person.phone_number,
+          phone: @person.phone_number,
         },
       ]
     }
@@ -64,7 +64,7 @@ class SendLeadToClose
   def lead_params
     params = {
       "custom.#{Close::GATEWAY_FIELD}": @person.id,
-      "status_id": Close::LEAD_STATUS[status_keys.last]
+      status_id: Close::LEAD_STATUS[status_keys.last]
     }
     if @person.current_program_enrollment&.cohort
       params["custom.#{Close::COHORT_FIELD}"] = @person.current_program_enrollment.cohort.name
@@ -81,9 +81,9 @@ class SendLeadToClose
   def opportunity_params
     status = Close::OPPORTUNITY_STATUSES[status_keys.first]
     params = {
-      "status_id": status,
-      "value": 14_900 * 100,
-      "value_period": 'one_time',
+      status_id: status,
+      value: 14_900 * 100,
+      value_period: 'one_time',
     }
 
     if status == 'Enrolled' && @person.current_program_enrollment

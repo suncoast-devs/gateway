@@ -9,6 +9,6 @@ class DoNothing
   end
 
   def call
-    Rails.logger.debug "Nothing has been done with #{@thing}"
+    Rails.logger.debug { "Nothing has been done with #{@thing}" }
   end
 end

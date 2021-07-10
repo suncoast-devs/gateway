@@ -19,6 +19,6 @@ class User < ApplicationRecord
   end
 
   def first_name
-    name.split(' ').first
+    name.split.first
   end
 end
