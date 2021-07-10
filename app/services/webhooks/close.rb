@@ -94,8 +94,10 @@ module Webhooks
           case event.data.status_label
           when 'Bad Fit', 'Not Interested'
             person.current_program_enrollment.lost!
+            person.current_program_enrollment.declined!
           when 'Canceled'
             person.current_program_enrollment.canceled!
+            person.current_program_enrollment.declined!
           when 'Potential'
             person.current_program_enrollment.active!
           when 'Qualified'

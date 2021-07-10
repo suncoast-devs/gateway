@@ -99,6 +99,10 @@ class SendLeadToClose
       else
         return 'Lost', 'Potential'
       end
+    elsif pe.declined?
+      return 'Lost', 'Not Interested'
+    elsif pe.canceled?
+      return 'Lost', 'Not Interested'
     end
     %w[Prospecting Potential]
   end
