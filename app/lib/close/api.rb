@@ -43,7 +43,7 @@ module Close
     end
 
     def self.normalize(path)
-      path.delete_prefix! '/'
+      path = path.delete_prefix '/'
       path += '/' unless path.end_with?('/')
       "/api/v1/#{path}"
     end
