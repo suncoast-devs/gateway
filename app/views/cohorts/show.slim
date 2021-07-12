@@ -13,9 +13,9 @@ section.section
         div
           p.heading Applicants
           p.title
-            span.has-text-info = @cohort.program_enrollments.active.count + @cohort.program_enrollments.won.count
+            span.has-text-info = @cohort.program_enrollments.kept.active.count + @cohort.program_enrollments.kept.won.count
             span = " + "
-            span.has-text-danger = @cohort.program_enrollments.lost.count + @cohort.program_enrollments.canceled.count + @cohort.program_enrollments.pending.count
+            span.has-text-danger = @cohort.program_enrollments.kept.lost.count + @cohort.program_enrollments.kept.canceled.count + @cohort.program_enrollments.kept.pending.count
             span = " = "
             = @cohort.program_enrollments.count
 
@@ -23,25 +23,25 @@ section.section
         div
           p.heading Applied/Interviewing
           p.title
-            span.has-text-warning = @cohort.program_enrollments.applied.count
+            span.has-text-warning = @cohort.program_enrollments.kept.applied.count
             span = " + "
-            span.has-text-info = @cohort.program_enrollments.interviewing.count
+            span.has-text-info = @cohort.program_enrollments.kept.interviewing.count
             span = " = "
-            = @cohort.program_enrollments.interviewing.count + @cohort.program_enrollments.applied.count
+            = @cohort.program_enrollments.kept.interviewing.count + @cohort.program_enrollments.kept.applied.count
 
       .level-item.has-text-centered
         div
           p.heading Accepted
-          p.title.has-text-primary = @cohort.program_enrollments.accepted.count
+          p.title.has-text-primary = @cohort.program_enrollments.kept.accepted.count
       .level-item.has-text-centered
         div
           p.heading Enrolling
           p.title
-            span.has-text-success.lighten = @cohort.program_enrollments.enrolling.count
+            span.has-text-success.lighten = @cohort.program_enrollments.kept.enrolling.count
             span = " + "
-            span.has-text-success = @cohort.program_enrollments.enrolled.count
+            span.has-text-success = @cohort.program_enrollments.kept.enrolled.count
             span = " = "
-            = @cohort.program_enrollments.enrolling.count + @cohort.program_enrollments.enrolled.count
+            = @cohort.program_enrollments.kept.enrolling.count + @cohort.program_enrollments.kept.enrolled.count
 
     table.table.is-bordered.is-striped.is-fullwidth
       thead
