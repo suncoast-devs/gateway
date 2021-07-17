@@ -48,7 +48,7 @@ section.section
       thead
         tr
           th Name
-          th Status
+          th Stage
           th SEA
           th Deposit
           th Financial Clearance
@@ -61,7 +61,6 @@ section.section
             td = link_to enrollment.person.full_name, enrollment.person
             td
               .tags
-                span[class="tag #{intent_for_status(enrollment.person.lead_status)}"] = enrollment.person.lead_status.titleize
                 span[class="tag #{intent_for_stage(enrollment.stage)}"] = enrollment.stage.titleize
             td
               - if enrollment.enrollment_agreement_complete?

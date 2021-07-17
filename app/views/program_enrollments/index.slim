@@ -85,7 +85,6 @@ section.section
         tr
           th Name
           th Stage
-          th Status
           th Cohort
           th.has-text-centered
             span.icon
@@ -96,8 +95,6 @@ section.section
             td = link_to enrollment.person.full_name, enrollment.person
             td
               span[class="tag #{intent_for_stage(enrollment.stage)}"] = enrollment.stage.titleize
-            td
-              span[class="tag #{intent_for_status(enrollment.person.lead_status)}"] = enrollment.person.lead_status.titleize
             td = link_to enrollment.cohort&.name, enrollment.cohort
             td.has-text-centered
               = time_tag(enrollment.created_at) { time_ago_in_words(enrollment.created_at) }
