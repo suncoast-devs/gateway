@@ -58,7 +58,7 @@ class SendLeadToClose
     status = Close::OPPORTUNITY_STATUSES[program_enrollment&.stage]
     params = { status_id: status, value: 14_900 * 100, value_period: 'one_time' }
 
-    if %w[enrolled graduated dropped incomplete].includes? program_enrollment&.stage
+    if %w[enrolled graduated dropped incomplete].include? program_enrollment&.stage
       params['date_won'] = program_enrollment.cohort&.begins_on
     end
 
