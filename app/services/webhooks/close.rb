@@ -93,6 +93,8 @@ module Webhooks
       person = Person.where(close_lead: event.data.id).first
       person.full_name = event.data.name if event.changed_fields.include? 'name'
 
+      return unless person.present? # TODO: Notify of missing person.
+
       case event.data.status_label
       when 'Potential'
         person.potential!
