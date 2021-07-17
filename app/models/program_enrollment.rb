@@ -7,8 +7,19 @@ class ProgramEnrollment < ApplicationRecord
   has_many :program_applications
   has_many :program_acceptances
 
-  enum status: { active: 0, won: 1, lost: 2, canceled: 3, pending: 4 }
-  enum stage: { applied: 3, interviewing: 4, accepted: 5, enrolling: 7, enrolled: 6, dropped: 8, declined: 9 }
+  enum stage: {
+         canceled: 0,
+         prospecting: 2,
+         applied: 3,
+         interviewing: 4,
+         accepted: 5,
+         rejected: 9,
+         enrolling: 7,
+         enrolled: 6,
+         graduated: 10,
+         dropped: 8,
+         incomplete: 11,
+       }
 
   def current_program_acceptance
     program_acceptances.active.order(created_at: :desc).first

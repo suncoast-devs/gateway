@@ -13,11 +13,11 @@ section.section
         div
           p.heading Applicants
           p.title
-            span.has-text-info = @cohort.program_enrollments.kept.active.count + @cohort.program_enrollments.kept.won.count
+            span.has-text-info = @cohort.program_enrollments.kept.applied.count + @cohort.program_enrollments.kept.interviewing.count + @cohort.program_enrollments.kept.enrolling.count + + @cohort.program_enrollments.kept.enrolled.count + @cohort.program_enrollments.kept.graduated.count
             span = " + "
-            span.has-text-danger = @cohort.program_enrollments.kept.lost.count + @cohort.program_enrollments.kept.canceled.count + @cohort.program_enrollments.kept.pending.count
+            span.has-text-danger = @cohort.program_enrollments.kept.canceled.count + @cohort.program_enrollments.kept.rejected.count + @cohort.program_enrollments.kept.dropped.count + @cohort.program_enrollments.kept.incomplete.count
             span = " = "
-            = @cohort.program_enrollments.count
+            = @cohort.program_enrollments.kept.count
 
       .level-item.has-text-centered
         div
@@ -33,13 +33,14 @@ section.section
         div
           p.heading Accepted
           p.title.has-text-primary = @cohort.program_enrollments.kept.accepted.count
+      
       .level-item.has-text-centered
         div
-          p.heading Enrolling
+          p.heading Enrolled
           p.title
             span.has-text-success.lighten = @cohort.program_enrollments.kept.enrolling.count
             span = " + "
-            span.has-text-success = @cohort.program_enrollments.kept.enrolled.count
+            span.has-text-success = @cohort.program_enrollments.kept.enrolled.count + @cohort.program_enrollments.kept.graduated.count
             span = " = "
             = @cohort.program_enrollments.kept.enrolling.count + @cohort.program_enrollments.kept.enrolled.count
 
@@ -47,7 +48,6 @@ section.section
       thead
         tr
           th Name
-          th Stage
           th Status
           th SEA
           th Deposit
@@ -56,13 +56,13 @@ section.section
             span.icon title="Last Contacted"
               i.fas.fa-stopwatch
       tbody
-        - @cohort.program_enrollments.kept.eager_load(person: :last_contact_disposition).order(Arel.sql("status ASC, stage=5, stage=6, stage=7, stage=3, stage=4")).each do |enrollment|
+        - @cohort.program_enrollments.kept.eager_load(person: :last_contact_disposition).order(Arel.sql("stage=2, stage=3, stage=4, stage=5, stage=7, stage=6, stage=10, stage=0, stage=8, stage=11")).each do |enrollment|
           tr
             td = link_to enrollment.person.full_name, enrollment.person
             td
-              span[class="tag #{intent_for_stage(enrollment.stage)}"] = enrollment.stage.titleize
-            td
-              span[class="tag #{intent_for_status(enrollment.status)}"] = enrollment.status.titleize
+              .tags
+                span[class="tag #{intent_for_status(enrollment.person.lead_status)}"] = enrollment.person.lead_status.titleize
+                span[class="tag #{intent_for_stage(enrollment.stage)}"] = enrollment.stage.titleize
             td
               - if enrollment.enrollment_agreement_complete?
                 .fas.fa-check-circle.has-text-success

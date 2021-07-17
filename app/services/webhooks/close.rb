@@ -32,10 +32,12 @@ module Webhooks
 
     def opportunity_updated
       program_enrollment = ProgramEnrollment.where(close_opportunity: event.data.id).first
+      return unless program_enrollment.present? # TODO: Send notification for missing enrollment.
+
       if event.changed_fields.include? 'status_label'
         case event.data.status_label
         when 'Prospecting'
-          # noop?
+          program_enrollment.prospecting!
         when 'Applied'
           program_enrollment.applied!
         when 'Interviewing'
@@ -45,10 +47,19 @@ module Webhooks
         when 'Enrolling'
           program_enrollment.enrolling!
         when 'Enrolled'
-          program_enrollment.won!
           program_enrollment.enrolled!
-        when 'Lost'
-          program_enrollment.lost!
+        when 'Graduated'
+          program_enrollment.graduated!
+        when 'Incomplete'
+          program_enrollment.incomplete!
+        when 'Dropped'
+          program_enrollment.dropped!
+        when 'Rejected'
+          program_enrollment.rejected!
+        when 'Canceled'
+          program_enrollment.canceled!
+        else
+          # TODO: Send notification for missing status_label.
         end
       end
     end
@@ -82,34 +93,29 @@ module Webhooks
       person = Person.where(close_lead: event.data.id).first
       person.full_name = event.data.name if event.changed_fields.include? 'name'
 
+      case event.data.status_label
+      when 'Potential'
+        person.potential!
+      when 'Interested'
+        person.interested!
+      when 'Qualified'
+        person.qualified!
+      when 'Bad Fit'
+        person.bad_fit!
+      when 'Customer'
+        person.customer!
+      when 'Unterested'
+        person.uninterested!
+      when 'Irrelevant'
+        person.irrelevant!
+      end
+
       if person.current_program_enrollment.present?
         if event.changed_fields.include? "custom.#{::Close::COHORT_FIELD}"
           cohort_name =
             @params.dig(:event, :data, 'custom.lcf_c6w_g4_hg_xp_r_wz455_s_dezi3e_hi_n_na_r_mdty_r_uf_go_o5a_ziz', 0)
           cohort = Cohort.where(name: cohort_name).first
           person.current_program_enrollment.update(cohort: cohort) if cohort
-        end
-
-        if event.changed_fields.include? 'status_label'
-          case event.data.status_label
-          when 'Bad Fit', 'Not Interested'
-            person.current_program_enrollment.lost!
-            person.current_program_enrollment.declined!
-          when 'Canceled'
-            person.current_program_enrollment.canceled!
-            person.current_program_enrollment.declined!
-          when 'Potential'
-            person.current_program_enrollment.active!
-          when 'Qualified'
-            person.current_program_enrollment.active!
-          when 'Interested'
-            person.current_program_enrollment.active!
-          when 'Customer'
-            person.current_program_enrollment.won!
-          end
-
-          # Send any changes here back to close (to update the opportunity).
-          SendLeadToClose.call_later(person)
         end
       end
 

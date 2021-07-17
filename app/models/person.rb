@@ -17,6 +17,8 @@ class Person < ApplicationRecord
   belongs_to :last_communication, class_name: 'Communication', optional: true
   belongs_to :merged_person, class_name: 'Person', optional: true
 
+  enum lead_status: %i[potential interested qualified bad_fit customer uninterested irrelevant]
+
   delegate :current_program_acceptance, to: :current_program_enrollment, allow_nil: true
 
   phony_normalize :phone_number, default_country_code: 'US', normalize_when_valid: true

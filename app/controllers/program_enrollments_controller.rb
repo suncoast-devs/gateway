@@ -15,7 +15,7 @@ class ProgramEnrollmentsController < ApplicationController
 
     scope = ProgramEnrollment.joins(:person).order(created_at: :desc)
     scope = scope.where('people.full_name ILIKE ?', "%#{@query}%") if @query.present?
-    scope = scope.where(status: @status.split(',')) if @status.present?
+    scope = scope.where('people.lead_status': @status.split(',')) if @status.present?
     scope = scope.where(stage: @stage.split(',')) if @stage.present?
 
     unless @cohort.nil?

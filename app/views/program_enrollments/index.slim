@@ -67,7 +67,7 @@ section.section
             .field.has-addons
               .control.has-icons-left
                 .select
-                  = select_tag :status, options_for_select(ProgramEnrollment.statuses.keys.map { |k| [k.titleize, k] }, @status), include_blank: true, disabled: @status
+                  = select_tag :status, options_for_select(Person.lead_statuses.keys.map { |k| [k.titleize, k] }, @status), include_blank: true, disabled: @status
                 .icon.is-small.is-left
                   i.fas.fa-flag
               .control
@@ -97,8 +97,8 @@ section.section
             td
               span[class="tag #{intent_for_stage(enrollment.stage)}"] = enrollment.stage.titleize
             td
-              span[class="tag #{intent_for_status(enrollment.status)}"] = enrollment.status.titleize
-            td = enrollment.cohort&.name
+              span[class="tag #{intent_for_status(enrollment.person.lead_status)}"] = enrollment.person.lead_status.titleize
+            td = link_to enrollment.cohort&.name, enrollment.cohort
             td.has-text-centered
               = time_tag(enrollment.created_at) { time_ago_in_words(enrollment.created_at) }
 

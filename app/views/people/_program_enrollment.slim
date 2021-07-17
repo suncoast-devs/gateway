@@ -38,7 +38,7 @@
               strong Cohort
           .level-right
             .level-item
-              = program_enrollment.cohort&.alt_display_name
+              = link_to program_enrollment.cohort&.alt_display_name, program_enrollment.cohort
       .panel-block
         nav.level.is-flex-grow-1
           .level-left
@@ -48,15 +48,6 @@
             .level-item
               span[class="tag #{intent_for_stage(program_enrollment.stage)}"]
                 = program_enrollment.stage.titleize
-      .panel-block
-        nav.level.is-flex-grow-1
-          .level-left
-            .level-item
-              strong Status
-          .level-right
-            .level-item
-              span[class="tag #{intent_for_status(program_enrollment.status)}"]
-                = program_enrollment.status.titleize
 
       - if program_enrollment.accepted? || program_enrollment.enrolled? || program_enrollment.enrolling?
         .panel-block

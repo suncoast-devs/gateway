@@ -39,15 +39,6 @@ section.section
                 = form.select :stage, ProgramEnrollment.stages.keys.map { |k| [k.titleize, k] }
 
       .field.is-horizontal
-        .field-label.is-normal
-          = form.label :status, class: "label"
-        .field-body
-          .field
-            .control
-              .select
-                = form.select :status, ProgramEnrollment.statuses.keys.map { |k| [k.titleize, k] }
-
-      .field.is-horizontal
         .field-label
         .field-body
           .field

@@ -38,27 +38,39 @@ module ApplicationHelper
 
   def intent_for_stage(stage)
     case stage
-    when 'applied'
+    when 'cancelled'
+      'is-warning lighten'
+    when 'prospecting'
       'is-warning'
+    when 'applied'
+      'is-info lighten'
     when 'interviewing'
       'is-info'
     when 'accepted'
       'is-primary'
-    when 'enrolled'
-      'is-success'
     when 'enrolling'
       'is-success lighten'
+    when 'enrolled', 'graduated'
+      'is-success'
+    when 'rejected', 'dropped'
+      'is-danger'
+    when 'incomplete'
+      'is-danger lighten'
     end
   end
 
   def intent_for_status(status)
     case status
-    when 'active'
+    when 'potential'
+      'is-info lighten'
+    when 'interested', 'qualified'
       'is-info'
-    when 'lost'
-      'is-danger'
-    when 'won'
+    when 'customer'
       'is-success'
+    when 'bad_fit'
+      'is-danger'
+    when 'uninterested', 'irrelevant'
+      'is-warning'
     end
   end
 

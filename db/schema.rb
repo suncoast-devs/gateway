@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_17_151906) do
+ActiveRecord::Schema.define(version: 2021_07_17_160502) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -232,6 +232,7 @@ ActiveRecord::Schema.define(version: 2021_03_17_151906) do
     t.string "close_contact"
     t.datetime "discarded_at"
     t.bigint "merged_person_id"
+    t.integer "lead_status", default: 0, null: false
     t.index ["discarded_at"], name: "index_people_on_discarded_at"
     t.index ["last_communication_id"], name: "index_people_on_last_communication_id"
     t.index ["last_contact_disposition_id"], name: "index_people_on_last_contact_disposition_id"
@@ -278,7 +279,6 @@ ActiveRecord::Schema.define(version: 2021_03_17_151906) do
     t.string "program"
     t.string "ac_deal_identifier"
     t.integer "stage", default: 3, null: false
-    t.integer "status", default: 0, null: false
     t.boolean "deposit_required", default: true
     t.boolean "deposit_paid"
     t.boolean "enrollment_agreement_complete"

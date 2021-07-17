@@ -11,7 +11,8 @@ section.section
                 h1.title= @person.full_name
                 .tags
                   - if @person.discarded?
-                    span.tag.is-danger Discarded 
+                    span.tag.is-danger Discarded
+                  span[class="tag #{intent_for_status(@person.lead_status)}"] = @person.lead_status.titleize
                   - @person.tags.each do |tag|
                     span.tag= tag.name
           .level-right

@@ -41,7 +41,7 @@ class SendLeadToClose
   end
 
   def lead_params
-    params = { "custom.#{Close::GATEWAY_FIELD}": @person.id, status_id: Close::LEAD_STATUS[status_keys.last] }
+    params = { "custom.#{Close::GATEWAY_FIELD}": @person.id, status_id: Close::LEAD_STATUS[@person.lead_status] }
     params["custom.#{Close::COHORT_FIELD}"] = @person.current_program_enrollment.cohort.name if @person
       .current_program_enrollment&.cohort
     params
@@ -54,56 +54,14 @@ class SendLeadToClose
   end
 
   def opportunity_params
-    status = Close::OPPORTUNITY_STATUSES[status_keys.first]
+    program_enrollment = @person.current_program_enrollment
+    status = Close::OPPORTUNITY_STATUSES[program_enrollment&.stage]
     params = { status_id: status, value: 14_900 * 100, value_period: 'one_time' }
 
-    params['date_won'] = @person.current_program_enrollment.cohort&.begins_on if status == 'Enrolled' &&
-      @person.current_program_enrollment
+    if %w[enrolled graduated dropped incomplete].includes? program_enrollment&.stage
+      params['date_won'] = program_enrollment.cohort&.begins_on
+    end
 
     params
-  end
-
-  def status_keys
-    pe = @person.current_program_enrollment
-    return 'Prospecting', 'Potential' unless pe
-
-    if pe.active?
-      case pe.stage
-      when 'applied'
-        return 'Applied', 'Interested'
-      when 'interviewing'
-        return 'Interviewing', 'Interested'
-      when 'accepted'
-        return 'Accepted', 'Qualified'
-      when 'enrolling'
-        return 'Enrolling', 'Qualified'
-      when 'enrolled'
-        return 'Enrolling', 'Qualified'
-      else
-        return 'Prospecting', 'Potential'
-      end
-    elsif pe.won?
-      return 'Enrolled', 'Customer'
-    elsif pe.lost?
-      case pe.stage
-      when 'applied'
-        return 'Lost', 'Interested'
-      when 'interviewing'
-        return 'Lost', 'Interested'
-      when 'accepted'
-        return 'Lost', 'Qualified'
-      when 'enrolling'
-        return 'Lost', 'Qualified'
-      when 'enrolled'
-        return 'Lost', 'Qualified'
-      else
-        return 'Lost', 'Potential'
-      end
-    elsif pe.declined?
-      return 'Lost', 'Not Interested'
-    elsif pe.canceled?
-      return 'Lost', 'Not Interested'
-    end
-    %w[Prospecting Potential]
   end
 end
