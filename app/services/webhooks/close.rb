@@ -77,16 +77,16 @@ module Webhooks
 
     def activity_note_updated
       note = Note.where(close_note: event.data.id).first
-      note.update(message: event.data.note)
+      note.update(message: event.data.note) if note.present?
     end
 
     def activity_note_deleted
       note = Note.where(close_note: event.previous_data.id).first
-      note.discard
+      note.discard if note.present?
     end
 
     def lead_created
-      # noop?
+      # noop, see contact_created
     end
 
     def lead_updated
