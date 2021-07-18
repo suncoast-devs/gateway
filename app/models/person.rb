@@ -19,7 +19,8 @@ class Person < ApplicationRecord
   belongs_to :last_communication, class_name: 'Communication', optional: true
   belongs_to :merged_person, class_name: 'Person', optional: true
 
-  enum lead_status: %i[potential interested qualified bad_fit customer uninterested irrelevant]
+  enum lead_status: {potential: 0, interested: 1, qualified: 2, bad_fit: 3, customer: 4, 
+uninterested: 5, irrelevant: 6}
 
   delegate :current_program_acceptance, to: :current_program_enrollment, allow_nil: true
 

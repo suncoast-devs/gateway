@@ -32,7 +32,7 @@ module Webhooks
 
     def opportunity_updated
       program_enrollment = ProgramEnrollment.where(close_opportunity: event.data.id).first
-      return unless program_enrollment.present? # TODO: Send notification for missing enrollment.
+      return if program_enrollment.blank? # TODO: Send notification for missing enrollment.
 
       if event.changed_fields.include? 'status_label'
         case event.data.status_label
@@ -58,9 +58,8 @@ module Webhooks
           program_enrollment.rejected!
         when 'Canceled'
           program_enrollment.canceled!
-        else
-          # TODO: Send notification for missing status_label.
         end
+        # TODO: Send notification for missing status_label.
       end
     end
 
@@ -93,7 +92,7 @@ module Webhooks
       person = Person.where(close_lead: event.data.id).first
       person.full_name = event.data.name if event.changed_fields.include? 'name'
 
-      return unless person.present? # TODO: Notify of missing person.
+      return if person.blank? # TODO: Notify of missing person.
 
       case event.data.status_label
       when 'Potential'
@@ -112,13 +111,11 @@ module Webhooks
         person.irrelevant!
       end
 
-      if person.current_program_enrollment.present?
-        if event.changed_fields.include? "custom.#{::Close::COHORT_FIELD}"
-          cohort_name =
-            @params.dig(:event, :data, 'custom.lcf_c6w_g4_hg_xp_r_wz455_s_dezi3e_hi_n_na_r_mdty_r_uf_go_o5a_ziz', 0)
-          cohort = Cohort.where(name: cohort_name).first
-          person.current_program_enrollment.update(cohort: cohort) if cohort
-        end
+      if person.current_program_enrollment.present? && (event.changed_fields.include? "custom.#{::Close::COHORT_FIELD}")
+        cohort_name =
+          @params.dig(:event, :data, 'custom.lcf_c6w_g4_hg_xp_r_wz455_s_dezi3e_hi_n_na_r_mdty_r_uf_go_o5a_ziz', 0)
+        cohort = Cohort.where(name: cohort_name).first
+        person.current_program_enrollment.update(cohort: cohort) if cohort
       end
 
       person.save
