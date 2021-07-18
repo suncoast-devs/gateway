@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_17_160502) do
+ActiveRecord::Schema.define(version: 2021_07_17_232255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -154,6 +154,23 @@ ActiveRecord::Schema.define(version: 2021_07_17_160502) do
     t.index ["user_id"], name: "index_documents_on_user_id"
   end
 
+  create_table "employment_records", force: :cascade do |t|
+    t.bigint "person_id", null: false
+    t.string "company"
+    t.string "title"
+    t.string "position_type"
+    t.boolean "is_development", default: true, null: false
+    t.date "started_on"
+    t.boolean "is_started_on_approximate", default: false, null: false
+    t.date "ended_on"
+    t.boolean "is_ended_on_approximate", default: false, null: false
+    t.integer "salary"
+    t.string "source"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["person_id"], name: "index_employment_records_on_person_id"
+  end
+
   create_table "events", force: :cascade do |t|
     t.bigint "instigator_id"
     t.string "name"
@@ -233,6 +250,18 @@ ActiveRecord::Schema.define(version: 2021_07_17_160502) do
     t.datetime "discarded_at"
     t.bigint "merged_person_id"
     t.integer "lead_status", default: 0, null: false
+    t.boolean "diversity_women"
+    t.boolean "diversity_underserved"
+    t.boolean "diversity_lgbtq"
+    t.boolean "diversity_other"
+    t.string "allergy_note"
+    t.string "medical_note"
+    t.string "personal_note"
+    t.date "date_of_birth"
+    t.text "mailing_address"
+    t.boolean "media_release"
+    t.string "emergency_contact_name"
+    t.string "emergency_contact_phone_number"
     t.index ["discarded_at"], name: "index_people_on_discarded_at"
     t.index ["last_communication_id"], name: "index_people_on_last_communication_id"
     t.index ["last_contact_disposition_id"], name: "index_people_on_last_contact_disposition_id"
@@ -268,6 +297,7 @@ ActiveRecord::Schema.define(version: 2021_07_17_160502) do
     t.bigint "program_enrollment_id"
     t.string "continue_url"
     t.datetime "discarded_at"
+    t.boolean "is_accepted", default: false, null: false
     t.index ["discarded_at"], name: "index_program_applications_on_discarded_at"
     t.index ["person_id"], name: "index_program_applications_on_person_id"
     t.index ["program_enrollment_id"], name: "index_program_applications_on_program_enrollment_id"
@@ -302,10 +332,22 @@ ActiveRecord::Schema.define(version: 2021_07_17_160502) do
     t.boolean "administrative_signoff"
     t.string "close_opportunity"
     t.datetime "discarded_at"
+    t.date "graduated_on"
+    t.date "dropped_on"
+    t.boolean "is_seeking_employment", default: true, null: false
+    t.string "scholarships", default: [], null: false, array: true
     t.index ["cohort_id"], name: "index_program_enrollments_on_cohort_id"
     t.index ["deposit_invoice_id"], name: "index_program_enrollments_on_deposit_invoice_id"
     t.index ["discarded_at"], name: "index_program_enrollments_on_discarded_at"
     t.index ["person_id"], name: "index_program_enrollments_on_person_id"
+  end
+
+  create_table "social_links", force: :cascade do |t|
+    t.bigint "person_id", null: false
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["person_id"], name: "index_social_links_on_person_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -356,6 +398,7 @@ ActiveRecord::Schema.define(version: 2021_07_17_160502) do
   add_foreign_key "course_registrations", "people"
   add_foreign_key "documents", "people"
   add_foreign_key "documents", "users"
+  add_foreign_key "employment_records", "people"
   add_foreign_key "events", "users", column: "instigator_id"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "people"
@@ -370,5 +413,6 @@ ActiveRecord::Schema.define(version: 2021_07_17_160502) do
   add_foreign_key "program_enrollments", "cohorts"
   add_foreign_key "program_enrollments", "invoices", column: "deposit_invoice_id"
   add_foreign_key "program_enrollments", "people"
+  add_foreign_key "social_links", "people"
   add_foreign_key "taggings", "tags"
 end
