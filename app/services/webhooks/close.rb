@@ -148,8 +148,8 @@ module Webhooks
     def contact_updated
       person = Person.where(close_contact: event.data.id).first
       person.full_name = event.data.name if event.changed_fields.include? 'name'
-      person.email_address = event.data.emails.first.email if event.changed_fields.include? 'emails'
-      person.phone_number = event.data.phones.first.phone if event.changed_fields.include? 'phones'
+      person.email_address = event.data.emails.first&.email if event.changed_fields.include? 'emails'
+      person.phone_number = event.data.phones.first&.phone if event.changed_fields.include? 'phones'
       person.save
     end
 
