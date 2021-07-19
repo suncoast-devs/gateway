@@ -14,7 +14,9 @@ Rails
 
     resources :people do
       resources :contact_dispositions, only: %i[create destroy]
-      resources :documents, except: %i[index]
+      resources :documents, except: %i[index] do
+        collection { post 'drop' }
+      end
       resources :notes, only: %i[create update destroy]
     end
 

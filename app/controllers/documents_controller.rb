@@ -7,6 +7,7 @@ class DocumentsController < ApplicationController
   before_action :authenticate!
   before_action :find_person
   before_action :find_document, only: %i[show edit update destroy]
+  skip_before_action :verify_authenticity_token, only: [:drop]
 
   def show; end
 
@@ -34,6 +35,12 @@ class DocumentsController < ApplicationController
   def destroy
     @document.destroy
     redirect_to @person, notice: 'Document destroyed.'
+  end
+
+  def drop
+    file = params[:file]
+    @document = @person.documents.create({ label: file.original_filename, file: file, user: current_user })
+    head :ok
   end
 
   private
