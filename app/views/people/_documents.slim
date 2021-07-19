@@ -14,11 +14,9 @@ nav.level
     thead
       tr
         th Label
-        th Description
         th Uploaded by
     tbody
       - person.documents.each do |document|
         tr
-          th = link_to document.label, [person, document]
-          td = document.description
+          th = link_to truncate(document.label, length: 64), [person, document]
           td = document&.user&.name || 'System'
