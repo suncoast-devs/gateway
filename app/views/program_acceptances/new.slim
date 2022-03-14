@@ -39,6 +39,23 @@ section.section
       .field.is-horizontal
         .field-label
         .field-body
+          .field
+            .control
+              = form.check_box :is_update, class: "checkbox"
+              | &nbsp;
+              = form.label :is_update, "Update?", class: "checkbox"
+
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :note, class: "label"
+        .field-body
+          .field
+            .control
+              = form.text_area :note, class: 'textarea', rows: 3
+
+      .field.is-horizontal
+        .field-label
+        .field-body
           .field.is-grouped
             .control
               = form.submit "Next", class: "button is-primary"

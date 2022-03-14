@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_17_232255) do
+ActiveRecord::Schema.define(version: 2022_03_14_190432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -281,6 +281,8 @@ ActiveRecord::Schema.define(version: 2021_07_17_232255) do
     t.string "enrollment_agreement_identifier"
     t.boolean "is_rescinded", default: false
     t.datetime "discarded_at"
+    t.boolean "is_update", default: false, null: false
+    t.text "note"
     t.index ["cohort_id"], name: "index_program_acceptances_on_cohort_id"
     t.index ["discarded_at"], name: "index_program_acceptances_on_discarded_at"
     t.index ["program_enrollment_id"], name: "index_program_acceptances_on_program_enrollment_id"
