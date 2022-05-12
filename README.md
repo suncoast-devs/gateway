@@ -6,6 +6,8 @@
 
 This app manages enrollment for the Academy at Suncoast Developers Guild.
 
+This app will be deprecated in favor of Citadel soon™.
+
 ## TODO List
 
 - [x] Sync approve/reject for sign-offs to nutshell
