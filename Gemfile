@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.0.2'
+ruby '3.1.2'
 
 gem 'rails', '~> 6.1'
 
@@ -21,6 +21,7 @@ gem 'http', '~> 4.3'
 gem 'jbuilder'
 gem 'liquid'
 gem 'mailchimp-api', require: 'mailchimp'
+gem 'net-smtp'
 gem 'olive_branch'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
@@ -30,6 +31,7 @@ gem 'phony_rails'
 gem 'postmark-rails'
 gem 'premailer-rails'
 gem 'sass-rails'
+gem 'sentry-ruby'
 gem 'sentry-rails'
 gem 'sentry-sidekiq'
 gem 'sidekiq'
