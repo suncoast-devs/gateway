@@ -88,7 +88,7 @@ section.section
               - else
                 .fas.fa-exclamation-circle.has-text-warning
             td.has-text-centered
-              - if entrollment.enrolled?
+              - if enrollment.enrolled?
                 = link_to usd_accounting(enrollment.person.ledger_balance), [enrollment.person, :ledger_entries]
 
             td.has-text-centered
