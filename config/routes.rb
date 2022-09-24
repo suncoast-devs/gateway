@@ -19,11 +19,13 @@ Rails
       resources :documents, except: %i[index] do
         collection { post 'drop' }
       end
-      resources :ledger_entries, only: %i[index create], path: 'ledger'
+      resources :ledger_entries, path: 'ledger'
       resources :notes, only: %i[create update destroy]
     end
 
-    resources :invoices, only: %i[index show new create]
+    resources :invoices, only: %i[index show new create] do
+      member { patch 'apply_to_ledger' }
+    end
     resources :cohorts
     resources :communication_templates
     resources :courses

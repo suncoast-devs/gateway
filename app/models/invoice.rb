@@ -5,4 +5,8 @@ class Invoice < ApplicationRecord
   has_many :notes, as: :notable
   accepts_nested_attributes_for :invoice_items
   validates :due_on, presence: true
+
+  def applied_to_account?
+    LedgerEntry.exists? invoice: self
+  end
 end

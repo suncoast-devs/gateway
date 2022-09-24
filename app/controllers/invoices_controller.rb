@@ -33,6 +33,20 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def apply_to_ledger
+    @invoice = Invoice.find(params[:id])
+    @person = @invoice.person
+    if @invoice.is_paid
+      @person.ledger_entries.create!(
+        amount: @invoice.invoice_items.sum(:amount),
+        description: "Payment for invoice #{@invoice.stripe_id}.",
+        invoice: @invoice
+      )
+    end
+
+    redirect_to [@person, :ledger_entries], notice: 'Ledger Entry created.'
+  end
+
   private
 
   def invoice_params

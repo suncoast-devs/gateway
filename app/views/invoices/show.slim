@@ -17,6 +17,11 @@ section.section
               - else
                 span.icon.has-text-warning
                   i.fas.fa-ban
+          - if @invoice.is_paid? && !@invoice.applied_to_account?
+            tr
+              td.has-text-centered[colspan="2"]
+                = form_for([:apply_to_ledger, @invoice]) do
+                  button.button.is-small.is-light.is-primary[type="submit"] Apply to Ledger
           tr
             td.has-text-centered colspan=2
               = link_to @invoice.payment_url do

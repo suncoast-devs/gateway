@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_24_040757) do
+ActiveRecord::Schema.define(version: 2022_09_24_041321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -203,12 +203,12 @@ ActiveRecord::Schema.define(version: 2022_09_24_040757) do
 
   create_table "ledger_entries", force: :cascade do |t|
     t.bigint "person_id", null: false
-    t.bigint "invoice_id"
     t.decimal "amount", precision: 8, scale: 2, null: false
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["invoice_id"], name: "index_ledger_entries_on_invoice_id"
+    t.bigint "invoice_id"
+    t.index ["invoice_id"], name: "index_ledger_entries_on_invoice_id", unique: true
     t.index ["person_id"], name: "index_ledger_entries_on_person_id"
   end
 

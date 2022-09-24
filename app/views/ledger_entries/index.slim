@@ -5,24 +5,63 @@ section.section
       em for
       =< link_to @person.full_name, @person
 
-    table.table.is-bordered.is-striped.is-fullwidth
+    table.table.is-striped.is-fullwidth
+      colgroup
+        col width="0*"
+        col width="auto"
+        col width="0*"
       thead
         tr
+          th Date
           th Description
           th Amount
-      tbody
-        - @ledger_entries.each do |entry|
+        tbody
+          - @ledger_entries.each do |entry|
+            tr
+              td[style="white-space: nowrap;"]
+                = entry.created_at.to_date.to_s(:long)
+              td
+                = link_to_if entry.invoice.present?, entry.description, entry.invoice
+              td= link_to usd_accounting(entry.amount), [:edit, @person, entry]
+        tfoot
           tr
-            td
-              = entry.created_at.to_date.to_s(:long)
-              | &nbsp;&mdash;&nbsp;
-              = link_to_if entry.invoice.present?, entry.description, entry.invoice
-            td= usd_accounting(entry.amount)
-      tfoot
-        tr
-          th Total
-          th= usd_accounting @person.ledger_balance
-    h4.title.is-4 Add Ledger Entry
+            th
+            th Total
+            th= usd_accounting @person.ledger_balance
+    
+    .level
+      .level-left
+        h4.title.is-4 Add Ledger Entry
+      .level-right
+        .field.is-grouped
+          .control
+            = form_for([@person, @ledger_entry]) do |form|    
+              = form.hidden_field :person_id
+              = form.hidden_field :description, value: "Base Tuition"
+              = form.hidden_field :amount, value: "14900"
+              = form.submit "Base Tuition", class: "button is-small is-light is-primary"
+
+          .control
+            = form_for([@person, @ledger_entry]) do |form|    
+              = form.hidden_field :person_id
+              = form.hidden_field :description, value: "Night Shift"
+              = form.hidden_field :amount, value: "-4900"
+              = form.submit "Night Shift", class: "button is-small is-light is-primary"
+
+          .control
+            = form_for([@person, @ledger_entry]) do |form|    
+              = form.hidden_field :person_id
+              = form.hidden_field :description, value: "Diversity Scholarship"
+              = form.hidden_field :amount, value: "-1900"
+              = form.submit "Diversity Scholarship", class: "button is-small is-light is-link"
+
+          .control
+            = form_for([@person, @ledger_entry]) do |form|    
+              = form.hidden_field :person_id
+              = form.hidden_field :description, value: "Hero Award"
+              = form.hidden_field :amount, value: "-1900"
+              = form.submit "Hero Award", class: "button is-small is-light is-link"
+
     = form_for([@person, @ledger_entry]) do |form|
       = form.hidden_field :person_id
       - if @ledger_entry.errors.any?
@@ -39,13 +78,13 @@ section.section
           .field.is-grouped
             .control.is-expanded
               = form.text_field :description, placeholder: "Description", class: 'input'
-            .field.has-addons
-              .control
-                a.button.is-static
-                  span.icon.is-left
-                    i.fas.fa-dollar-sign.fa-sm
-              .control
-                = form.number_field :amount, placeholder: "Amount", class: 'input'
+          .field.has-addons
+            .control
+              a.button.is-static
+                span.icon.is-left
+                  i.fas.fa-dollar-sign.fa-sm
+            .control
+              = form.number_field :amount, placeholder: "Amount", class: 'input'
       .field
         .control
           = form.submit "Create Entry", class: "button is-primary"
