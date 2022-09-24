@@ -41,6 +41,12 @@ gem 'sprockets'
 gem 'stripe'
 gem 'truemail'
 
+# https://github.com/rails/rails/pull/42366
+# TODO: Remove when upgrading to Rails 7
+gem 'net-smtp', require: false
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+
 group :development do
   gem 'awesome_print'
   gem 'byebug'

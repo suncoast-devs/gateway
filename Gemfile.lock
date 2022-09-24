@@ -176,6 +176,14 @@ GEM
     mutant-rspec (0.11.16)
       mutant (= 0.11.16)
       rspec-core (>= 3.8.0, < 4.0.0)
+    net-imap (0.2.3)
+      digest
+      net-protocol
+      strscan
+    net-pop (0.1.1)
+      digest
+      net-protocol
+      timeout
     net-protocol (0.1.3)
       timeout
     net-smtp (0.3.1)
@@ -377,6 +385,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     stripe (7.1.0)
+    strscan (3.0.1)
     syntax_tree (3.5.0)
       prettier_print
     syntax_tree-haml (1.3.1)
@@ -433,6 +442,8 @@ DEPENDENCIES
   mailchimp-api
   mutant-license!
   mutant-rspec
+  net-imap
+  net-pop
   net-smtp
   olive_branch
   omniauth
