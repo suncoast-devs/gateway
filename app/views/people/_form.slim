@@ -99,7 +99,17 @@
         .control
           = form.text_field :close_contact, class: "input"
 
-
+  .field.is-horizontal
+    .field-label.is-normal
+      = form.label :installment_amount, class: "label"
+    .field-body
+      .field.has-addons
+        .control
+          a.button.is-static
+            span.icon.is-left
+              i.fas.fa-dollar-sign.fa-sm
+        .control
+          = form.number_field :installment_amount, placeholder: "Amount", class: 'input', step: '0.01'
 
   .field.is-horizontal
     .field-label

@@ -9,9 +9,11 @@ class DocumentsController < ApplicationController
   before_action :find_document, only: %i[show edit update destroy]
   skip_before_action :verify_authenticity_token, only: [:drop]
 
-  def show; end
+  def show
+  end
 
-  def edit; end
+  def edit
+  end
 
   def new
     @document = @person.documents.new
@@ -39,7 +41,7 @@ class DocumentsController < ApplicationController
 
   def drop
     file = params[:file]
-    @document = @person.documents.create({ label: file.original_filename, file: file, user: current_user })
+    @document = @person.documents.create({ label: file.original_filename, file:, user: current_user })
     head :ok
   end
 

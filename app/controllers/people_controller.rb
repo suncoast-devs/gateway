@@ -21,9 +21,11 @@ class PeopleController < ApplicationController
     @pagy, @people = pagy(scope)
   end
 
-  def show; end
+  def show
+  end
 
-  def edit; end
+  def edit
+  end
 
   def new
     @person = Person.new
@@ -81,6 +83,7 @@ class PeopleController < ApplicationController
         :dietary_note,
         :close_lead,
         :close_contact,
+        :installment_amount,
       )
   end
 end

@@ -6,12 +6,12 @@ module Close
     def subscribe
       events = []
       %w[lead contact opportunity activity.note].each do |object_type|
-        %w[created updated deleted].each { |action| events << { object_type: object_type, action: action } }
+        %w[created updated deleted].each { |action| events << { object_type:, action: } }
       end
       events << { object_type: 'lead', action: 'merged' }
       Close::API.post(
         'webhook',
-        { url: Rails.application.routes.url_helpers.api_webhooks_url('close'), events: events },
+        { url: Rails.application.routes.url_helpers.api_webhooks_url('close'), events: },
       )
     end
 

@@ -15,3 +15,6 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'db/**/*'
+
+Rails/I18nLocaleTexts:
+  Enabled: false

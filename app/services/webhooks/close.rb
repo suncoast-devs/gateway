@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Style/OpenStructUse
 module Webhooks
   class Close
     include Callable
@@ -71,7 +72,7 @@ module Webhooks
     def activity_note_created
       user = User.where(close_user: event.data.user_id).first
       person = Person.where(close_lead: event.data.lead_id).first
-      person.notes.create!({ user: user, note_type: 'comment', message: event.data.note, close_note: event.data.id })
+      person.notes.create!({ user:, note_type: 'comment', message: event.data.note, close_note: event.data.id })
     end
 
     def activity_note_updated
@@ -115,7 +116,7 @@ module Webhooks
         cohort_name =
           @params.dig(:event, :data, 'custom.lcf_c6w_g4_hg_xp_r_wz455_s_dezi3e_hi_n_na_r_mdty_r_uf_go_o5a_ziz', 0)
         cohort = Cohort.where(name: cohort_name).first
-        person.current_program_enrollment.update(cohort: cohort) if cohort
+        person.current_program_enrollment.update(cohort:) if cohort
       end
 
       person.save
@@ -156,3 +157,4 @@ module Webhooks
     end
   end
 end
+# rubocop:enable Style/OpenStructUse

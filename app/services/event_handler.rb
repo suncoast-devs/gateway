@@ -3,7 +3,7 @@ class EventHandler
   include Callable
 
   def initialize(name, payload, instigator = nil)
-    @event = Event.new(name: name, payload: payload, instigator: instigator)
+    @event = Event.new(name:, payload:, instigator:)
   end
 
   def call

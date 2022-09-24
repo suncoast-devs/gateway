@@ -34,7 +34,8 @@ class ProgramEnrollmentsController < ApplicationController
     redirect_to @program_enrollment.person
   end
 
-  def edit; end
+  def edit
+  end
 
   def update
     if program_enrollment_params[:person_id] != @program_enrollment.person_id

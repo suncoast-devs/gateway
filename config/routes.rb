@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require 'sidekiq/web'
+require 'sidekiq/cron/web'
 
+# rubocop:disable Metrics/BlockLength
 Rails
   .application
   .routes
@@ -17,6 +19,7 @@ Rails
       resources :documents, except: %i[index] do
         collection { post 'drop' }
       end
+      resources :ledger_entries, only: %i[index create], path: 'ledger'
       resources :notes, only: %i[create update destroy]
     end
 
@@ -55,3 +58,4 @@ Rails
 
     root to: 'home#index'
   end
+# rubocop:enable Metrics/BlockLength

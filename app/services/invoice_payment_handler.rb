@@ -5,9 +5,16 @@ class InvoicePaymentHandler
 
   def initialize(invoice)
     @invoice = invoice
+    @person = @invoice.person
   end
 
   def call
+    @person.ledger_entries.create!(
+      amount: @invoice.invoice_items.sum(:amount),
+      description: "Payment for invoice #{invoice.stripe_id}.",
+      invoice: @invoice
+    )
+
     @invoice.update is_paid: true
     @program_enrollment = ProgramEnrollment.where(deposit_invoice: @invoice).first
     if @program_enrollment

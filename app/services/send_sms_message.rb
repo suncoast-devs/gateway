@@ -19,8 +19,8 @@ class SendSMSMessage
         local_phone: '+17272357925',
         remote_phone: phone_number,
         text: message,
-        contact_id: contact_id,
-        lead_id: lead_id,
+        contact_id:,
+        lead_id:,
       },
     )
   end

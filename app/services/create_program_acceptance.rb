@@ -32,7 +32,8 @@ class CreateProgramAcceptance
       @program_enrollment.update(deposit_invoice: @invoice)
     end
 
-    template = CommunicationTemplate.by_key(@program_acceptance.is_update? ? 'acceptance-letter-update' : 'acceptance-letter')
+    template_key = @program_acceptance.is_update? ? 'acceptance-letter-update' : 'acceptance-letter'
+    template = CommunicationTemplate.by_key(template_key)
     mail = template&.send_to(@person)
     @program_acceptance.update sent_at: Time.zone.now, message_id: mail.message_id
     @program_enrollment.accepted!

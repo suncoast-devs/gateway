@@ -27,7 +27,8 @@ class ProgramAcceptancesController < ApplicationController
     redirect_to @program_enrollment.person
   end
 
-  def show; end
+  def show
+  end
 
   private
 
@@ -41,6 +42,7 @@ class ProgramAcceptancesController < ApplicationController
   end
 
   def program_acceptance_params
-    params.require(:program_acceptance).permit(:cohort_id, :tuition_reduction, :notification_body, :is_rescinded, :is_update, :note)
+    params.require(:program_acceptance).permit(:cohort_id, :tuition_reduction, :notification_body, :is_rescinded, 
+:is_update, :note)
   end
 end

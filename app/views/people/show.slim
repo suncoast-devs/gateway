@@ -34,11 +34,10 @@ section.section
           .panel-heading
             .level
               .level-left
-                .level-item Contact Information
               .level-right
                 .level-item
                   = link_to [:edit, @person] do
-                    span.icon
+                    span.icon.is-small
                       i.fas.fa-edit
           .panel-block
             nav.level.is-flex-grow-1
@@ -60,6 +59,17 @@ section.section
                 .level-item
                   - if @person.phone_number.present?
                     = link_to @person.phone_number, "tel:#{@person.phone_number}"
+          .panel-block
+            nav.level.is-flex-grow-1
+              .level-left
+                .level-item
+                  span.icon
+                    i.fas.fa-money-bill-transfer
+              .level-right
+                .level-item
+                  = link_to usd_accounting(@person.ledger_balance), [@person, :ledger_entries]
+                  - if @person.installment_amount > 0
+                    | &nbsp;&mdash; #{usd(@person.installment_amount)}/mo.
 
     = render partial: 'program_enrollment', collection: @person.program_enrollments
 
@@ -73,16 +83,17 @@ section.section
       .column.is-two-thirds
         h4.title.is-4 Activity Timeline
         
-        ul.activity-timeline
+        ul.activity-timeline.block
           - @person.notes.order(created_at: :asc).each do |note|
             = render partial: "notes/#{note.note_type.underscore}", locals: { note: note }
 
-        = form_for [@person, Note.new] do |f|
-          = f.hidden_field :note_type, value: 'comment'
-          .field
-            p.control
-              = f.text_area :message, class: "textarea", placeholder: "Add a note..."
-          = f.submit class: "button is-info"
+        .block
+          = form_for [@person, Note.new] do |f|
+            = f.hidden_field :note_type, value: 'comment'
+            .field
+              p.control
+                = f.text_area :message, class: "textarea", placeholder: "Add a note..."
+            = f.submit class: "button is-info"
 
       .column.is-one-third
         = render partial: 'contact_dispositions', locals: { person: @person }

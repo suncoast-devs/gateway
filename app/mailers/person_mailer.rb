@@ -31,14 +31,14 @@ class PersonMailer < ApplicationMailer
     headers({ 'References' => message_id, 'In-Reply-To' => message_id }) if message_id
 
     # FIXME: This is kind of a hack, is there better way to do this in communication template maybe?
-    attachments['Program Catalog.pdf'] = File.read(Rails.root.join('app/assets/CATALOG.pdf')) if @communication_template
+    attachments['Program Catalog.pdf'] = Rails.root.join('app/assets/CATALOG.pdf').read if @communication_template
       .key === 'acceptance-letter'
 
     # if Truemail.valid? @person.email_address
     mail(
       to: "#{@person.full_name} <#{@person.email_address}>",
       bcc: Rails.application.credentials.close_email,
-      subject: subject,
+      subject:,
       track_opens: 'true',
     ) { |format| format.html { render layout: @communication_template.media, html: body } }
     # end

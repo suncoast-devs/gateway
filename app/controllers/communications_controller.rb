@@ -41,7 +41,8 @@ class CommunicationsController < ApplicationController
   end
 
   # preview template
-  def new; end
+  def new
+  end
 
   # send message
   def create

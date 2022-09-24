@@ -17,7 +17,7 @@ class CommunicationTemplate < ApplicationRecord
 
   # TODO: Handle SMS.
   def send_to(person)
-    mail = PersonMailer.with(communication_template: self, person: person).communication_template_email.deliver
+    mail = PersonMailer.with(communication_template: self, person:).communication_template_email.deliver
 
     if persisted?
       person.notes.create note_type: 'email-event',
@@ -34,7 +34,7 @@ class CommunicationTemplate < ApplicationRecord
 
   class << self
     def by_key(key)
-      where(key: key).first
+      where(key:).first
     end
   end
 end

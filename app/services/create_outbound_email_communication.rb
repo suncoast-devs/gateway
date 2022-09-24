@@ -4,9 +4,9 @@
 class CreateOutboundEmailCommunication
   include Callable
 
-  def initialize(person, subject, body)
+  def initialize(person, title, body)
     @person = person
-    @communication_template = CommunicationTemplate.simple_email.new({ title: subject, body: body })
+    @communication_template = CommunicationTemplate.simple_email.new({ title:, body: })
   end
 
   def call

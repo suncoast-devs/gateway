@@ -15,6 +15,7 @@ class Person < ApplicationRecord
   has_many :communications
   has_many :social_links
   has_many :employment_records
+  has_many :ledger_entries
   belongs_to :last_contact_disposition, class_name: 'ContactDisposition', optional: true
   belongs_to :last_communication, class_name: 'Communication', optional: true
   belongs_to :merged_person, class_name: 'Person', optional: true
@@ -44,6 +45,10 @@ uninterested: 5, irrelevant: 6}
 
   def succeed_contact!
     contact_dispositions.succeeded.create! contacted_at: Time.zone.now
+  end
+
+  def ledger_balance
+    @ledger_balance ||= ledger_entries.sum(:amount)
   end
 
   private

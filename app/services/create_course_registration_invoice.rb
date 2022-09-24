@@ -18,7 +18,7 @@ class CreateCourseRegistrationInvoice
           { description: "#{@course.name} (#{@course.session})", quantity: 1, amount: @course_registration.fee },
         ],
       )
-    @course_registration.update(invoice: invoice)
+    @course_registration.update(invoice:)
     CreateInvoice.call(invoice.id)
     invoice.reload
     PersonMailer.with(course_registration: @course_registration).part_time_registration_email.deliver_later

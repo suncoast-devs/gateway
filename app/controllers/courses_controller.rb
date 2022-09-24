@@ -12,7 +12,8 @@ class CoursesController < ApplicationController
     @pagy, @courses = pagy(scope)
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @course = Course.new

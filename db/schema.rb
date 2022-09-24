@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_14_190432) do
+ActiveRecord::Schema.define(version: 2022_09_18_190041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -201,6 +201,17 @@ ActiveRecord::Schema.define(version: 2022_03_14_190432) do
     t.index ["person_id"], name: "index_invoices_on_person_id"
   end
 
+  create_table "ledger_entries", force: :cascade do |t|
+    t.bigint "person_id", null: false
+    t.bigint "invoice_id"
+    t.decimal "amount", precision: 8, scale: 2
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["invoice_id"], name: "index_ledger_entries_on_invoice_id"
+    t.index ["person_id"], name: "index_ledger_entries_on_person_id"
+  end
+
   create_table "notes", force: :cascade do |t|
     t.string "notable_type"
     t.bigint "user_id"
@@ -262,6 +273,8 @@ ActiveRecord::Schema.define(version: 2022_03_14_190432) do
     t.boolean "media_release"
     t.string "emergency_contact_name"
     t.string "emergency_contact_phone_number"
+    t.decimal "installment_amount", precision: 8, scale: 2, default: "0.0"
+    t.date "installment_due_on"
     t.index ["discarded_at"], name: "index_people_on_discarded_at"
     t.index ["last_communication_id"], name: "index_people_on_last_communication_id"
     t.index ["last_contact_disposition_id"], name: "index_people_on_last_contact_disposition_id"
@@ -404,6 +417,8 @@ ActiveRecord::Schema.define(version: 2022_03_14_190432) do
   add_foreign_key "events", "users", column: "instigator_id"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "people"
+  add_foreign_key "ledger_entries", "invoices"
+  add_foreign_key "ledger_entries", "people"
   add_foreign_key "notes", "users"
   add_foreign_key "notifications", "events"
   add_foreign_key "notifications", "users"

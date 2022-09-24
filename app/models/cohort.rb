@@ -12,7 +12,7 @@ class Cohort < ApplicationRecord
   end
 
   def tuition_due_date
-    days_before = (begins_on.wday + 1) % 5 + 1
+    days_before = ((begins_on.wday + 1) % 5) + 1
     begins_on - days_before
   end
 

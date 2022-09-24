@@ -23,9 +23,11 @@ class ProgramApplicationsController < ApplicationController
     @pagy, @program_applications = pagy(scope)
   end
 
-  def show; end
+  def show
+  end
 
-  def edit; end
+  def edit
+  end
 
   def update
     @program_application.update program_application_params

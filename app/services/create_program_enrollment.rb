@@ -34,7 +34,7 @@ class CreateProgramEnrollment
   private
 
   def program_start
-    keys = @program_application.question_responses.keys.grep /start the program/
+    keys = @program_application.question_responses.keys.grep(/start the program/)
     answer = @program_application.question_responses[keys.first]
     answer.match(/(\d+)/).try(:[], 1) || 'Future'
   rescue StandardError

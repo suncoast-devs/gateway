@@ -1,0 +1,51 @@
+section.section
+  .container
+    h1.title Ledger Entries
+    h2.subtitle
+      em for
+      =< link_to @person.full_name, @person
+
+    table.table.is-bordered.is-striped.is-fullwidth
+      thead
+        tr
+          th Description
+          th Amount
+      tbody
+        - @ledger_entries.each do |entry|
+          tr
+            td
+              = entry.created_at.to_date.to_s(:long)
+              | &nbsp;&mdash;&nbsp;
+              = link_to_if entry.invoice.present?, entry.description, entry.invoice
+            td= usd_accounting(entry.amount)
+      tfoot
+        tr
+          th Total
+          th= usd_accounting @person.ledger_balance
+    h4.title.is-4 Add Ledger Entry
+    = form_for([@person, @ledger_entry]) do |form|
+      = form.hidden_field :person_id
+      - if @ledger_entry.errors.any?
+        .message
+          .message-header
+            p #{pluralize(@ledger_entry.errors.count, "error")} prohibited this entry from being saved:
+          .message-body
+            ul
+              - @ledger_entry.errors.full_messages.each do |message|
+               li = message
+      .field
+        .field-label
+        .field-body
+          .field.is-grouped
+            .control.is-expanded
+              = form.text_field :description, placeholder: "Description", class: 'input'
+            .field.has-addons
+              .control
+                a.button.is-static
+                  span.icon.is-left
+                    i.fas.fa-dollar-sign.fa-sm
+              .control
+                = form.number_field :amount, placeholder: "Amount", class: 'input'
+      .field
+        .control
+          = form.submit "Create Entry", class: "button is-primary"

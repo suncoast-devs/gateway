@@ -12,7 +12,8 @@ class CohortsController < ApplicationController
     @pagy, @cohorts = pagy(scope)
   end
 
-  def show; end
+  def show
+  end
 
   def new
     @cohort = Cohort.new
