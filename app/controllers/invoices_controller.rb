@@ -40,6 +40,7 @@ class InvoicesController < ApplicationController
       @person.ledger_entries.create!(
         amount: @invoice.invoice_items.sum(:amount) * -1,
         description: "Payment for invoice #{@invoice.stripe_id}.",
+        created_at: @invoice.updated_at,
         invoice: @invoice
       )
     end
