@@ -10,7 +10,7 @@ class InvoicePaymentHandler
 
   def call
     @person.ledger_entries.create!(
-      amount: @invoice.invoice_items.sum(:amount),
+      amount: @invoice.invoice_items.sum(:amount) * -1,
       description: "Payment for invoice #{@invoice.stripe_id}.",
       invoice: @invoice
     )

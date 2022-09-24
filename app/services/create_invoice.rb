@@ -10,12 +10,6 @@ class CreateInvoice
   end
 
   def call
-    @person.ledger_entries.create!(
-      amount: invoice.invoice_items.sum(:amount) * -1,
-      description: invoice.invoice_items.map(&:description).join(', '),
-      invoice:
-    )
-
     # Don't create an invoice on Stripe unless we're in production
     return unless Rails.env.production?
     

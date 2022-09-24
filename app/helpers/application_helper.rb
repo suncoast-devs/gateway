@@ -39,7 +39,7 @@ module ApplicationHelper
   def usd_accounting(amount)
     money = number_to_currency amount.abs, unit: '$'
     money = amount.negative? ? "(#{money})" : money
-    content_tag(:span, money, class: amount.negative? ? 'has-text-warning-dark' : 'has-text-success-dark')
+    content_tag(:span, money, class: amount.negative? ? 'has-text-primary-dark' : 'has-text-info-dark')
   end
 
   def intent_for_stage(stage)
