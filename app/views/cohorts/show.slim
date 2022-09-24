@@ -53,6 +53,10 @@ section.section
           th Deposit
           th Financial Clearance
           th.has-text-centered
+            span.icon
+              i.fas.fa-money-bill-transfer
+
+          th.has-text-centered
             span.icon title="Last Contacted"
               i.fas.fa-stopwatch
       tbody
@@ -83,6 +87,10 @@ section.section
                   .tag= enrollment.financial_clearance
               - else
                 .fas.fa-exclamation-circle.has-text-warning
+            td.has-text-centered
+              - if entrollment.enrolled?
+                = link_to usd_accounting(enrollment.person.ledger_balance), [enrollment.person, :ledger_entries]
+
             td.has-text-centered
               - if enrollment.person.last_contact_disposition.present?
                 span class=[enrollment.person.last_contact_disposition.succeeded? ? "has-text-success-dark" : "has-text-warning-dark"]
