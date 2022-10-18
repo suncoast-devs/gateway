@@ -127,12 +127,12 @@
       .class.calendly-inline-widget[data-url="https://calendly.com/suncoastio/interview" style="min-width:320px;height:580px;"]
       script[type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"]
 
-  - if @program_enrollment.lost?
+  - else
     section.section
       .container
         article.message.is-danger
           .message-header
-            p Your enrollment status is no longer active.
+            p Your enrollment status is not active.
           .message-body
             p
               | Please reach out and let us know if you're interested in the program:&nbsp;

@@ -21,6 +21,10 @@ class ProgramEnrollment < ApplicationRecord
          incomplete: 11,
        }
 
+  def active?
+    !(cancelled? || rejected? || dropped? || incomplete?)
+  end
+
   def current_program_acceptance
     program_acceptances.active.order(created_at: :desc).first
   end
