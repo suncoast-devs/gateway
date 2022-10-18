@@ -22,7 +22,7 @@ class ProgramEnrollment < ApplicationRecord
        }
 
   def active?
-    !(cancelled? || rejected? || dropped? || incomplete?)
+    !(canceled? || rejected? || dropped? || incomplete?)
   end
 
   def current_program_acceptance

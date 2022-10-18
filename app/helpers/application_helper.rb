@@ -44,7 +44,7 @@ module ApplicationHelper
 
   def intent_for_stage(stage)
     case stage
-    when 'cancelled'
+    when 'canceled'
       'is-warning lighten'
     when 'prospecting'
       'is-warning'
