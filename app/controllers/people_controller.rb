@@ -24,11 +24,11 @@ class PeopleController < ApplicationController
   def show
   end
 
-  def edit
-  end
-
   def new
     @person = Person.new
+  end
+
+  def edit
   end
 
   def create

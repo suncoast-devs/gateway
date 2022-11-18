@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# frozen_string_literal: truef
 
 Rails.application.configure do
   config.cache_classes = false

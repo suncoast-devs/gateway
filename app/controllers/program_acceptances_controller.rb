@@ -8,6 +8,9 @@ class ProgramAcceptancesController < ApplicationController
   before_action :find_program_enrollment
   before_action :find_program_acceptance, only: %i[show edit update deliver]
 
+  def show
+  end
+
   def new
     @program_acceptance = @program_enrollment.program_acceptances.new
   end
@@ -25,9 +28,6 @@ class ProgramAcceptancesController < ApplicationController
   def update
     @program_acceptance.update(program_acceptance_params)
     redirect_to @program_enrollment.person
-  end
-
-  def show
   end
 
   private

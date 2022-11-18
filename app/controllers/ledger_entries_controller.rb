@@ -8,6 +8,9 @@ class LedgerEntriesController < ApplicationController
     @ledger_entries = @person.ledger_entries.order(created_at: :asc)
   end
 
+  def edit
+  end
+
   def create
     @ledger_entry = LedgerEntry.new(ledger_entry_params)
 
@@ -16,9 +19,6 @@ class LedgerEntriesController < ApplicationController
     else
       render :index
     end
-  end
-
-  def edit
   end
 
   def update

@@ -12,11 +12,11 @@ class DocumentsController < ApplicationController
   def show
   end
 
-  def edit
-  end
-
   def new
     @document = @person.documents.new
+  end
+
+  def edit
   end
 
   def create
