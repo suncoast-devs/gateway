@@ -19,7 +19,7 @@ class CreateProgramAcceptance
 
     if @program_enrollment.deposit_invoice.present?
       @invoice = @program_enrollment.deposit_invoice
-    else
+    elsif @program_enrollment.deposit_required?
       # Deposit Invoice
       due_date = [@cohort.tuition_due_date, 1.day.from_now].max
       @invoice =

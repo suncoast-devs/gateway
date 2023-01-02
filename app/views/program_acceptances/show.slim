@@ -17,6 +17,10 @@ section.section
             th Tuition Reduction / Scholarship
             td = usd(@program_acceptance.tuition_reduction)
           tr
+            th Payment URL
+            td 
+              a[href=@program_acceptance.payment_url] = @program_acceptance.payment_url
+          tr
             th Update?
             td
               - if @program_acceptance.is_update?

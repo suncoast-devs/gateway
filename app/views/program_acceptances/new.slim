@@ -28,13 +28,27 @@ section.section
         .field-label.is-normal
           = form.label :tuition_reduction, "Tuition Reduction", class: "label"
         .field-body
-          .field.has-addons
+          .field
+            .field.has-addons
+              .control
+                a.button.is-static
+                  span.icon.is-left
+                    i.fas.fa-dollar-sign.fa-sm
+              .control
+                = form.number_field :tuition_reduction, class: "input"
+            .help
+              span 4900 + 1900 =
+              strong &nbsp;6800
+              span , 4900 + (1900 &times; 2) =
+              strong &nbsp;8700
+      .field.is-horizontal
+        .field-label.is-normal
+          = form.label :payment_url, class: "label"
+        .field-body
+          .field
             .control
-              a.button.is-static
-                span.icon.is-left
-                  i.fas.fa-dollar-sign.fa-sm
-            .control
-              = form.number_field :tuition_reduction, class: "input"
+              .select
+                = form.select(:payment_url, ProgramAcceptance::PAYMENT_URLS)
 
       .field.is-horizontal
         .field-label
