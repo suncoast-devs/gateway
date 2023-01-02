@@ -12,6 +12,8 @@ table.program-applications.table.is-bordered.is-striped.is-fullwidth
       tr
         td
           = link_to program_application.program.titleize, program_application
+        td
+          = program_application.created_at.to_date.to_s(:long)
         td.has-text-centered
           - case program_application.application_status
           - when "incomplete"
